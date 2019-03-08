@@ -120,9 +120,13 @@ div.remark-slide-container .fullscale p {
 }
 
 .table {
-  font-size: 50%;
+  font-size: 80%;
 }
 
-.references{
+
+.footnote {
+  position: absolute;
+  bottom: 1em;
+  padding-right: 4em;
   font-size: 50%;
 }
