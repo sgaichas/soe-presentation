@@ -48,7 +48,7 @@ div.remark-slide-container h3 {
 
 .title-slide {
 	background-color: #fff;
-  background-image: url(/images/noaa-background.png);
+  background-image: url(../images/noaa-background.png);
 	background-size: cover;
 	border-bottom: 0px solid  #522D80;
 	box-shadow:  0 55px 0 #fff;
@@ -104,4 +104,25 @@ div.remark-slide-container .fullscale p {
 	font-size: 20px;
 	text-shadow: 0 0 0px #333;
 
+}
+
+/* column widths
+*/
+.left-column {
+  color: #000;
+  width: 30%;
+  float: left;
+}
+
+.right-column {
+  width: 70%;
+  float: right;
+}
+
+.table {
+  font-size: 50%;
+}
+
+.references{
+  font-size: 50%;
 }
