@@ -84,7 +84,7 @@ label <- function(variable,value){
 
 .pull-right[
 *The IEA Loop*
-![iea-loop](iea-loop.png)
+![iea-loop](images/iea-loop.png)
 
 
 ]
