@@ -110,9 +110,11 @@ Today I'm going to be talking to you first about ecosystem reporting, specifical
 ]
 
 .pull-right[
+
 ```{r ebm-sectors, fig.align="center", out.width = "100%", echo = F}
 knitr::include_graphics("images/ebm-sectors.png")
 ```
+
 ]
 
 
@@ -170,16 +172,19 @@ Today I'm going to be talking to you about the ecosystem reporting phase of this
 
 ---
 
----
+## Ecosystem Status Reporting (ESR)
 
-# Ecosystem Status Reporting (ESR)
+Ecosystem reporting provides a route for ecosystem information to enter the stock assessment process
+
+* Well-developed example is AFSC; whose ESRs have long served as context for North Pacific FMC quota 
+deliberations<sup>1</sup>
+
+All IEA regions in the US develop similar documents in varying guises
 
 
-What is ecosystem reporting?
-
-*  Ecosystem reporting provides ecosystem-context to resource managers
-
-* All Integrated Ecosystem Assessment regions in the US develop similar documents in varying guises
+.footnote[
+[1] Zador, Stephani G., et al. "Ecosystem considerations in Alaska: the value of qualitative assessments." ICES Journal of Marine Science 74.1 (2017): 421-430.
+]
 
 --
 
@@ -197,52 +202,24 @@ What is ecosystem reporting?
 ???
 
 ---
+## Classes of ecosystem information
 
-# ESRs in the Northeast US
-
-* In the Northeast, we create **State of the Ecosystem (SOE)** reports
-  - Short (< 30 pages), higher-level documents aimed at sharing relavent ecosystem-information with resource managers
-  
-  - Documents provided annually to:
-      1. **Mid-Atlantic Fishery Management Council (MAFMC)** 
-      2. **New England Fishery Management Council (NEFMC)** 
-
-*SOE in action*
-![soe-snippet](images/soe-snippet.png)
-
----
-
-## ESRs in the Northeast US
-<!-- 1. Identify changes to ecosystem components within context of management -->
-
-<!-- 2. Potential for propapgation of change -->
 ```{r nes-comp1, echo = F}
 knitr::include_graphics("images/nes-components.png")
 ```
 
-
-
-???
-The information that SOE reports provide to managers broadly applies to ecosystem components, which are show in bold here. This includes local social systems, marine communities, human activities, management objectives, marine habitats, and environmental drivers. 
 ---
 
-## ESRs in the Northeast US
+## Goals of ESR:
 
-Objectives of SOEs:
+* Identify changes in ecosystem component status (short-term) and trend (long-term)
 
-1. Identify changes to ecosystem components within context of management
+* Identify potential for changes to affect management concerns
 
-1. Identify the potential for change to propagate to other ecosystem components
+* Highlight "red flags" and potential ecosystem state changes
 
-1. Highlight "red flags" and potential regime shifts
+Mike's diagram
 
-
-```{r nes-comp2, echo = F, out.width = "80%", fig.align = "center"}
-knitr::include_graphics("images/nes-components-abstracted.png")
-```
-
-???
-Linking these components together within the context of fisheries management is an important goal of State of the Ecosystem reporting. We want to  
 
 ---
 
@@ -253,7 +230,6 @@ Linking these components together within the context of fisheries management is 
 --
 
 Well-informed management decisions rely upon knowledge of the ecosystem being managed
-* Reporting on ecosystem condition can set the stage for quota deliberations<sup>1</sup> (e.g. AFSC Ecosystem Report Cards)
 
 --
 
@@ -317,11 +293,7 @@ gsi %>%
 ```
 *Gulf Stream Index*
 ]
-.references[
-.footnote[
-[1] Zador, Stephani G., et al. "Ecosystem considerations in Alaska: the value of qualitative assessments." ICES Journal of Marine Science 74.1 (2017): 421-430.
-]
-]
+
 ---
 
 ## ESRs in the Northeast US: Relevance to management
@@ -337,7 +309,76 @@ By providing ESRs to managers, we continue to move towards Ecosystem-based Manag
 
 
 
+
 ---
+
+## ESR in the Northeast US
+
+ESRs developed by NEFSC since 2009
+
+Considerable support for EAFM exists in Northeast
+* Most FMC council members in the Northeast support transitioning from a single-species to a multi-species ecosystem approach (i.e. EBFM) to management<sup>1</sup>
+
+--
+
+Common refrain upon recieving ESR:
+# "So what"?
+
+
+.footnote[
+Biedron, Ingrid S., and Barbara A. Knuth. "Toward shared understandings of ecosystem-based fisheries management among fishery management councils and stakeholders in the US Mid-Atlantic and New England regions." Marine Policy 70 (2016): 40-48.
+]
+
+---
+
+## Problems with ESR model:
+
+* Council members are busy people!
+
+  * Long-documents with unfamiliar information unlikely to connect
+  
+* Not all Council members have science background
+
+* "What does chlorophyll concentration tell us about fisheries yields?"
+
+The disconnect inspired a new model, which we call **State of the Ecosystem (SOE)** reports
+
+---
+
+## SOE Reporting: Ecosystem science for busy people
+
+Addressing critiques to ESR model in SOE
+
+1. Clear alignment of ecosystem components with management objectives
+
+1. Objectives related to human-well being placed first in report
+
+1. Non-technical text
+
+1. Short (< 30 pages), but rigorous
+
+1. Emphasis on reproducibility 
+
+```{r nes-comp2, echo = F, out.width = "60%", fig.align = "center"}
+knitr::include_graphics("images/nes-components-abstracted.png")
+```
+
+???
+In 2016, we began taking steps to address these common critiques of the ESR model
+
+---
+So I'd like to now present the results of this year's State of the Ecosystem reports
+
+---
+# SOE Report: Mid-Atlantic Bight
+
+
+
+---
+# SOE Report: New England
+
+---
+
 ## SOE reporting: quantifying change
 
 Status (short-term) and trend (long-term) of components are measured as **indicators**
