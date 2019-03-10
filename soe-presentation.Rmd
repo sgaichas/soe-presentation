@@ -218,8 +218,14 @@ knitr::include_graphics("images/nes-components.png")
 
 * Highlight "red flags" and potential ecosystem state changes
 
-Mike's diagram
+![SOE-Network-Diagram](images/SOE_Network_Diagram.png)
 
+???
+This network diagram provides an example of how primary production and environmental drivers are linked to a pelagic fishery and protected species.  
+
+With SOEs, we want to describe these linkages and explain why they're important to managers. 
+
+Nested within the pelagic fishery node in this diagram are the societal benefits derived from that fishery, linking social and economic ecosystem components to the base of the food web and environment.
 
 ---
 
@@ -298,16 +304,31 @@ gsi %>%
 
 ## ESRs in the Northeast US: Relevance to management
 
-Ecosystem conditions affect fisheries yield 
+Fisheries yields are affected by ecosystem conditions<sup>1-3</sup>
 
-By providing ESRs to managers, we continue to move towards Ecosystem-based Management strategies to meet sustainability and conservationist goals laid out by the Magnuson-Stevens Act.
+Important ecosystem predictors of fisheries yield on global scale<sup>1</sup>:
+* Sea surface temperature (-)
+* Chlorophyll <i>a</i> (+)
+* Particle export ratio (particles leaving euphotic zone:primary production) (+)
+* Mesozooplankton productivity (+)
 
-* Marine ecosystems in high productivity states may be more resilient to extractive pressures and climate change than those in lower productivity states.
-  - EBFM is a way to meet ecosystem objectives while remaining sustainable 
+```{r chl-yield, echo = F, out.width = "50%"}
+knitr::include_graphics("images/chl-yield.png")
+```
 
 
+.pull-right[
+.footnote[
+[1] Friedland, Kevin D., et al. "Pathways between primary production and fisheries yields of large marine ecosystems." PLoS One 7.1 (2012): e28945.
 
+[2] Frank, Kenneth T., et al. "Reconciling differences in trophic control in mid‐latitude marine ecosystems." Ecology Letters 9.10 (2006): 1096-1105.
 
+[3] Ware, Daniel M., and Richard E. Thomson. "Bottom-up ecosystem trophic dynamics determine fish production in the Northeast Pacific." science 308.5726 (2005): 1280-1284.
+]
+]
+
+???
+The figure here shows the relationship between chlorophyll a production in 52 large marine ecosystems around the world with fisheries yield in those systems. So we know that these relationships exist, but drawing actionable place-based management advice from this information is difficult, but in the works here at the Center.
 
 
 ---
@@ -343,6 +364,8 @@ Biedron, Ingrid S., and Barbara A. Knuth. "Toward shared understandings of ecosy
 
 The disconnect inspired a new model, which we call **State of the Ecosystem (SOE)** reports
 
+![soe-snippet](images/soe-snippet.png)
+
 ---
 
 ## SOE Reporting: Ecosystem science for busy people
@@ -366,6 +389,69 @@ knitr::include_graphics("images/nes-components-abstracted.png")
 ???
 In 2016, we began taking steps to address these common critiques of the ESR model
 
+
+---
+## SOE reporting: quantifying change
+
+Status (short-term) and trend (long-term) of components are measured as **indicators**
+
+Indicators are selected to
+
+1. Be broadly informative about a component in a management context<sup>1-3</sup>
+
+1. Minimize redundancy of information
+
+1. Be responsive to ecosystem change
+
+--
+
+```{r doc-orientation, echo = F, warning = F, message=F, fig.height = 3, fig.width=8, fig.align = "center"}
+m <- 0.1
+x <- 1985:2018
+y <-  m*x + rnorm(30, sd = 0.35)
+
+data <- data.frame(x = x,
+                  y = y)
+
+#Define constants for figure plot
+x.shade.max <- max(x)
+x.shade.min <- x.shade.max - 9 
+hline = mean(y)
+
+#Plot series with trend 
+ggplot2::ggplot(data = data,aes(x = x, y = y)) +
+  #Highlight last ten years
+  annotate("rect", fill = shade.fill, alpha = shade.alpha,
+      xmin = x.shade.min , xmax = x.shade.max,
+      ymin = -Inf, ymax = Inf) +
+  geom_point(size = pcex) +
+  scale_color_manual(aesthetics = "color")+
+  guides(color = FALSE) +
+  geom_hline(aes(yintercept = hline),
+              size = hline.size,
+             alpha = hline.alpha,
+             linetype = hline.lty)+
+  geom_line() +
+  geom_gls() +
+  scale_y_continuous(labels = function(l){trans = l / 1000})+
+  scale_x_continuous(breaks = seq(1985, 2015, by = 5), expand = c(0.01, 0.01)) +
+  ylab(expression("Invented Index, 10"^3*"widgets")) +
+  xlab("Year") +
+  ggtitle("Indicaotr Z") +
+  theme_ts()
+```
+
+
+
+.footnote[
+[1] Rice J. C.Rochet M. J. "A framework for selecting a suite of indicators for fisheries management." ICES Journal of Marine Science 62 (2005): 516–527.
+
+[2] Link J. 2010. Ecosystem-Based Fisheries Management: Confronting Tradeoffs . Cambridge University Press, New York.
+
+[3] Zador, Stephani G., et al. "Ecosystem considerations in Alaska: the value of qualitative assessments." ICES Journal of Marine Science 74.1 (2017): 421-430.
+]
+
+
 ---
 So I'd like to now present the results of this year's State of the Ecosystem reports
 
@@ -379,28 +465,7 @@ So I'd like to now present the results of this year's State of the Ecosystem rep
 
 ---
 
-## SOE reporting: quantifying change
 
-Status (short-term) and trend (long-term) of components are measured as **indicators**
-
-Indicators are selected to
-
-1. Be broadly informative about a component in a management context<sup>1-3</sup>
-
-1. Minimize redundancy of information
-
-1. Be responsive to ecosystem change
-
-
-.footnote[
-[1] Rice J. C.Rochet M. J. "A framework for selecting a suite of indicators for fisheries management." ICES Journal of Marine Science 62 (2005): 516–527.
-
-[2] Link J. 2010. Ecosystem-Based Fisheries Management: Confronting Tradeoffs . Cambridge University Press, New York.
-
-[3] Zador, Stephani G., et al. "Ecosystem considerations in Alaska: the value of qualitative assessments." ICES Journal of Marine Science 74.1 (2017): 421-430.
-]
-
---
 
 ```{r, echo = F, fig.align = "center", fig.height = 3, fig.width=8}
 
