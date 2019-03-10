@@ -395,7 +395,7 @@ In 2016, we began taking steps to address these common critiques of the ESR mode
 
 
 ---
-## SOE reporting: quantifying change
+## SOE reporting: Quantifying change
 
 Status (short-term) and trend (long-term) of components are measured as **indicators**
 
@@ -457,19 +457,224 @@ ggplot2::ggplot(data = data,aes(x = x, y = y)) +
 
 
 ---
-So I'd like to now present the results of this year's State of the Ecosystem reports
+## SOE reporting: Indicator spatial scales
+
+
+![epus](images/epu-layout-soe-regions.png)
+
+.footnote[
+https://noaa-edab.github.io/tech-memo/epu.html
+]
+
+???
+Indicators 
 
 ---
-# SOE Report: Mid-Atlantic Bight
+## State of the Ecosystem 2019: Structure
+.pull-left[
+
+### Report Structure
+1. Human objectives
+
+2. Protected species
+
+3. Fish and invertebrates (managed and otherwise)
+
+4. Habitat quality and ecosystem productivity
+]
+
+.pull-right[
+.table[
+<table class="table" style="width: 50; margin-left: auto; margin-right: auto;">
+<caption>Ecosystem-scale objectives and indicators on the Northeast US shelf</caption>
+ <thead>
+  <tr>
+   <th style="text-align:left;font-weight: bold;"> Objective Categories </th>
+   <th style="text-align:left;font-weight: bold;"> Indicators </th>
+  </tr>
+ </thead>
+<tbody>
+  <tr>
+   <td style="text-align:left;"> Seafood Production </td>
+   <td style="text-align:left;"> Landings by feeding guild </td>
+  </tr>
+  <tr>
+   <td style="text-align:left;"> Profits </td>
+   <td style="text-align:left;"> Revenue by feeding guild </td>
+  </tr>
+  <tr>
+   <td style="text-align:left;"> Recreation </td>
+   <td style="text-align:left;"> Number of anglers and trips; recreational catch </td>
+  </tr>
+  <tr>
+   <td style="text-align:left;"> Stability </td>
+   <td style="text-align:left;"> Diversity indices (fishery and species) </td>
+  </tr>
+  <tr>
+   <td style="text-align:left;"> Social &amp; Cultural </td>
+   <td style="text-align:left;"> Commercial and recreational reliance </td>
+  </tr>
+  <tr>
+   <td style="text-align:left;"> Biomass </td>
+   <td style="text-align:left;"> Biomass or abundance by feeding guild from surveys </td>
+  </tr>
+  <tr>
+   <td style="text-align:left;"> Productivity </td>
+   <td style="text-align:left;"> Condition and recruitment of managed species </td>
+  </tr>
+  <tr>
+   <td style="text-align:left;"> Trophic structure </td>
+   <td style="text-align:left;"> Relative biomass of feeding guilds, primary productivity </td>
+  </tr>
+  <tr>
+   <td style="text-align:left;"> Habitat </td>
+   <td style="text-align:left;"> Estuarine and offshore habitat conditions </td>
+  </tr>
+</tbody>
+</table>
+]
+]
+---
+## SOE 2019: Human dimensions 
+**Commercial fisheries**
+
+NE:
+* Significant decreases in NEFMC managed species in Gulf of Maine
+* Decrease in Atlantic herring driving divergence between managed/non-managed species
+* Periodic signal in GB/MAB Benthos landings reflects rotational management of scallops
+
+MAB:
+* Total managed and non-managed landings in MAB are declining, playing out as declines in most feeding guild landings
+* Increase in benthivore landings (scup, black sea bass, tilefish)
+* Total revenue of managed species also shows negative trend
 
 
+![mafmc-total](images/mafmc-total-landings.png)
 
 ---
-# SOE Report: New England
+## SOE 2019: Human dimensions
+**Community engagement and reliance on fisheries**
+
+NE:
+* Social-ecological systems in New England are reliant on lobster (GOM) or scallop (GB) landings
+* Crustaceans are thought to have a moderate-high climate vulnerability (OA, temperatures)
+* Communities reliant on these fisheries are at high risk
+
+MAB: 
+* Similar story in MAB: many fishing communities are heavily reliant on shellfish species (mostly scallops)
+* Aquaculture in the MAB is also dominated by shellfish (oysters). Virginia continues to lead the country in oyster production, with aquaculture in the region growing quickly. 
 
 ---
+## SOE 2019: Human dimensions
+**Recrational fishing**
+NE: 
+* While commercial fisheries have high specialization of catch, there is a positive long-term trend for diversity of catch in New England rec fisheries
+* Marine Recreational Information Program data shows that there's been an increase in recreational seafood harvest in New England since the mid-90s, with an overall decline since the mid-80s
+* This corresponds with an increase in recreational effort since the mid 90s
 
+MAB:
+* Similar to NE, there's been an increase in rec seafood harvest and recreational effort since the mid-90s
+* An opposite trend in recreational fleet effort, due to a contraction in the number of party and charter boats long-term
+*Decrease in catch diversity, opposite of New England, requires further exploration
 
+---
+## SOE 2019: Human dimensions
+**Recreational engagement and reliance**
+Similar to the commercial engagement and reliance, many communities on east coast are dependent on recreational fisheries.
+
+A downward trend in recreational catch diversity may threaten the stability of these communities in the face of species range shifts and climate change
+
+New England communities will likely benefit from a positive trend in catch diversity
+
+---
+## SOE 2019: Protected species
+* Protected species include marine mammals, endangered and threatened species, and migratory birds
+
+* Fishery management objectives focus on reducing threats to protected species and on habitat conservation
+
+* 4 unusual mortality events have been declared for three large whale species and two seal species. 
+
+---
+## SOE 2019: Protected species
+**North Atlantic right whales (NARW)**
+* Among most endangered large whales in the world
+* Strong evidence suggests that the level of interaction between NARWs, lobster gear (US), and snow crab gear (CAN) is contributing to the decline of the species
+* While populations increased steadily between 1990-2011, it has decreased recently. 
+* 20 NARW deaths in 2017 and 2018, >50% due to human interactions
+
+---
+## SOE 2019: Protected species
+**North Atlantic right whales (NARW)**
+* Increases in mortality of adult females and diverging abundances between sexes
+* NARW distributions have shifted since 2010
+  * Distributions likely affected by changes in climate and the primary prey of NARWs, <i>Calanus finmarchicus</i>
+
+---
+## SOE 2019: Protected species
+**Harbor porpoise**
+
+* Current bycatch levels suggest that management actions have been effective in reducing harbor porpoise bycatch
+* 2016 and 2017 estimates are among the lowest in the time series. 
+* POtential biological removal - The maximum number of animals that may be removed from a marine mammal stock while allowing that stock to reach a stable population size
+
+---
+## SOE 2019: Protected Species
+**Common tern**
+* Common tern breeding colonies are monitored in the southern GOM
+* Common tern sensitive to vertical distribution of prey
+* Warmer waters have in the past resulted in an increase in butterfish prevalence in diet
+* Butterfish are difficult to ingest and smallow, and may cause starvation or require parents to increase foraging effort
+* High diet diversity in past decade may be the result of decreases in preferred prey type (herring, sandlance)
+
+---
+## SOE 2019: Fish and invertebrates
+*Objective: Keep harvested species within population ranges where productivity is maximized over long-term
+
+Stocks depicted here represent a subset of the full ecosystem
+
+Plot shows the ratio of stock mortality (F) to stock mortality at maximum sustainable yield, where a number larger than one indicates the stock is experiencing unsustainable fishing pressure. On the x axis we have the ratio of estimated stock biomass to biomass at maximum sustainable yield. 
+
+NE:
+* 4 stocks above F/Fmsy and below B/Bmsy
+  * Southern NE Yellowtail
+  * GOM Cod
+  * CC-GOM Yellowtail
+  * Southern GB/MAB red hake
+
+MAB:
+* No stock above F/Fmsy and below B/Bmsy
+* Mackerel currently seeing unsustainable fishing mortality
+
+---
+## SOE 2019: Fish and invertebrates
+**Changing distributions**
+Management based around stable species distributions
+Shifting ecosystem conditions resulting from climate change and historic fishing pressure are changing species distributions
+
+The NEFSC has run a bottom trawl survey since the early 1960s, and the data highlights how the representative species in the survey have shifted in composition during that period.
+
+Plot of NEFMC species in MAB, Plot of MAFMC species in NE
+
+*Increase in MAFMC species in GOM/GB driven by mackerel
+*Decline in NEFMC species in MAB driven mostly by ocean pout, although ocean pout appears to be declining in all bottom trawl surveys
+
+.footnote[
+https://seanhardison.shinyapps.io/surv_app/ 
+]
+
+---
+## SOE 2019: Fish and invertebrates
+**Bottom trawl surveys**
+NE:
+* In Gulf of Maine, the survey data show long-term increases in the Fall survey for Piscivores, Planktivores, and Benthos species, and long-term increases in planktivore abundance in the spring. 
+* In Georges Bank, the survey shows long-term increases for benthos and planktivore species in both fall and spring, and piscivores in the fall.
+* A recent decline in Georges Bank benthivore biomass is driven by a decline in haddock in the survey
+
+---
+## SOE 2019: Fish and invertebrates
+**Inshore bottom trawl surveys**
+New for this year are inshore bottom trawl survey data
+---
 
 ```{r, echo = F, fig.align = "center", fig.height = 3, fig.width=8}
 
@@ -522,98 +727,6 @@ gb_bennet
 ---
 ## SOE reporting: ecosystem indicators
 
-```{r management-objectives, echo = F}
 
-mng_obj <- data.frame("Objective Categories" = c("Seafood Production",
-                                                 "Profits","Recreation",
-                                                 "Stability","Social & Cultural",
-                                                 "Biomass","Productivity",
-                                                 "Trophic structure","Habitat"),
-"Indicators" = c("Landings by feeding guild","Revenue by feeding guild",
-                               "Number of anglers and trips; recreational catch",
-                               "Diversity indices (fishery and species)",
-                               "Commercial and recreational reliance",
-                 "Biomass or abundance by feeding guild from surveys",
-                               "Condition and recruitment of managed species",
-                               "Relative biomass of feeding guilds, primary productivity",
-                               "Estuarine and offshore habitat conditions"))
-
-knitr::kable(mng_obj,
-      col.names = c("Objective Categories","Indicators"),
-      caption = "Ecosystem-scale objectives and indicators on the Northeast US shelf") %>%
-  kableExtra::kable_styling(full_width = F) %>%
- # column_spec(c(2), width = c("25em")) %>%
-  row_spec(0, bold = TRUE)
-```
-
----
-## SOE reporting: indicator spatial scales
-
-```{r EPU-MAP, eval  = F, echo = F}
-crs <- "+proj=longlat +lat_1=35 +lat_2=45 +lat_0=40 +lon_0=-77 +x_0=0 +y_0=0 +datum=NAD83 +no_defs +ellps=GRS80 +towgs84=0,0,0"
-
-#Coastline shapefile
-coast <- ne_countries(scale = 10,
-                          continent = "North America",
-                          returnclass = "sf") %>%
-             sf::st_transform(crs = crs)
-
-#State polygons
-ne_states <- ne_states(country = "united states of america",
-                                      returnclass = "sf") %>%
-  sf::st_transform(crs = crs)
-
-load(file.path(data.dir, "epu_no_estuaries.rdata"))
-
-# Set lat/lon window for map
-xmin = -77
-xmax = -65
-ymin = 36
-ymax = 45
-xlims <- c(xmin, xmax)
-ylims <- c(ymin, ymax)
-
-#CRS
-crs <- "+proj=longlat +lat_1=35 +lat_2=45 +lat_0=40 +lon_0=-77 +x_0=0 +y_0=0 +datum=NAD83 +no_defs +ellps=GRS80 +towgs84=0,0,0"
-
-#Specify data frame with lat/lon locations for labels
-epu_labels <- data.frame(EPU = c("Mid-Atlantic\n Bight",
-                                 "Gulf of Maine",
-                                 "Georges Bank"),
-                         latitude = c(40,42.85,41),
-                         longitude = c(-72.55,-69,-68.5))
-
-#Map of NE LME
- 
-  ggplot() +
-  geom_sf(data = epu_sf, aes(fill = EPU), size = map.lwd) +
-  geom_sf(data = coast, size = map.lwd) +
-  
-  coord_sf(crs = crs, xlim = xlims, ylim = ylims) +
-  geom_text(data = epu_labels, aes(x = longitude,
-                                    y = latitude,
-                                    label = EPU),
-            size = 4.5)+
-  guides(fill = FALSE) +
-  scale_fill_brewer() +
-  theme_map() +
-  ggtitle("Ecological Production Units on the Northeast Shelf") +
-  xlab("Longitude") +
-  ylab("Latitude")
-
-```
-
-.left-column[
-* Indicators reported on coastwide to state-level scale
-
-* Georges Bank and Gulf of Maine are reported in New England document
-
-]
-
-.right-column[
-```{r epu-map-image, fig.align = "center", echo = F, fig.height = 6}
-knitr::include_graphics("images/epu-layout.png")
-```
-]
 
 ---
