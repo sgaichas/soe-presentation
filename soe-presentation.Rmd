@@ -139,6 +139,17 @@ knitr::include_graphics("images/ebfm-single-sector.png")
 ???
 Under EBM, the idea is that these "sectors" must be managed in an integrated fashion, where impacts of each sector on the ecosystem can be assessed and managed with respect to objectives
 
+Ecosystem-based fishery management, or EBFM, is an integrated management of a single sector by considering how fishery management strategies would affect ecosystem components, or the building blocks of the ecosystem, as a way to maximize ecosystem yield sustainably.
+
+---
+## Ecosystem Components
+
+```{r nes-comp1, echo = F}
+knitr::include_graphics("images/nes-components.png")
+```
+
+---
+
 ---
 # Integrated Ecosystem Assessment (IEA)
 
@@ -200,13 +211,6 @@ All IEA regions in the US develop similar documents in varying guises
 
 
 ???
-
----
-## Classes of ecosystem information
-
-```{r nes-comp1, echo = F}
-knitr::include_graphics("images/nes-components.png")
-```
 
 ---
 
@@ -437,7 +441,7 @@ ggplot2::ggplot(data = data,aes(x = x, y = y)) +
   scale_x_continuous(breaks = seq(1985, 2015, by = 5), expand = c(0.01, 0.01)) +
   ylab(expression("Invented Index, 10"^3*"widgets")) +
   xlab("Year") +
-  ggtitle("Indicaotr Z") +
+  ggtitle("Indicator Z") +
   theme_ts()
 ```
 
