@@ -672,61 +672,112 @@ NE:
 
 ---
 ## SOE 2019: Fish and invertebrates
-**Inshore bottom trawl surveys**
-New for this year are inshore bottom trawl survey data
+**Bottom trawl surveys**
+MA:
+Here we show the NEFSC bottom trawl survey data paired with inshore bottom trawl data from the Northeast Area Monitoring and Assessment Program (or NEAMAP) survey, in red, performed annually by the Virginia Institute of Marine Science.
+
+Of note here are the opposing trends in piscivore biomass during the spring and fall seasons for the offshore survey. Further, Piscivores in the spring inshore survey appear to be in decline in recent years.This pattern may be due to inshore vs offshore distributions of spiny dogfish.
+
+The patterns in offshore and inshore survey data appear to be similar, and further work in the coming year will explore the factors driving their similarities and differences (e.g. importance of nearshore habitats)
+
 ---
+## SOE 2019: Fish and invertebrates
+**Fish condition**
 
-```{r, echo = F, fig.align = "center", fig.height = 3, fig.width=8}
-
-#Filter data into two dataframes for plotting
-indicators <- ecodata::bennet %>% 
-  filter(EPU %in% "GB",
-         Var %in% c("VI EPU aggregate",
-                    "PI EPU aggregate")) %>% 
-  mutate(Var, Var = plyr::mapvalues(Var, from = c("VI EPU aggregate","PI EPU aggregate"),
-                                    to = c("Volume","Price")))
-
-revchange <- ecodata::bennet %>% 
-  filter(EPU %in% "GB",
-         Var %in% c("REVCHANGE EPU aggregate"))
-
-#custom bar fill color (color-blind friendly)
-ind_fill <- c("#a6cee3", "#b2df8a")
-
-#limits
-y.lim <- c(-350,350)
-
-#plot
-gb_bennet <- indicators %>%
-ggplot()+
+* Fish condition is measured at the weight at a given length relative to the average
+  * Condition, or "fatness", is a factor that influences fecundity
   
-  #Highlight last ten years
-  annotate("rect", fill = shade.fill, alpha = shade.alpha,
-      xmin = x.shade.min , xmax = x.shade.max,
-      ymin = -Inf, ymax = Inf)+
+NE:
+* Looking at condition in aggregate across NEFMC managed stocks, we can see a clear decline in condition between 2000-2010
+* Recent improvement within past decade
+
+MAB:
+* A similar pattern was seen in the MAB
+
+* Interestingly, the drop-off in condition around 2000 resembles a shift in zooplankton size-structure on the shelf, and this is a topic for future research
+
+---
+## SOE 2019: Fish and invertebrates
+**Fish productivity**
+The fish productivity indicator shown here is the small fish per large fish biomass anomaly 
+
+MAB: The fish productivity indicator shows that productivity has been low in the region since 2010, but recent strong productivity years in witch flounder, silver hake, and winter flounder have driven increases.
+
+---
+## SOE 2019: Fish and invertebrates
+**Larval diversity**
+The last thing I'll talk about from the fish and intertebrates section is our metric of larval diversity, which was derived from the NEFSC Ecosystem Monitoring cruises. 
+
+The diversity index tells us about the changing dominance of forage fish, hake, and haddock in the plankton
+
+The most recent data we have for the Mid-Atlantic has shown the lowest larval estimates of larval diversity in the time series. As temperatures increase, there is a potential for a temporal mismatch of larvae with their zooplankton food sources, which could affect larval survival.
+
+---
+## SOE 2019: Habitat quality and ecosystem productivity
+Indicators here provide information about changing conditions encountered by managed species in different seasons and across habitats, which likely influences their distributions
+
+First indicator I'd like to talk about is habitat quality in Chesapeake Bay, which many resource species use as nursery habitat or are considered estuarine dependent (e.g. bluefish, striped bass, menhaden, black sea bass)
+
+These data, which were provided by collaborators at the Chesapeake Bay Program, represent the percent of tidal waters in Chesapeake Bay meeting water quality standards for chlorophyll a, submerged aquatic vegetation, and dissolved oxygen. The increase in water quality for the Bay has been tied to management action limiting nutrient flux into the watershed. 
+
+---
+## SOE 2019: Habitat quality and ecosystem productivity
+Ocean temperature ("it's warm and getting warmer")
+Both surface and bottom temperature in NE are increasing
+*Gulf of Maine summer SSTs were the highest on record
+
+---
+## SOE 2019: Habitat quality and ecosystem productivity
+Ocean temperature ("it's warm and getting warmer")
+The same is true for the Mid-Atlantic Bight
+* Mid-Atlantic summer SSTs were 3rd highest on record 
+
+
+---
+## SOE 2019: Habitat quality and ecosystem productivity
+Ocean circulation
+
+Which brings us back to...
+
+GSI
+
+Like I said earlier, the Gulf Stream Index measures the position of the Northern edge of the Gulf Stream. As it's advanced northwards, it warms ocean waters and affects the proportion of Warm Slope Water entering Gulf of Maine. 
+
+slopewater proportions in the NE Channel
+
+The proportion of slope water derived from the warm slope water at 200 m depth is at an all time high, and the implications of this are not fully understood
+
+---
+## SOE 2019: Habitat quality and ecosystem productivity
+Primary production
+* Summer PP is increasing in both New England and Mid-Atlantic
+
+
+* Driven by warmer temperatures and increased bacterial remineralization and nutrient recycling
+* Increasing primary production likely due to higher productivity of smaller phytoplankton
+
+---
+## SOE 2019: Habitat quality and ecosystem productivity
+Primary production and zooplankton
+To assess the size structure of copepods in the region, we use the small-large index.
+* A measure of relative size composition of the dominant copepod taxa
+* A lower value means higher abundance of large copepods (<i>Calanus</i>)
+* Primary production may play a role in copepod size dynamics***
+
+
+---
+
+## SOE 2019: Habitat quality and ecosystem productivity
+Zooplankton abundance
+<i>Calanus finmarchicus</i> is an important prey species for NARW and larval fish on the NE Shelf
+* In GOM and GB, relatively high abundance of the small-bodied copepod <i>Centropages typicus</i> correspond with periods of high fish conditions in the region
+* There is a negative trend in the small-bodied <i>Pseudocalanus</i> species on Georges Bank and in the Mid-Atlantic 
+
+* In MAB, we also provide information on seasonal abundances of key zooplankton species
+  * Of note are the opposing trends in <i>Centropages</i> in spring and fall, which corresponds to a shift in timing of their peak concentration from late fall to early spring<sup>1</sup>
   
-  geom_bar(aes(x=Time, y= Value, fill = Var), stat="identity")+
-  scale_fill_manual(name = "Indicators", values = ind_fill) +
-  geom_line(data = revchange[revchange$EPU == "GB",], aes(x = Time, y = Value, colour="$"))+
-  scale_colour_grey(name ="Revenue Change") +
-  ggtitle("Georges Bank Commercial Landings")+
-  labs(y="Value $1,000,000 ($2015)") +
-  scale_x_continuous(breaks = seq(1965, 2015, by = 10), expand = c(0.01, 0.01)) +
-  scale_y_continuous(breaks = seq(y.lim[1], y.lim[2], by = 100), limits = y.lim, expand = c(0.01, 0.01)) +
-  theme_ts() +
-  theme(title = element_text(size = 10))
-
-gb_bennet
-
-```
+.footenote[
+Bi H, Ji R, Liu H, Jo Y-H, Hare JA. Decadal Changes in Zooplankton of the Northeast U.S. Continental Shelf. PLOS ONE. 2014;9: e87720. doi:10.1371/journal.pone.0087720
+]
 
 
-
-
-
----
-## SOE reporting: ecosystem indicators
-
-
-
----
