@@ -115,8 +115,11 @@ div.remark-slide-container .fullscale p {
 }
 
 .right-column {
-  width: 70%;
+  width: 47%;
   float: right;
+  border: 0px ;
+  padding: 25px solid green;
+  margin: 25px;
 }
 
 .table {
@@ -129,4 +132,12 @@ div.remark-slide-container .fullscale p {
   bottom: 1em;
   padding-right: 4em;
   font-size: 50%;
+}
+.pull-left {
+  float: left;
+  width: 47%;
+}
+.pull-right {
+  float: right;
+  width: 47%;
 }
