@@ -1,102 +1,25 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" lang="" xml:lang="">
+  <head>
+    <title>State of the Ecosystem:</title>
+    <meta charset="utf-8" />
+    <meta name="author" content="Sean Hardison  Ecosystem Dynamics and Assessment   Northeast Fisheries Science Center" />
+    <link href="libs/remark-css/default.css" rel="stylesheet" />
+    <link rel="stylesheet" href="libs\my-theme.css" type="text/css" />
+  </head>
+  <body>
+    <textarea id="source">
+class: right, middle, my-title, title-slide
+
+# State of the Ecosystem:
+## Reporting on Northeast Continental Shelf<br> ecosystem status and trends.
+### Sean Hardison<br /> Ecosystem Dynamics and Assessment <br /> Northeast Fisheries Science Center
+
 ---
-title: "State of the Ecosystem:"
-subtitle: "Reporting on Northeast Continental Shelf<br> ecosystem status and trends."
-author: "Sean Hardison<br /> Ecosystem Dynamics and Assessment <br /> Northeast Fisheries Science Center"
-output:
-  xaringan::moon_reader:
-    css: ["default", "libs/my-theme.css"]
-    lib_dir: libs
-    nature:
-      titleSlideClass: ["right", "middle", "my-title"]
-      highlightStyle: githubp
-      highlightLines: true
-      countIncrementalSlides: false
-  revealjs::revealjs_presentation:
-    self_contained: false
-    reveal_plugins: ["notes", "search"]
----
+
 class: top, left
 
-```{r setup, include=FALSE}
 
-options(htmltools.dir.version = FALSE)
-knitr::opts_chunk$set(echo = F,
-                      warning = F,
-                      message = F)
-#Plotting and data libraries
-library(ggplot2)
-library(dplyr)
-library(tidyr)
-library(ecodata)
-library(here)
-library(kableExtra)
-library(ggrepel)
-library(stringr)
-library(patchwork)
-library(grid)
-library(ggiraph)
-library(vegan)
-library(rpart)
-library(colorRamps)
-
-#GIS libraries
-library(sf)
-library(rgdal)
-library(raster)
-library(rnaturalearth)
-
-data.dir <- here::here("data")
-
-
-#Time series constants
-shade.alpha <- 0.3
-shade.fill <- "lightgrey"
-lwd <- 1
-pcex <- 2
-trend.alpha <- 0.5
-trend.size <- 2
-hline.size <- 1
-hline.alpha <- 0.35
-hline.lty <- "dashed"
-label.size <- 5
-hjust.label <- 1.5
-letter_size <- 4
-feeding.guilds <- c("Apex Predator","Piscivore","Planktivore","Benthivore","Benthos")
-x.shade.min <- 2009
-x.shade.max <- 2018
-map.lwd <- 0.4
-#Function for custom ggplot facet labels
-label <- function(variable,value){
-  return(facet_names[value])
-}
-
-#facet names for titles
-facet_names <- list("Apex predators" = expression("Apex predators"),
-                    "Piscivores" = expression("Piscivores"),
-                    "Planktivores" = expression("Planktivores"),
-                    "Benthivores" = expression("Benthivores"),
-                    "Benthos" = expression("Benthos"))
-#CRS
-crs <- "+proj=longlat +lat_1=35 +lat_2=45 +lat_0=40 +lon_0=-77 +x_0=0 +y_0=0 +datum=NAD83 +no_defs +ellps=GRS80 +towgs84=0,0,0"
-
-#Coastline shapefile
-coast <- ne_countries(scale = 10,
-                          continent = "North America",
-                          returnclass = "sf") %>%
-             sf::st_transform(crs = crs)
-
-#State polygons
-ne_states <- ne_states(country = "united states of america",
-                                      returnclass = "sf") %>%
-  sf::st_transform(crs = crs)
-
-#high-res polygon of Maine
-#new_england <- read_sf(gis.dir,"new_england")
-
-#EPU shapefile
-epu_sf <- ecodata::epu_sf %>% 
-  filter(EPU %in% c("MAB","GB","GOM"))
-```
 
 # Today's seminar
 
@@ -114,7 +37,7 @@ epu_sf <- ecodata::epu_sf %>%
 ]
 
 .pull-right[
-*The IEA Loop<sup>1</sup>*
+*The IEA Loop&lt;sup&gt;1&lt;/sup&gt;*
 ![iea-loop](images/iea-loop.png)
 
 
@@ -132,7 +55,7 @@ Today I'm going to be talking to you first about ecosystem reporting, specifical
 ## Ecosystem-Based Management
 
 .pull-left[
-* Place-based management of all human ecosystem uses, or **sectors**<sup>1</sup>
+* Place-based management of all human ecosystem uses, or **sectors**&lt;sup&gt;1&lt;/sup&gt;
 
   * "Cross-sectoral" 
   
@@ -142,9 +65,7 @@ Today I'm going to be talking to you first about ecosystem reporting, specifical
 
 .pull-right[
 
-```{r ebm-sectors, fig.align="center", out.width = "100%", echo = F}
-knitr::include_graphics("images/ebm-sectors.png")
-```
+&lt;img src="images/ebm-sectors.png" width="100%" style="display: block; margin: auto;" /&gt;
 
 ]
 
@@ -159,13 +80,11 @@ knitr::include_graphics("images/ebm-sectors.png")
 ## Ecosystem-Based Fishery Management
 
 * Integrated management of a **single-sector** (i.e. fisheries)
-* Considers trade-offs of management strategies on ecosystem components<sup>2</sup>
+* Considers trade-offs of management strategies on ecosystem components&lt;sup&gt;2&lt;/sup&gt;
 
 
 
-```{r ebfm-single-sector, fig.align="center", out.width = "50%", echo = F}
-knitr::include_graphics("images/ebfm-single-sector.png")
-```
+&lt;img src="images/ebfm-single-sector.png" width="50%" style="display: block; margin: auto;" /&gt;
 
 ???
 Under EBM, the idea is that these "sectors" must be managed in an integrated fashion, where impacts of each sector on the ecosystem can be assessed and managed with respect to objectives
@@ -175,16 +94,14 @@ Ecosystem-based fishery management, or EBFM, is an integrated management of a si
 ---
 ## Ecosystem Components
 
-```{r nes-comp1, echo = F}
-knitr::include_graphics("images/nes-components.png")
-```
+&lt;img src="images/nes-components.png" width="1973" /&gt;
 
 ---
 
 ---
 # Integrated Ecosystem Assessment (IEA)
 
-**A framework for synthesis and analysis of natural, social, and economic factors that are relevant to established ecosystem management objectives<sup>1</sup>**
+**A framework for synthesis and analysis of natural, social, and economic factors that are relevant to established ecosystem management objectives&lt;sup&gt;1&lt;/sup&gt;**
 
 .pull-right[
 .footnote[
@@ -219,7 +136,7 @@ Today I'm going to be talking to you about the ecosystem reporting phase of this
 Ecosystem reporting provides a route for ecosystem information to enter the stock assessment process
 
 * Well-developed example is AFSC; whose ESRs have long served as context for North Pacific FMC quota 
-deliberations<sup>1</sup>
+deliberations&lt;sup&gt;1&lt;/sup&gt;
 
 All IEA regions in the US develop similar documents in varying guises
 
@@ -278,60 +195,12 @@ An ecosystem perspective is important for managing in the face of rapid, unprece
 
 .pull-left[
 
-```{r long-term sst, echo = F, fig.height=4}
-
-lt_sst <- ecodata::long_term_sst %>% 
-  mutate(hline = mean(Value))
-
-lt_sst %>% 
-  ggplot(aes(x = Time, y = Value, group = Var)) +
-         annotate("rect", fill = shade.fill, alpha = shade.alpha,
-      xmin = x.shade.min , xmax = x.shade.max,
-      ymin = -Inf, ymax = Inf) +
-  geom_gls() +
-  geom_line() +
-  geom_point() +
-  ylab("Temperature (°C)") +
-  # ggtitle("") +
-    scale_x_continuous(expand = c(0.01, 0.01), breaks = seq(1840,2010,20))+
-      geom_hline(aes(yintercept = hline),
-           size = hline.size,
-           alpha = hline.alpha,
-           linetype = hline.lty)+
-  theme_facet() +
-  theme(strip.text=element_text(hjust=0,
-                                face = "italic"))
-
-```
+![](soe-presentation_files/figure-html/long-term sst-1.png)&lt;!-- --&gt;
 *NE Shelf Long-term SST*
 ]
 
 .pull-right[
-```{r GSI, fig.height = 4, echo = F}
-gsi %>% 
-  mutate(Year = floor(Time)) %>% 
-  group_by(Year) %>% 
-  dplyr::summarise(Value = mean(Value)) %>% 
-  mutate(hline = mean(Value)) %>% 
-  dplyr::rename(Time = Year) %>% 
-  ggplot(aes(x = Time, y = Value)) +
-         annotate("rect", fill = shade.fill, alpha = shade.alpha,
-      xmin = x.shade.min , xmax = x.shade.max,
-      ymin = -Inf, ymax = Inf) +
-  geom_gls() +
-  geom_line() +
-  geom_point() +
-  ylab("Gulf Stream position anomaly") +
-  # ggtitle("") +
-    scale_x_continuous(expand = c(0.01, 0.01))+
-      geom_hline(aes(yintercept = hline),
-           size = hline.size,
-           alpha = hline.alpha,
-           linetype = hline.lty)+
-  theme_ts() +
-  theme(strip.text=element_text(hjust=0,
-                                face = "italic"))
-```
+![](soe-presentation_files/figure-html/GSI-1.png)&lt;!-- --&gt;
 *Gulf Stream Index*
 ]
 
@@ -339,17 +208,15 @@ gsi %>%
 
 ## ESRs in the Northeast US: Relevance to management
 
-Fisheries yields are affected by ecosystem conditions<sup>1-3</sup>
+Fisheries yields are affected by ecosystem conditions&lt;sup&gt;1-3&lt;/sup&gt;
 
-Important ecosystem predictors of fisheries yield on global scale<sup>1</sup>:
+Important ecosystem predictors of fisheries yield on global scale&lt;sup&gt;1&lt;/sup&gt;:
 * Sea surface temperature (-)
-* Chlorophyll <i>a</i> (+)
+* Chlorophyll &lt;i&gt;a&lt;/i&gt; (+)
 * Particle export ratio (particles leaving euphotic zone:primary production) (+)
 * Mesozooplankton productivity (+)
 
-```{r chl-yield, echo = F, out.width = "50%"}
-knitr::include_graphics("images/chl-yield.png")
-```
+&lt;img src="images/chl-yield.png" width="50%" /&gt;
 
 
 .pull-right[
@@ -373,7 +240,7 @@ The figure here shows the relationship between chlorophyll a production in 52 la
 ESRs developed by NEFSC since 2009
 
 Considerable support for EAFM exists in Northeast
-* Most FMC council members in the Northeast support transitioning from a single-species to a multi-species ecosystem approach (i.e. EBFM) to management<sup>1</sup>
+* Most FMC council members in the Northeast support transitioning from a single-species to a multi-species ecosystem approach (i.e. EBFM) to management&lt;sup&gt;1&lt;/sup&gt;
 
 --
 
@@ -413,13 +280,11 @@ Addressing critiques to ESR model in SOE
 
 1. Non-technical text
 
-1. Short (< 30 pages), but rigorous
+1. Short (&lt; 30 pages), but rigorous
 
 1. Emphasis on reproducibility 
 
-```{r nes-comp2, echo = F, out.width = "60%", fig.align = "center"}
-knitr::include_graphics("images/nes-components-abstracted.png")
-```
+&lt;img src="images/nes-components-abstracted.png" width="60%" style="display: block; margin: auto;" /&gt;
 
 ???
 In 2016, we began taking steps to address these common critiques of the ESR model
@@ -432,7 +297,7 @@ Status (short-term) and trend (long-term) of components are measured as **indica
 
 Indicators are selected to
 
-1. Be broadly informative about a component in a management context<sup>1-3</sup>
+1. Be broadly informative about a component in a management context&lt;sup&gt;1-3&lt;/sup&gt;
 
 1. Minimize redundancy of information
 
@@ -440,41 +305,7 @@ Indicators are selected to
 
 --
 
-```{r doc-orientation, echo = F, warning = F, message=F, fig.height = 3, fig.width=8, fig.align = "center"}
-m <- 0.1
-x <- 1989:2018
-y <-  m*x + rnorm(30, sd = 0.35)
-
-data <- data.frame(x = x,
-                  y = y)
-
-#Define constants for figure plot
-x.shade.max <- max(x)
-x.shade.min <- x.shade.max - 9 
-hline = mean(y)
-
-#Plot series with trend 
-ggplot2::ggplot(data = data,aes(x = x, y = y)) +
-  #Highlight last ten years
-  annotate("rect", fill = shade.fill, alpha = shade.alpha,
-      xmin = x.shade.min , xmax = x.shade.max,
-      ymin = -Inf, ymax = Inf) +
-  geom_point(size = pcex) +
-  scale_color_manual(aesthetics = "color")+
-  guides(color = FALSE) +
-  geom_hline(aes(yintercept = hline),
-              size = hline.size,
-             alpha = hline.alpha,
-             linetype = hline.lty)+
-  geom_line() +
-  geom_gls() +
-  scale_y_continuous(labels = function(l){trans = l / 1000})+
-  scale_x_continuous(breaks = seq(1985, 2015, by = 5), expand = c(0.01, 0.01)) +
-  ylab(expression("Invented Index, 10"^3*"widgets")) +
-  xlab("Year") +
-  ggtitle("Indicator Z") +
-  theme_ts()
-```
+&lt;img src="soe-presentation_files/figure-html/doc-orientation-1.png" style="display: block; margin: auto;" /&gt;
 
 
 
@@ -516,53 +347,53 @@ Indicators
 
 .pull-right[
 .table[
-<table class="table" style="width: 50; margin-left: auto; margin-right: auto;">
-<caption>Ecosystem-scale objectives and indicators on the Northeast US shelf</caption>
- <thead>
-  <tr>
-   <th style="text-align:left;font-weight: bold;"> Objective Categories </th>
-   <th style="text-align:left;font-weight: bold;"> Indicators </th>
-  </tr>
- </thead>
-<tbody>
-  <tr>
-   <td style="text-align:left;"> Seafood Production </td>
-   <td style="text-align:left;"> Landings by feeding guild </td>
-  </tr>
-  <tr>
-   <td style="text-align:left;"> Profits </td>
-   <td style="text-align:left;"> Revenue by feeding guild </td>
-  </tr>
-  <tr>
-   <td style="text-align:left;"> Recreation </td>
-   <td style="text-align:left;"> Number of anglers and trips; recreational catch </td>
-  </tr>
-  <tr>
-   <td style="text-align:left;"> Stability </td>
-   <td style="text-align:left;"> Diversity indices (fishery and species) </td>
-  </tr>
-  <tr>
-   <td style="text-align:left;"> Social &amp; Cultural </td>
-   <td style="text-align:left;"> Commercial and recreational reliance </td>
-  </tr>
-  <tr>
-   <td style="text-align:left;"> Biomass </td>
-   <td style="text-align:left;"> Biomass or abundance by feeding guild from surveys </td>
-  </tr>
-  <tr>
-   <td style="text-align:left;"> Productivity </td>
-   <td style="text-align:left;"> Condition and recruitment of managed species </td>
-  </tr>
-  <tr>
-   <td style="text-align:left;"> Trophic structure </td>
-   <td style="text-align:left;"> Relative biomass of feeding guilds, primary productivity </td>
-  </tr>
-  <tr>
-   <td style="text-align:left;"> Habitat </td>
-   <td style="text-align:left;"> Estuarine and offshore habitat conditions </td>
-  </tr>
-</tbody>
-</table>
+&lt;table class="table" style="width: 50; margin-left: auto; margin-right: auto;"&gt;
+&lt;caption&gt;Ecosystem-scale objectives and indicators on the Northeast US shelf&lt;/caption&gt;
+ &lt;thead&gt;
+  &lt;tr&gt;
+   &lt;th style="text-align:left;font-weight: bold;"&gt; Objective Categories &lt;/th&gt;
+   &lt;th style="text-align:left;font-weight: bold;"&gt; Indicators &lt;/th&gt;
+  &lt;/tr&gt;
+ &lt;/thead&gt;
+&lt;tbody&gt;
+  &lt;tr&gt;
+   &lt;td style="text-align:left;"&gt; Seafood Production &lt;/td&gt;
+   &lt;td style="text-align:left;"&gt; Landings by feeding guild &lt;/td&gt;
+  &lt;/tr&gt;
+  &lt;tr&gt;
+   &lt;td style="text-align:left;"&gt; Profits &lt;/td&gt;
+   &lt;td style="text-align:left;"&gt; Revenue by feeding guild &lt;/td&gt;
+  &lt;/tr&gt;
+  &lt;tr&gt;
+   &lt;td style="text-align:left;"&gt; Recreation &lt;/td&gt;
+   &lt;td style="text-align:left;"&gt; Number of anglers and trips; recreational catch &lt;/td&gt;
+  &lt;/tr&gt;
+  &lt;tr&gt;
+   &lt;td style="text-align:left;"&gt; Stability &lt;/td&gt;
+   &lt;td style="text-align:left;"&gt; Diversity indices (fishery and species) &lt;/td&gt;
+  &lt;/tr&gt;
+  &lt;tr&gt;
+   &lt;td style="text-align:left;"&gt; Social &amp;amp; Cultural &lt;/td&gt;
+   &lt;td style="text-align:left;"&gt; Commercial and recreational reliance &lt;/td&gt;
+  &lt;/tr&gt;
+  &lt;tr&gt;
+   &lt;td style="text-align:left;"&gt; Biomass &lt;/td&gt;
+   &lt;td style="text-align:left;"&gt; Biomass or abundance by feeding guild from surveys &lt;/td&gt;
+  &lt;/tr&gt;
+  &lt;tr&gt;
+   &lt;td style="text-align:left;"&gt; Productivity &lt;/td&gt;
+   &lt;td style="text-align:left;"&gt; Condition and recruitment of managed species &lt;/td&gt;
+  &lt;/tr&gt;
+  &lt;tr&gt;
+   &lt;td style="text-align:left;"&gt; Trophic structure &lt;/td&gt;
+   &lt;td style="text-align:left;"&gt; Relative biomass of feeding guilds, primary productivity &lt;/td&gt;
+  &lt;/tr&gt;
+  &lt;tr&gt;
+   &lt;td style="text-align:left;"&gt; Habitat &lt;/td&gt;
+   &lt;td style="text-align:left;"&gt; Estuarine and offshore habitat conditions &lt;/td&gt;
+  &lt;/tr&gt;
+&lt;/tbody&gt;
+&lt;/table&gt;
 ]
 ]
 ---
@@ -576,15 +407,7 @@ NE:
 ]
 
 .pull-right[
-```{r ne-total-landings, out.width = "100%"}
-source("total_landings_plot.R")
-
-gom_total <- plot_total_landings(epu = "GOM", council = "NEFMC")
-gb_total <- plot_total_landings(epu = "GB", council = "NEFMC")
-
-
-gom_total + gb_total + plot_layout(ncol = 1)
-```
+&lt;img src="soe-presentation_files/figure-html/ne-total-landings-1.png" width="100%" /&gt;
 ]
 
 ---
@@ -592,16 +415,7 @@ gom_total + gb_total + plot_layout(ncol = 1)
 **Commercial fisheries: Landings by feeding guild**
 * Decrease in Atlantic herring driving divergence between managed/non-managed species
 
-```{r feeding-guild-landings, out.width = "60%", fig.align="center"}
-
-source("feeding_guild_landings_plot.R")
-
-gom_feeding_guild <- feeding_guild_landings(epu = "GOM", "NEFMC")
-gb_feeding_guild <- feeding_guild_landings(epu = "GB", "NEFMC")
-
-gom_feeding_guild + gb_feeding_guild + plot_layout(ncol = 2)
-
-```
+&lt;img src="soe-presentation_files/figure-html/feeding-guild-landings-1.png" width="60%" style="display: block; margin: auto;" /&gt;
 
 ---
 ## SOE 2019: Human dimensions 
@@ -615,20 +429,12 @@ MAB:
 
 * Total revenue of managed species also shows negative trend
 
-```{r total-landings2, fig.height = 3}
-mab_total <- plot_total_landings(epu = "MAB", council = "MAFMC")
-
-mab_total
-```
+![](soe-presentation_files/figure-html/total-landings2-1.png)&lt;!-- --&gt;
 
 ]
 
 .pull-right[
-```{r total-landings3, fig.height = 9}
-mab_feeding_guild <- feeding_guild_landings(epu = "MAB", "MAFMC")
-
-mab_feeding_guild 
-```
+![](soe-presentation_files/figure-html/total-landings3-1.png)&lt;!-- --&gt;
 
 ]
 ---
@@ -640,10 +446,7 @@ NE:
 * Species considered moderately to highly at risk due to climate change (OA, temp)
 
 
-```{r com-eng1, fig.width = 8, fig.height = 5, fig.align="center"}
-source("engagement_plots.R")
-engagement_plots(type = "comm",epu = "GOM")
-```
+&lt;img src="soe-presentation_files/figure-html/com-eng1-1.png" style="display: block; margin: auto;" /&gt;
 
 ???
 Many social-ecological systems in New England are reliant on lobster, as in Gulf of Maine, or scallop, for Georges Bank. As these species are considered moderately to highly at risk due to climate change, the communities dependent on them are at risk as well. 
@@ -660,56 +463,7 @@ MAB:
 
 ]
 .pull-right[
-```{r oyster-aqua, fig.height = 9}
-
-aqua <- ecodata::aquaculture %>% 
-  group_by(Var) %>% 
-  mutate(hline = mean(Value)) %>%
-  ungroup() %>% 
-  mutate(Var = plyr::mapvalues(Var, from = c("md oyster harvest","nj oyster harvest","va oyster harvest"),
-                                                    to  = c("MD","NJ","VA"))) %>%
-  dplyr::rename(State = Var)
-
-aqua$State <- factor(aqua$State, levels = c("VA","MD","NJ"))
-
-
-aqua_plot <- ggplot() + 
-  geom_segment(aes(x=2005,xend=2017,y=mean(aquaculture[aquaculture$Var == "va oyster harvest",]$Value),
-                   yend=mean(aquaculture[aquaculture$Var == "va oyster harvest",]$Value)),
-               size = hline.size,
-           alpha = hline.alpha,
-           linetype = hline.lty,
-           color = "#1b9e77",
-           inherit.aes = F) +
-  geom_segment(aes(x=2012,xend=2016,y=mean(aquaculture[aquaculture$Var == "nj oyster harvest",]$Value),
-                   yend=mean(aquaculture[aquaculture$Var == "nj oyster harvest",]$Value)),
-               size = hline.size,
-           alpha = hline.alpha,
-           linetype = hline.lty,
-           color = "#d95f02",
-           inherit.aes = F) +
-  geom_segment(aes(x=2012,xend=2017,y=mean(aquaculture[aquaculture$Var == "md oyster harvest",]$Value),
-                   yend=mean(aquaculture[aquaculture$Var == "md oyster harvest",]$Value)),
-               size = hline.size,
-           alpha = hline.alpha,
-           linetype = hline.lty,
-           color = "#7570b3",
-           inherit.aes = F) +
- #Highlight last ten years
-  geom_line(data = aqua, aes(x = Time, y = Value, color = State), size = lwd) +
-  geom_point(data = aqua,aes(x = Time, y = Value, color = State), size = pcex) +
-  scale_color_manual(values = c(VA = "#1b9e77", MD = "#7570b3",NJ = "#d95f02")) +
-  scale_x_continuous(breaks = seq(2005,2018,3),expand = c(0.01, 0.01)) +
-  scale_y_continuous(labels = function(l){trans = l / 1000000})+
-  ggtitle("MAB oyster harvest")+
-  ylab(expression("Oysters sold (10"^6*" n)")) +
-  xlab("")+
-  theme_ts()
-
-comm_plot <- engagement_plots(type = "comm",epu = "MAB")
-
-aqua_plot + comm_plot + plot_layout(ncol = 1, heights = c(1, 3))
-```
+![](soe-presentation_files/figure-html/oyster-aqua-1.png)&lt;!-- --&gt;
 ]
 
 ???
@@ -729,16 +483,7 @@ NE:
 * Increase in recreational effort (n anglers) since the mid 90s
 ]
 .pull-right[
-```{r rec-div1, fig.height=9}
-source("rec_div_plots.R")
-source("rec_harvest_plots.R")
-source("rec_effort_plots.R")
-ne_rec_div <- rec_div_plots("NE")
-ne_rec_harvest <- rec_harvest_plots("NE")
-ne_rec_effort <- rec_effort_plots("NE")
-
-ne_rec_div[[2]] + ne_rec_harvest + ne_rec_effort[[2]] + plot_layout(ncol = 1)
-```
+![](soe-presentation_files/figure-html/rec-div1-1.png)&lt;!-- --&gt;
 ]
 
 ???
@@ -760,14 +505,7 @@ MAB:
 
 ]
 .pull-right[
-```{r rec-div2, fig.height=9}
-ma_rec_div <- rec_div_plots("MA")
-ma_rec_harvest <- rec_harvest_plots("MA")
-ma_rec_effort <- rec_effort_plots("MA")
-(ma_rec_harvest | ma_rec_effort[[2]]) /
-  ma_rec_div[[1]] /
-  ma_rec_div[[2]]
-```
+![](soe-presentation_files/figure-html/rec-div2-1.png)&lt;!-- --&gt;
 ]
 
 ???
@@ -786,21 +524,14 @@ However, different from NE, there are significant downward trends in fleet effor
 ]
 
 .pull-right[
-```{r rec-engagement, fig.height = 9}
-source("engagement_plots.R")
-shelf_rel <- engagement_plots(type = "rec",epu = "shelf", make_sparse = T)
-
-shelf_rel
-```
+![](soe-presentation_files/figure-html/rec-engagement-1.png)&lt;!-- --&gt;
 ]
 ---
 ## SOE 2019: Protected species
 
 * Protected species include marine mammals, endangered and threatened species, and migratory birds
 
-```{r narw-photo, fig.align="center", out.width = "70%"}
-knitr::include_graphics("images/narw-credit-beth-josephson.JPG")
-```
+&lt;img src="images/narw-credit-beth-josephson.JPG" width="70%" style="display: block; margin: auto;" /&gt;
 .image-cap[
 *Image credit: Beth Josephson, NOAA Fisheries*
 ]
@@ -817,94 +548,25 @@ knitr::include_graphics("images/narw-credit-beth-josephson.JPG")
 ---
 ## SOE 2019: Protected species
 **North Atlantic right whales (NARW)**
-* Strong consensus of population decline
+* Among most endangered large whales in the world
+* Strong evidence suggests that the level of interaction between NARWs, lobster gear (US), and snow crab gear (CAN) is contributing to the decline of the species
+* While populations increased steadily between 1990-2011, it has decreased recently. 
+* 20 NARW deaths in 2017 and 2018, &gt;50% due to human interactions
 
-  * Diverging abundance trends between sexes, with higher female mortality rates
---
+---
+## SOE 2019: Protected species
+**North Atlantic right whales (NARW)**
+* Increases in mortality of adult females and diverging abundances between sexes
+* NARW distributions have shifted since 2010
+  * Distributions likely affected by changes in climate and the primary prey of NARWs, &lt;i&gt;Calanus finmarchicus&lt;/i&gt;
 
-* Evidence suggests that the level of interaction between NARWs, lobster gear (US), and snow crab gear (CAN) is contributing to the decline of the species
-
-  * 20 NARW deaths in 2017 and 2018, >50% due to human interactions (5 vessel strike, 6 entanglement)
-
-```{r NARW-abundance, fig.width = 7.25, fig.height = 3.5, fig.align = "center"}
-hline <- mean(narw[narw$Var == "right whale abundance median",]$Value)
-series.col <- "black"
-ecodata::narw %>% 
-  spread(.,Var,Value) %>% 
-  ggplot() +
-#Highlight last ten years
-  annotate("rect", fill = shade.fill, alpha = shade.alpha,
-      xmin = x.shade.min , xmax = x.shade.max,
-      ymin = -Inf, ymax = Inf) +
-  geom_line(aes(x = Time, y = `right whale abundance median`), size = lwd-0.75) +
-  geom_point(aes(x = Time, y = `right whale abundance median`), size = pcex-0.75) +
-  geom_errorbar(aes(x = Time,
-                    ymin = `right whale abundance lcl`,
-                  ymax = `right whale abundance ucl`), 
-                width = 0.25) +
-  scale_x_continuous(expand = c(0.01, 0.01)) +
-  scale_color_manual(values = series.col, aesthetics = "color")+
-  guides(color = FALSE) +
-  ggtitle("NARW abundance") +
-  ylab(expression("Abundance (n)")) +
-  xlab("Time")+
-  geom_hline(aes(yintercept = hline),
-           color = "black",
-           size = hline.size,
-           alpha = hline.alpha,
-           linetype = hline.lty) +
-  theme_ts()
-```
-
-???
-The North Atlantic right whale is among the most endangered whales in the world, with less than 450 individuals remaining and declining abundance trends. Evidence suggests that interactions with fisheries are contributing to the decline of the fisheries. Between 2017 and 2018, there were 20 known right whale mortality events, and more than half of these were the direct result of entanglement or vessel strike. Right whale distributions may also be changing with climate related distribution shifts of their main food source, Calanus finmarchicus. 
 ---
 ## SOE 2019: Protected species
 **Harbor porpoise**
 
-```{r harbor-porpoise-bars, fig.width = 8, fig.align="center", fig.height = 6}
-source("hp_density_plot.R")
-hp_bycatch  <- ecodata::harborporpoise %>% 
-  spread(.,Var,Value) %>% 
-ggplot() +
-    annotate("rect", fill = shade.fill, alpha = shade.alpha,
-      xmin = x.shade.min , xmax = x.shade.max,
-      ymin = -Inf, ymax = Inf) +
-  geom_line(aes(x = Time, y = `harbor porpoise bycatch estimate`, color = "Harbor Porpoise Bycatch"), size = lwd) +
-  geom_point(aes(x = Time, y = `harbor porpoise bycatch estimate`, color = "Harbor Porpoise Bycatch"), size = pcex) +
-  geom_errorbar(aes(x = Time,
-                    ymin = `harbor porpoise bycatch lo95ci`,
-                  ymax = `harbor porpoise bycatch up95ci`,
-                  color = "Harbor Porpoise Bycatch"), 
-                width = 0.25)+
-  geom_line(aes(x = Time, y = `harbor porpoise bycatch pbr`, color = "PBR"), size = lwd-0.1) +
-  scale_color_manual("", values = c("Harbor Porpoise Bycatch" = "black", "PBR" = "red")) +
-  guides(color = guide_legend(override.aes = list(shape = c(19,NA)))) +
-  scale_x_continuous(expand = c(0.01, 0.01)) +
-  ggtitle("Harbor porpoise bycatch") +
-  ylab("Bycatch Estimate (n)") +
-  theme_ts() +
-  theme(legend.position = c(0.4, 0.85), legend.background = element_rect(
-    fill = "transparent"), legend.text = element_text(size = 10))
-
-xlims <- c(-78, -66)
-ylims <- c(35, 46)
-fall_hp <- hp_density("Fall", lat = F)
-spring_hp <- hp_density("Spring", leg = F)
-
-(spring_hp | fall_hp ) /
-  hp_bycatch + plot_layout(ncol = 1, heights = c(1.5, 1.25)) & theme(plot.margin = margin(0,0,0.3,0,"cm"))
-
-```
-
 * Current bycatch levels suggest that management actions have been effective in reducing harbor porpoise bycatch
-
-???
-The maps here show density estimates of the widely distributed harbor porpoise in the spring and fall months, as estimated by the Atlantic Marine Assessment Program for Protected Species.
-
-The red line in the time series plot shows the potential biological removal. Above this line removals from the population will prevent the stock from reaching a stable population size. 
-
-2016 and 2017 estimates for bycacth are among the lowest values in the series, suggest that management actions have been effective in reducing harbor porpoise bycatch. 
+* 2016 and 2017 estimates are among the lowest in the time series. 
+* POtential biological removal - The maximum number of animals that may be removed from a marine mammal stock while allowing that stock to reach a stable population size
 
 ---
 ## SOE 2019: Protected Species
@@ -1050,7 +712,7 @@ Primary production
 Primary production and zooplankton
 To assess the size structure of copepods in the region, we use the small-large index.
 * A measure of relative size composition of the dominant copepod taxa
-* A lower value means higher abundance of large copepods (<i>Calanus</i>)
+* A lower value means higher abundance of large copepods (&lt;i&gt;Calanus&lt;/i&gt;)
 * Primary production may play a role in copepod size dynamics***
 
 
@@ -1058,15 +720,104 @@ To assess the size structure of copepods in the region, we use the small-large i
 
 ## SOE 2019: Habitat quality and ecosystem productivity
 Zooplankton abundance
-<i>Calanus finmarchicus</i> is an important prey species for NARW and larval fish on the NE Shelf
-* In GOM and GB, relatively high abundance of the small-bodied copepod <i>Centropages typicus</i> correspond with periods of high fish conditions in the region
-* There is a negative trend in the small-bodied <i>Pseudocalanus</i> species on Georges Bank and in the Mid-Atlantic 
+&lt;i&gt;Calanus finmarchicus&lt;/i&gt; is an important prey species for NARW and larval fish on the NE Shelf
+* In GOM and GB, relatively high abundance of the small-bodied copepod &lt;i&gt;Centropages typicus&lt;/i&gt; correspond with periods of high fish conditions in the region
+* There is a negative trend in the small-bodied &lt;i&gt;Pseudocalanus&lt;/i&gt; species on Georges Bank and in the Mid-Atlantic 
 
 * In MAB, we also provide information on seasonal abundances of key zooplankton species
-  * Of note are the opposing trends in <i>Centropages</i> in spring and fall, which corresponds to a shift in timing of their peak concentration from late fall to early spring<sup>1</sup>
+  * Of note are the opposing trends in &lt;i&gt;Centropages&lt;/i&gt; in spring and fall, which corresponds to a shift in timing of their peak concentration from late fall to early spring&lt;sup&gt;1&lt;/sup&gt;
   
 .footenote[
 Bi H, Ji R, Liu H, Jo Y-H, Hare JA. Decadal Changes in Zooplankton of the Northeast U.S. Continental Shelf. PLOS ONE. 2014;9: e87720. doi:10.1371/journal.pone.0087720
 ]
+    </textarea>
+<style data-target="print-only">@media screen {.remark-slide-container{display:block;}.remark-slide-scaler{box-shadow:none;}}</style>
+<script src="https://remarkjs.com/downloads/remark-latest.min.js"></script>
+<script>var slideshow = remark.create({
+"highlightStyle": "githubp",
+"highlightLines": true,
+"countIncrementalSlides": false
+});
+if (window.HTMLWidgets) slideshow.on('afterShowSlide', function (slide) {
+  window.dispatchEvent(new Event('resize'));
+});
+(function(d) {
+  var s = d.createElement("style"), r = d.querySelector(".remark-slide-scaler");
+  if (!r) return;
+  s.type = "text/css"; s.innerHTML = "@page {size: " + r.style.width + " " + r.style.height +"; }";
+  d.head.appendChild(s);
+})(document);
 
+(function(d) {
+  var el = d.getElementsByClassName("remark-slides-area");
+  if (!el) return;
+  var slide, slides = slideshow.getSlides(), els = el[0].children;
+  for (var i = 1; i < slides.length; i++) {
+    slide = slides[i];
+    if (slide.properties.continued === "true" || slide.properties.count === "false") {
+      els[i - 1].className += ' has-continuation';
+    }
+  }
+  var s = d.createElement("style");
+  s.type = "text/css"; s.innerHTML = "@media print { .has-continuation { display: none; } }";
+  d.head.appendChild(s);
+})(document);
+// delete the temporary CSS (for displaying all slides initially) when the user
+// starts to view slides
+(function() {
+  var deleted = false;
+  slideshow.on('beforeShowSlide', function(slide) {
+    if (deleted) return;
+    var sheets = document.styleSheets, node;
+    for (var i = 0; i < sheets.length; i++) {
+      node = sheets[i].ownerNode;
+      if (node.dataset["target"] !== "print-only") continue;
+      node.parentNode.removeChild(node);
+    }
+    deleted = true;
+  });
+})();</script>
 
+<script>
+(function() {
+  var links = document.getElementsByTagName('a');
+  for (var i = 0; i < links.length; i++) {
+    if (/^(https?:)?\/\//.test(links[i].getAttribute('href'))) {
+      links[i].target = '_blank';
+    }
+  }
+})();
+</script>
+
+<script>
+slideshow._releaseMath = function(el) {
+  var i, text, code, codes = el.getElementsByTagName('code');
+  for (i = 0; i < codes.length;) {
+    code = codes[i];
+    if (code.parentNode.tagName !== 'PRE' && code.childElementCount === 0) {
+      text = code.textContent;
+      if (/^\\\((.|\s)+\\\)$/.test(text) || /^\\\[(.|\s)+\\\]$/.test(text) ||
+          /^\$\$(.|\s)+\$\$$/.test(text) ||
+          /^\\begin\{([^}]+)\}(.|\s)+\\end\{[^}]+\}$/.test(text)) {
+        code.outerHTML = code.innerHTML;  // remove <code></code>
+        continue;
+      }
+    }
+    i++;
+  }
+};
+slideshow._releaseMath(document);
+</script>
+<!-- dynamically load mathjax for compatibility with self-contained -->
+<script>
+(function () {
+  var script = document.createElement('script');
+  script.type = 'text/javascript';
+  script.src  = 'https://mathjax.rstudio.com/latest/MathJax.js?config=TeX-MML-AM_CHTML';
+  if (location.protocol !== 'file:' && /^https?:/.test(script.src))
+    script.src  = script.src.replace(/^https?:/, '');
+  document.getElementsByTagName('head')[0].appendChild(script);
+})();
+</script>
+  </body>
+</html>
