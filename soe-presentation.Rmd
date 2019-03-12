@@ -1509,39 +1509,167 @@ knitr::include_graphics("images/sst-anom.png")
 The same is true for the Mid-Atlantic Bight
 * Mid-Atlantic summer SSTs were 3rd highest on record 
 
+As I noted earlier, some species in the Mid-Atlantic could actually see range expansions due to warming ocean temperatures, including croaker and striped bass. 
 
 ---
 ## SOE 2019: Habitat quality and ecosystem productivity
-Ocean circulation
+**Ocean circulation**
+
+```{r atl-circ, out.width="50%", fig.align="center"}
+knitr::include_graphics("images/nw-atlantic-circ.jpg")
+```
+
+
+.footnote[
+Townsend, D. W., Pettigrew, N. R., Thomas, M. A., Neary, M. G., McGillidcuddy, D. J., O'Donnell, J (2015), Water masses and nutrient sources to the Gulf of Maine, Journal of Marine Research, 73: 93-122.
+]
+
+???
+Regional currents are major influencers of ocean temperatures in the NW Atlantic 
+
+The Gulf Stream is a reliable indicator of bottom water temps
+
+An offshoot of the gulf stream is the warm slope water, which makes its way into gulf of maine through the northeast channel
+
+---
+## SOE 2019: Habitat quality and ecosystem productivity
+**Ocean circulation**
 
 Which brings us back to...
 
-GSI
+```{r gsi_sw, fig.width = 12, fig.height = 4, fig.align="center"}
+gsi_plt <- gsi %>% 
+  mutate(Year = floor(Time)) %>% 
+  group_by(Year) %>% 
+  dplyr::summarise(Value = mean(Value)) %>% 
+  mutate(hline = mean(Value)) %>% 
+  dplyr::rename(Time = Year) %>% 
+  ggplot(aes(x = Time, y = Value)) +
+         annotate("rect", fill = shade.fill, alpha = shade.alpha,
+      xmin = x.shade.min , xmax = x.shade.max,
+      ymin = -Inf, ymax = Inf) +
+  geom_gls() +
+  geom_line() +
+  geom_point() +
+  ylab("Position anomaly") +
+  ggtitle("Gulf Stream Index") +
+    scale_x_continuous(expand = c(0.01, 0.01))+
+      geom_hline(aes(yintercept = hline),
+           size = hline.size,
+           alpha = hline.alpha,
+           linetype = hline.lty)+
+  theme_ts() +
+  theme(strip.text=element_text(hjust=0,
+                                face = "italic"),
+        axis.title = element_text(size = 14),
+        plot.title = element_text(size = 16, face = "bold"))
 
-Like I said earlier, the Gulf Stream Index measures the position of the Northern edge of the Gulf Stream. As it's advanced northwards, it warms ocean waters and affects the proportion of Warm Slope Water entering Gulf of Maine. 
+sw.df <- slopewater %>% 
+  mutate(Var, Var = plyr::mapvalues(Var, from = c("WSW proportion ne channel",
+                                                  "LSLW proportion ne channel"),
+                                    to = c("WSW","LSLW"))) %>% 
+  dplyr::rename(Flavor  = Var) %>% 
+  group_by(Flavor) %>% 
+  mutate(hline = mean(Value)) 
 
-slopewater proportions in the NE Channel
+sw.df$Flavor <- factor(sw.df$Flavor, levels = c("WSW","LSLW"))
 
-The proportion of slope water derived from the warm slope water at 200 m depth is at an all time high, and the implications of this are not fully understood
+sw_plt <- ggplot(data = sw.df) +
+  geom_line(aes(x = Time, y = Value, color = Flavor))+
+  geom_point(aes(x = Time, y = Value, color = Flavor)) +
+  ylab("Percent of Total Slopewater") +
+  ggtitle("Slopewater Proportions in NE Channel")+
+    scale_x_continuous(expand = c(0.01, 0.01))+
+      geom_hline(aes(yintercept = hline,
+                     color = Flavor),
+           size = hline.size,
+           alpha = hline.alpha,
+           linetype = hline.lty)+
+  theme_ts() +
+  theme(strip.text=element_text(hjust=0,
+                                face = "italic"),
+        axis.title = element_text(size = 14),
+        plot.title = element_text(size = 16, face = "bold"))
+
+gsi_plt + sw_plt 
+```
+
+
+???
+Over the past few years, we've seen a strong departure of the gulf stream north wall from it's mean latitude
+
+With that comes a larger percentage of warm slope water entering into gulf of maine through the NE channel
 
 ---
+
 ## SOE 2019: Habitat quality and ecosystem productivity
-Primary production
+**Primary production**
 * Summer PP is increasing in both New England and Mid-Atlantic
 
+```{r pp-trends, fig.width=10, fig.height = 5}
+out_pp <- ecodata::chl_pp %>% 
+  filter(EPU %in% c("GOM","GB"),
+         str_detect(Var, "MONTHLY_PPD_MEDIAN")) %>% 
+  separate(.,Time, into = c("Year","Month"), sep = 4) %>% 
+    mutate(Month = plyr::mapvalues(Month, from = c("01","02","03","04","05","06",
+                                                   "07","08","09","10","11","12"),
+                                   to = c(month.abb))) %>% 
+  group_by(EPU, Month) %>% 
+  mutate(hline = mean(Value))
+out_pp$Month <- factor(out_pp$Month, levels = month.abb)
 
+ 
+ pp_cci_gb <-out_pp %>% 
+  filter(EPU == "GB") %>% 
+ ggplot() +
+   # geom_gls(aes(x = Year, y = Value, group = Month))+
+    geom_point(aes(x = Year, y = Value, group = Month)) +
+    geom_line(aes(x = Year, y = Value, group = Month)) +
+    scale_x_discrete(name = "Time", breaks = seq(min(out_pp$Year),max(out_pp$Year),10)) +  
+    facet_wrap(Month~., ncol = 6) +
+    ggtitle("GB Monthly median PPD") +
+    ylab(expression("PP (gC m"^-2*" d"^-1*")")) +
+        geom_hline(aes(yintercept = hline,
+                     group = Month),
+           size = hline.size,
+           alpha = hline.alpha,
+           linetype = hline.lty)+
+    theme_facet() +
+    theme(axis.text.x = element_text(angle=45, hjust = 1),
+          panel.spacing = unit(1, "lines"),
+          plot.margin = unit(c(0.1, 0, 0, 0), "cm"))
+ 
+ pp_cci_gb 
+ 
+```
+
+
+???
 * Driven by warmer temperatures and increased bacterial remineralization and nutrient recycling
 * Increasing primary production likely due to higher productivity of smaller phytoplankton
 
+
 ---
 ## SOE 2019: Habitat quality and ecosystem productivity
-Primary production and zooplankton
+**Primary production and copepod size structure**
+
+* Primary production may play a role in zooplankton size dynamics on the shelf
+
+```{r MAB-sli, fig.height = 6, fig.align = "center", fig.width = 9}
+source("sli_plots.R")
+gb_out <- sli_plots("GB")
+gom_out <- sli_plots("GOM")
+
+gb_out[[1]] + gom_out[[1]] + 
+  gb_out[[2]] + gom_out[[2]] +
+  plot_layout(ncol = 2) & theme(plot.margin = margin(t = 0, r= 1))
+```
+
+???
 To assess the size structure of copepods in the region, we use the small-large index.
 * A measure of relative size composition of the dominant copepod taxa
 * A lower value means higher abundance of large copepods (<i>Calanus</i>)
 * Primary production may play a role in copepod size dynamics***
-
-
 ---
 
 ## SOE 2019: Habitat quality and ecosystem productivity

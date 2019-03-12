@@ -103,12 +103,22 @@ epu_sf <- ecodata::epu_sf %>%
 
 ---
 ## SOE 2019: Habitat quality and ecosystem productivity
-**Ocean temperature: Mid-Atlantic**
+**Primary production and copepod size structure**
 
-```{r mab-sst, fig.align = "center", fig.width=9, fig.height=7}
-knitr::include_graphics("images/sst-anom.png")
+* Primary production may play a role in zooplankton size dynamics on the shelf
+
+```{r MAB-sli, fig.height = 6, fig.align = "center", fig.width = 9}
+source("sli_plots.R")
+gb_out <- sli_plots("GB")
+gom_out <- sli_plots("GOM")
+
+gb_out[[1]] + gom_out[[1]] + 
+  gb_out[[2]] + gom_out[[2]] +
+  plot_layout(ncol = 2) & theme(plot.margin = margin(t = 0, r= 1))
 ```
 
-
-The same is true for the Mid-Atlantic Bight
-* Mid-Atlantic summer SSTs were 3rd highest on record 
+???
+To assess the size structure of copepods in the region, we use the small-large index.
+* A measure of relative size composition of the dominant copepod taxa
+* A lower value means higher abundance of large copepods (<i>Calanus</i>)
+* Primary production may play a role in copepod size dynamics***
