@@ -96,9 +96,13 @@ out <- eng_rel %>%
             legend.key.width = unit(0, "cm"))
 
 if (type == "comm"){
-  out <- out + ggtitle("Commercial Reliance & Engagement")
+  out <- out + ggtitle("Commercial Reliance & Engagement") +
+    theme(axis.title = element_text(size = 14),
+    plot.title = element_text(size = 16, face = "bold"))
 } else {
-  out <- out + ggtitle("Recreational Reliance & Engagement")
+  out <- out + ggtitle("Recreational Reliance & Engagement")+
+    theme(axis.title = element_text(size = 14),
+          plot.title = element_text(size = 16, face = "bold"))
 }
       
 

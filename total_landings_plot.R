@@ -47,7 +47,6 @@ plot_total_landings <- function(epu, council){
     scale_color_manual(values = series.col, aesthetics = "color")+
     guides(color = FALSE) +
     ylab(expression("Landings, 10"^3*"metric tons")) +
-    theme(axis.title.y = element_text(size = 8)) +
     ggtitle(paste(epu,"Total Landings"))+
     geom_hline(aes(yintercept = hline,
                    
@@ -55,7 +54,9 @@ plot_total_landings <- function(epu, council){
                size = hline.size,
                alpha = hline.alpha,
                linetype = hline.lty) +
-    theme_ts()
+    theme_ts()+
+    theme(axis.title = element_text(size = 14),
+          plot.title = element_text(size = 16, face = "bold"))
   
   return(out_total)
 }

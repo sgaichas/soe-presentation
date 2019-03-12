@@ -65,6 +65,8 @@ feeding_guild_landings <- function(epu, council){
     ylab(expression("Landings, 10"^3*"metric tons")) +
     ggtitle(epu) +
     theme_facet() +
-    theme(strip.text=element_text(hjust=0))
+    theme(strip.text=element_text(hjust=0, size = 12),
+          axis.title = element_text(size = 14, face = "bold"),
+          plot.title = element_text(size = 16, face = "bold"))
   return(out_landings)
 }

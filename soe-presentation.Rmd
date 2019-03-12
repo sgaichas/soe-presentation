@@ -473,7 +473,9 @@ ggplot2::ggplot(data = data,aes(x = x, y = y)) +
   ylab(expression("Invented Index, 10"^3*"widgets")) +
   xlab("Year") +
   ggtitle("Indicator Z") +
-  theme_ts()
+  theme_ts() +
+  theme(plot.title = element_text(size = 16),
+        axis.title = element_text(size = 14))
 ```
 
 
@@ -704,7 +706,9 @@ aqua_plot <- ggplot() +
   ggtitle("MAB oyster harvest")+
   ylab(expression("Oysters sold (10"^6*" n)")) +
   xlab("")+
-  theme_ts()
+  theme_ts()+
+    theme(axis.title = element_text(size = 14),
+    plot.title = element_text(size = 16, face = "bold"))
 
 comm_plot <- engagement_plots(type = "comm",epu = "MAB")
 
@@ -853,7 +857,9 @@ ecodata::narw %>%
            size = hline.size,
            alpha = hline.alpha,
            linetype = hline.lty) +
-  theme_ts()
+  theme_ts() + 
+  theme(axis.title = element_text(size = 14),
+        plot.title = element_text(size = 16, face = "bold"))
 ```
 
 ???
@@ -884,8 +890,10 @@ ggplot() +
   ggtitle("Harbor porpoise bycatch") +
   ylab("Bycatch Estimate (n)") +
   theme_ts() +
-  theme(legend.position = c(0.4, 0.85), legend.background = element_rect(
-    fill = "transparent"), legend.text = element_text(size = 10))
+  theme(legend.position = c(0.4, 0.85),
+        legend.background = element_rect(fill = "transparent"),
+        axis.title = element_text(size = 14),
+        plot.title = element_text(size = 16, face = "bold"))
 
 xlims <- c(-78, -66)
 ylims <- c(35, 46)
@@ -995,7 +1003,9 @@ ggplot(aes(x = Time, y = Value)) +
            size = hline.size,
            alpha = hline.alpha,
            linetype = hline.lty) +
-  theme_ts() 
+  theme_ts() +
+  theme(axis.title = element_text(size = 14),
+          plot.title = element_text(size = 16, face = "bold"))
 
 source("get_tern_map.R")
 tern_loc <- get_tern_map()
@@ -1148,37 +1158,102 @@ Plot shows the ratio of stock mortality (F) to stock mortality at maximum sustai
 ---
 ## SOE 2019: Fish and invertebrates
 **Changing distributions**
-Management based around stable species distributions
-Shifting ecosystem conditions resulting from climate change and historic fishing pressure are changing species distributions
 
-The NEFSC has run a bottom trawl survey since the early 1960s, and the data highlights how the representative species in the survey have shifted in composition during that period.
+```{r spec_prop, fig.width = 8, fig.height = 4, fig.align="center"}
+source("get_spec_prop.R")
+nefmc_benth_in_mid <- get_species_prop_plots(guild = "Benthivore", epu = "MAB",managed_by = "NEFMC",region = "the Mid-Atlantic")
 
-Plot of NEFMC species in MAB, Plot of MAFMC species in NE
+mafmc_plank_in_gom <- get_species_prop_plots(guild = "Planktivore", epu = "GOM",managed_by = "MAFMC",region = "Gulf of Maine")
 
-*Increase in MAFMC species in GOM/GB driven by mackerel
-*Decline in NEFMC species in MAB driven mostly by ocean pout, although ocean pout appears to be declining in all bottom trawl surveys
+mafmc_plank_in_gb <- get_species_prop_plots(guild = "Planktivore", epu = "GB",managed_by = "MAFMC",region = "Georges Bank")
+
+nefmc_benth_in_mid
+```
+
+
+* Decline in proportion of NEFMC in MAB driven mostly by ocean pout
+* Increase in MAFMC species proportiongs in GOM/GB driven by mackerel
+
 
 .footnote[
 https://seanhardison.shinyapps.io/surv_app/ 
 ]
 
+???
+Traditional fisheries management is based around stable species distributions, but those distributions aren't static, and especially not in the context of changing ecosystem conditions
+
+The NEFSC has run a bottom trawl survey since the early 1960s, and these figures highlight how distributions of managed species within feeding guilds have changed. 
+
+The decline in NEFMC species in the mid survey is driven mostly by ocean pout, which has seen proportional declines in the gulf of maine and georges bank survey
+
 ---
 ## SOE 2019: Fish and invertebrates
-**Bottom trawl surveys**
-NE:
+**Changing distributions**
+
+```{r, fig.width = 7.5, fig.height=6.5, fig.align="center"}
+
+mafmc_plank_in_gom + mafmc_plank_in_gb + plot_layout(ncol = 1)
+
+```
+
+
+* Increase in MAFMC species in GOM and GB driven by mackerel
+
+---
+## SOE 2019: Fish and invertebrates
+**Bottom trawl surveys: New England**
+
+```{r ne-survey, fig.width = 15, fig.height = 8}
+  #facet names for titles
+  facet_names <- list("Piscivores" = expression("Piscivores"),
+                      "Planktivores" = expression("Planktivores"),
+                      "Benthivores" = expression("Benthivores"),
+                      "Benthos" = expression("Benthos"))
+source("get_survey_plots.R")
+
+ne_surv <- get_survey_plots(region = "NE")
+ne_surv[[1]] + ne_surv[[2]] + plot_layout(ncol = 2)
+```
+
+
+???
 * In Gulf of Maine, the survey data show long-term increases in the Fall survey for Piscivores, Planktivores, and Benthos species, and long-term increases in planktivore abundance in the spring. 
 * In Georges Bank, the survey shows long-term increases for benthos and planktivore species in both fall and spring, and piscivores in the fall.
 * A recent decline in Georges Bank benthivore biomass is driven by a decline in haddock in the survey
 
 ---
 ## SOE 2019: Fish and invertebrates
-**Bottom trawl surveys**
-MA:
-Here we show the NEFSC bottom trawl survey data paired with inshore bottom trawl data from the Northeast Area Monitoring and Assessment Program (or NEAMAP) survey, in red, performed annually by the Virginia Institute of Marine Science.
+**Bottom trawl surveys: Mid-Atlantic**
 
-Of note here are the opposing trends in piscivore biomass during the spring and fall seasons for the offshore survey. Further, Piscivores in the spring inshore survey appear to be in decline in recent years.This pattern may be due to inshore vs offshore distributions of spiny dogfish.
+.pull-left[
 
-The patterns in offshore and inshore survey data appear to be similar, and further work in the coming year will explore the factors driving their similarities and differences (e.g. importance of nearshore habitats)
+* NEFSC bottom trawl survey data paired with NEAMAP inshore bottom trawl data from the region
+
+* Opposing trends in piscivore biomass during the spring and fall seasons for the offshore survey. 
+
+]
+
+.pull-right[
+```{r ma-survey, out.width="100%", fig.height = 9}
+ 
+(ma_surv <- get_survey_plots(region = "MAB"))
+```
+]
+
+
+
+.footnote[
+[1] <a href="noaa-edab.github.io/ecodata/macrofauna">View all survey data</a>
+
+[2] <a href="https://seanhardison.shinyapps.io/surv_app/">Explore survey proportions</a>
+]
+
+???
+For the Mid, we show offshore bottom trawl survey data paired with inshore bottom trawl data collected in the region by Northeast Area Monitoring and Assessment Program.
+
+There appear to be opposing trends in spring piscivore biomass between the two surveys, which could reflect higher prevalence of spiny dogfish offshore
+
+We didn't include the data in this presentation, but we also recieved inshore survey data from the Maine/New Hampshire survey and Mass state survey, and we hope to take a deeper look over the next SOE cycle
 
 ---
 ## SOE 2019: Fish and invertebrates
@@ -1186,22 +1261,38 @@ The patterns in offshore and inshore survey data appear to be similar, and furth
 
 * Fish condition is measured at the weight at a given length relative to the average
   * Condition, or "fatness", is a factor that influences fecundity
-  
-NE:
-* Looking at condition in aggregate across NEFMC managed stocks, we can see a clear decline in condition between 2000-2010
-* Recent improvement within past decade
 
-MAB:
-* A similar pattern was seen in the MAB
+*NEFMC Condition Factor*
+```{r fish-con2, fig.align="center",out.width="75%"}
+knitr::include_graphics("images/NEFMC_Fish_Condition_2019.jpg")
+```
 
-* Interestingly, the drop-off in condition around 2000 resembles a shift in zooplankton size-structure on the shelf, and this is a topic for future research
+
+???
+Looking at condition in aggregate across all managed stocks, we can see a clear decline in condition between 2000-2010
+
+Recent improvement within past decade
+
+Interestingly, the drop-off in condition around 2000 resembles a shift in zooplankton size-structure on the shelf, and this is a topic for future research
+
 
 ---
 ## SOE 2019: Fish and invertebrates
 **Fish productivity**
-The fish productivity indicator shown here is the small fish per large fish biomass anomaly 
 
-MAB: The fish productivity indicator shows that productivity has been low in the region since 2010, but recent strong productivity years in witch flounder, silver hake, and winter flounder have driven increases.
+The fish productivity indicator shown here is the small fish per large fish biomass anomaly
+
+
+```{r fish-prod, fig.align = "center", fig.height = 4, fig.width=8}
+source("productivity_plots.R")
+prod <- productivity_plots()
+prod
+```
+
+???
+In the Mid, there seems to be a decline in productivity in recent years, due to changes in recruitment and survival. 
+
+In the past 5 years, strong productivity years for witch flounder, silver hake, and winter flounder have driven increases
 
 ---
 ## SOE 2019: Fish and invertebrates
@@ -1214,21 +1305,207 @@ The most recent data we have for the Mid-Atlantic has shown the lowest larval es
 
 ---
 ## SOE 2019: Habitat quality and ecosystem productivity
-Indicators here provide information about changing conditions encountered by managed species in different seasons and across habitats, which likely influences their distributions
 
-First indicator I'd like to talk about is habitat quality in Chesapeake Bay, which many resource species use as nursery habitat or are considered estuarine dependent (e.g. bluefish, striped bass, menhaden, black sea bass)
+Indicators here provide information about:
 
-These data, which were provided by collaborators at the Chesapeake Bay Program, represent the percent of tidal waters in Chesapeake Bay meeting water quality standards for chlorophyll a, submerged aquatic vegetation, and dissolved oxygen. The increase in water quality for the Bay has been tied to management action limiting nutrient flux into the watershed. 
+* Changing conditions encountered by managed species in different seasons and across habitats, which likely influences their distributions
+
+**Chesapeake Bay Water Quality**
+
+```{r cb-water-qual, fig.height = 3.5, fig.align = "center"}
+minlab <- seq(1985,2015,5)
+maxlab <- seq(1987,2017,5)
+
+ecodata::ches_bay_wq %>% 
+  mutate(hline = mean(Value)) %>% 
+  ggplot(aes(x = Time, y = Value)) +
+       annotate("rect", fill = shade.fill, alpha = shade.alpha,
+      xmin = x.shade.min , xmax = x.shade.max,
+      ymin = -Inf, ymax = Inf) +
+  geom_line() +
+  geom_point() +
+  geom_gls() +
+    ylab(expression("Estimated attainment, percent")) +
+  ggtitle("Chesapeake Bay Estimated Water Quality Standards Attainment") +
+  scale_x_continuous(breaks = minlab,labels = paste0(minlab,"-",maxlab),expand = c(0.01, 0.01)) +
+    geom_hline(aes(yintercept = hline),
+           size = hline.size,
+           alpha = hline.alpha,
+           linetype = hline.lty) +
+  theme_ts() +
+  theme(axis.title = element_text(size = 14))
+```
+
+
+???
+First indicator I'd like to talk about is a new water quality for Chesapeake Bay, which many resource species use as nursery habitat or are dependent upon (e.g. bluefish, striped bass, menhaden, black sea bass)
+
+These data, which were provided by collaborators at the Chesapeake Bay Program, represent the percent of tidal waters in Chesapeake Bay meeting water quality standards for chlorophyll a, submerged aquatic vegetation, and dissolved oxygen. The increase in water quality for the Bay has been tied to management action limiting nutrient influx into the watershed. 
+
+
 
 ---
 ## SOE 2019: Habitat quality and ecosystem productivity
-Ocean temperature ("it's warm and getting warmer")
-Both surface and bottom temperature in NE are increasing
-*Gulf of Maine summer SSTs were the highest on record
+**Ocean temperature: New England**
+
+Warming oceans have implications for suitable fish habitat, which is predicted to decline for many NE species<sup>1</sup>
+
+.footnote[
+Kleisner, Kristin M., et al. "Marine species distribution shifts on the US Northeast Continental Shelf under continued ocean warming." Progress in Oceanography 153 (2017): 24-36.
+]
+
+```{r ne-sst, fig.align = "center", fig.height = 6, fig.width = 12}
+epu_sf <- ecodata::epu_sf %>% 
+  filter(EPU %in% c("GOM","GB"))
+
+#Map line parameters
+map.lwd <- 0.4
+
+# Set lat/lon window for maps
+xmin = -73
+xmax = -65
+ymin = 39
+ymax = 45
+xlims <- c(xmin, xmax)
+ylims <- c(ymin, ymax)
+sst <- seasonal_oisst_anom_gridded 
+
+sst$Season <- factor(sst$Season, levels = c("Winter",
+                                            "Spring",
+                                            "Summer",
+                                            "Fall"))
+sst_map <- 
+  ggplot() +
+  geom_tile(data = sst, aes(x = Longitude, y = Latitude,fill = Value)) +
+  geom_sf(data = coast, size = map.lwd) +
+  geom_sf(data = epu_sf, fill = "transparent", size = map.lwd) +
+  scale_fill_gradient2(name = "Temp.\nAnomaly (°C)",
+                       low = scales::muted("blue"),
+                       mid = "white",
+                       high = scales::muted("red"),
+                       limits = c(-5,5)) +
+  coord_sf(crs = crs, xlim = xlims, ylim = ylims) +
+  facet_wrap(Season~.) +
+  theme_map() +
+  ggtitle("SST anomaly (2018)") +
+  xlab("Longitude") +
+  ylab("Latitude") +
+  theme(panel.border = element_rect(colour = "black", fill=NA, size=0.75),
+        legend.key = element_blank(),
+        axis.title = element_text(size = 11),
+        strip.background = element_blank(),
+        strip.text=element_text(hjust=0),
+        axis.text = element_text(size = 8))
+
+
+ne_anom <- seasonal_oisst_anom %>% 
+  filter(EPU %in% c("GOM","GB")) %>% 
+    mutate(hline = 0,
+           Var = str_to_title(str_extract(Var,"winter|spring|summer|fall")))
+ne_anom$Var <- factor(ne_anom$Var, levels= c("Winter","Spring","Summer","Fall"))
+
+ne_anom_plt <- ggplot(data = ne_anom, 
+       aes(x = Time, y = Value, color = EPU, group = EPU))+ #plot
+     annotate("rect", fill = shade.fill, alpha = shade.alpha,
+      xmin = x.shade.min , xmax = x.shade.max,
+      ymin = -Inf, ymax = Inf) +
+  geom_line()+
+  geom_point()+
+  ylim(-2,3)+
+  geom_gls() +
+  ylab(expression("SST Anomaly (°C)")) +
+  ggtitle("Gulf of Maine & Georges Bank SST Anomaly") +
+    scale_color_manual(values = c("black","indianred"))+
+    scale_x_continuous(expand = c(0.01, 0.01)) +
+    geom_hline(aes(yintercept = hline),
+           size = hline.size,
+           alpha = hline.alpha,
+           linetype = hline.lty) +
+  facet_wrap(Var ~., ncol = 2, scales = "free_y")+
+  theme_facet() +
+  theme(strip.text=element_text(hjust=0),
+        plot.title = element_text(size = 16))
+
+sst_map + ne_anom_plt 
+```
+
+* Gulf of Maine summer SSTs were the highest on record in 2018 (~3°C > long-term mean)
+
+???
+These changes have implications for fish populations in the region that are already at the southern extent of their ranges, like Atlantic cod. Suitable habitat for these species is predicted to contract as waters continue to warm. 
 
 ---
 ## SOE 2019: Habitat quality and ecosystem productivity
-Ocean temperature ("it's warm and getting warmer")
+**Ocean temperature: New England**
+
+Much the same for bottom temperatures in the region
+
+```{r ne-bot-temp, fig.height = 5, fig.align = "center", fig.width = 7}
+bot_temp_insitu_gom <- oceantemp_insitu %>%
+  filter(EPU == "GOM",
+         Var == "bottom temp anomaly in situ") %>% 
+  mutate(hline = 0) %>% 
+    ggplot()+ #plot
+     annotate("rect", fill = shade.fill, alpha = shade.alpha,
+      xmin = x.shade.min , xmax = x.shade.max,
+      ymin = -Inf, ymax = Inf) +
+  geom_line(aes(x = Time, y = Value)) +
+  geom_gls(aes(x = Time, y = Value)) +
+  geom_point(aes(x = Time, y = Value), size = 1) +
+  ylab("Temp. Anomaly (°C)") +
+  ggtitle("GOM Bottom Temperature Anomaly") +
+  scale_x_continuous(expand = c(0.01, 0.01)) +
+    geom_hline(aes(yintercept = hline),
+           size = hline.size,
+           alpha = hline.alpha,
+           linetype = hline.lty) +
+  theme_ts() +
+  theme(strip.text=element_text(hjust=0),
+        plot.title = element_text(size = 16),
+        axis.title = element_text(size = 14))
+
+
+bot_temp_insitu_gb <- oceantemp_insitu %>%
+  filter(EPU == "GB",
+         Var == "bottom temp anomaly in situ") %>%
+   mutate(hline = 0) %>% 
+    ggplot()+ #plot
+     annotate("rect", fill = shade.fill, alpha = shade.alpha,
+      xmin = x.shade.min , xmax = x.shade.max,
+      ymin = -Inf, ymax = Inf) +
+  geom_line(aes(x = Time, y = Value)) +
+  geom_gls(aes(x = Time, y = Value)) +
+  geom_point(aes(x = Time, y = Value), size = 1) +
+  ylab("Temp. Anomaly (°C)") +
+  ggtitle("GB Bottom Temperature Anomaly") +
+  scale_x_continuous(expand = c(0.01, 0.01)) +
+    geom_hline(aes(yintercept = hline),
+           size = hline.size,
+           alpha = hline.alpha,
+           linetype = hline.lty) +
+  theme_ts() +
+  theme(strip.text=element_text(hjust=0),
+        plot.title = element_text(size = 16),
+        axis.title = element_text(size = 14))
+
+
+
+bot_temp_insitu_gom +
+ bot_temp_insitu_gb + 
+  plot_layout(ncol =  1) &
+  theme(plot.margin = unit(c(0, 0, 0, 0), "cm"))
+```
+
+
+---
+## SOE 2019: Habitat quality and ecosystem productivity
+**Ocean temperature: Mid-Atlantic**
+
+```{r mab-sst, fig.align = "center", fig.width=9, fig.height=7}
+knitr::include_graphics("images/sst-anom.png")
+```
+
+???
 The same is true for the Mid-Atlantic Bight
 * Mid-Atlantic summer SSTs were 3rd highest on record 
 

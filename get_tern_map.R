@@ -27,10 +27,10 @@ get_tern_map <- function(){
     ylab("Latitude") +
     theme(panel.border = element_rect(colour = "black", fill=NA, size=0.75),
           legend.key = element_blank(),
-          axis.title = element_text(size = 11),
           strip.background = element_blank(),
           strip.text=element_text(hjust=0),
-          axis.text = element_text(size = 8))
+          axis.title = element_text(size = 14),
+          plot.title = element_text(size = 16))
   
   # inset_states <- new_england %>% filter(STATE_NAME %in% c("Maine",
   #                                                          "New Hampshire",
@@ -56,7 +56,6 @@ get_tern_map <- function(){
       ylab("") +
       theme(panel.border = element_rect(colour = "black", fill=NA, size=0.75),
             legend.key = element_blank(),
-            axis.title = element_text(size = 11),
             strip.background = element_blank(),
             strip.text=element_text(hjust=0),
             axis.text = element_blank())
@@ -69,3 +68,4 @@ get_tern_map <- function(){
   return(full_map)
 }
 
+get_tern_map()

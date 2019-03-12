@@ -64,7 +64,9 @@ rec_effort_plots <- function(region){
                size = hline.size,
                alpha = hline.alpha,
                linetype = hline.lty) +
-    theme_ts() 
+    theme_ts() +
+    theme(axis.title = element_text(size = 14),
+          plot.title = element_text(size = 16, face = "bold"))
   
   
   rec_anglers <- recdat %>% 
@@ -97,7 +99,9 @@ rec_effort_plots <- function(region){
                size = hline.size,
                alpha = hline.alpha,
                linetype = hline.lty) +
-    theme_ts()
+    theme_ts()+
+    theme(axis.title = element_text(size = 14),
+          plot.title = element_text(size = 16, face = "bold"))
   
   return(list(rec_effort, rec_anglers))
 }

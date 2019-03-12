@@ -17,7 +17,7 @@ rec_harvest_plots <- function(region){
              alpha = trend.alpha, size = trend.size) +
     geom_line(aes(x = Time, y = Value, color = Var), size = lwd) +
     geom_point(aes(x = Time, y = Value, color = Var), size = pcex) +
-    ggtitle(paste(region,"recreational seafood harvest"))+
+    ggtitle(paste(region,"recreational harvest"))+
     scale_y_continuous(labels = function(l){trans = l / 1000000})+
     scale_x_continuous(breaks = seq(1985, 2015, by = 5), expand = c(0.01, 0.01)) +
     scale_color_manual(values = series.col, aesthetics = "color")+
@@ -30,6 +30,8 @@ rec_harvest_plots <- function(region){
                size = hline.size,
                alpha = hline.alpha,
                linetype = hline.lty) +
-    theme_ts()
+    theme_ts()+
+    theme(axis.title = element_text(size = 14),
+          plot.title = element_text(size = 16, face = "bold"))
   return(out)
 }
