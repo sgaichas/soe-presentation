@@ -34,7 +34,7 @@ library(ggrepel)
 library(stringr)
 library(patchwork)
 library(grid)
-library(ggiraph)
+library(plotly)
 library(vegan)
 library(rpart)
 library(colorRamps)
@@ -907,32 +907,243 @@ The red line in the time series plot shows the potential biological removal. Abo
 2016 and 2017 estimates for bycacth are among the lowest values in the series, suggest that management actions have been effective in reducing harbor porpoise bycatch. 
 
 ---
-## SOE 2019: Protected Species
-**Common tern**
+## SOE 2019: Protected species
+**Common tern diet diversity**
+* Warmer waters result in *butterfish* appearing in common tern diet
+  * May cause starvation or require parents to increase foraging effort
+* High diet diversity in past decade may be the result of decreases in preferred prey type (herring, sandlance)
+
+```{r stacked-bar-prey-freq,out.width='100%', fig.height=5}
+
+cbbPalette <- c("#000000", "#E69F00", "#56B4E9", "#009E73", "#F0E442", "#0072B2", "#D55E00", "#CC79A7")
+
+prey_freq <- ecodata::common_tern %>% 
+  filter(str_detect(Var, "Diet"),
+         !str_detect(Var, "Sum")) %>% 
+    mutate(Island = word(Var, 1),
+         Var = word(Var, 4)) %>%
+    group_by(Var, Time) %>% 
+    dplyr::summarise(Value = sum(Value, na.rm = T)) %>% 
+    group_by(Time) %>% 
+    mutate(Freq = Value/sum(Value, na.rm = T)) %>% 
+    group_by(Var) %>% 
+  mutate(hline = mean(Freq, na.rm = T))
+
+diet_freq_bar <- prey_freq %>% 
+  filter(Freq > 0.05) %>% 
+  dplyr::mutate(Prey = gsub("\\.", " ", Var)) %>% 
+  # dplyr::rename(Prey = Var) %>%
+  ggplot(aes(x = Time, y = Freq, fill = Prey)) +
+  geom_bar(stat = "identity") +
+  scale_x_continuous(expand = c(0.01, 0.01))+
+  scale_fill_manual(values = RColorBrewer::brewer.pal(10,"Paired")) +
+  ggtitle("Prey composition") +
+  ylab("Proportion of prey items") +
+  theme_ts()
+
+diet_plotly <- ggplotly(diet_freq_bar)
+diet_plotly
+```
+
+???
 * Common tern breeding colonies are monitored in the southern GOM
 * Common tern sensitive to vertical distribution of prey
-* Warmer waters have in the past resulted in an increase in butterfish prevalence in diet
-* Butterfish are difficult to ingest and smallow, and may cause starvation or require parents to increase foraging effort
+
+---
+## SOE 2019: Protected species
+**Common tern diet diversity**
+.pull-left[
+* Warmer waters increase prevalence of butterfish in tern diets
+
+  * May cause starvation or require parents to increase foraging effort
 * High diet diversity in past decade may be the result of decreases in preferred prey type (herring, sandlance)
+]
+.pull-right[
+```{r tern-diet-diversity, fig.height=8}
+
+diet_div <- ecodata::common_tern %>% 
+  filter(str_detect(Var, "Diet"),
+         !str_detect(Var, "Sum")) %>% 
+  mutate(Island = word(Var, 1),
+         Var = word(Var, 4)) %>% 
+  group_by(Island, Time) %>%
+  dplyr::summarise(evenness = diversity(Value)/log(specnumber(Value)),
+                   shannon = diversity(Value),
+                   simpson = diversity(Value, index = "simpson")) %>% 
+  gather(.,Var,Value,-Island, -Time) %>% 
+  group_by(Var, Time) %>%
+  dplyr::summarize(Value = mean(Value, na.rm = T),
+                   sd = sd(Value, na.rm = T),
+                   n = n()) %>%
+  group_by(Var) %>% 
+  mutate(hline = mean(Value, na.rm = T))
+
+shannon <- diet_div %>% 
+  filter(Var == "shannon") %>% 
+ggplot(aes(x = Time, y = Value)) +
+      annotate("rect", fill = shade.fill, alpha = shade.alpha,
+      xmin = x.shade.min , xmax = x.shade.max,
+      ymin = -Inf, ymax = Inf) +
+  geom_line() +
+  geom_point() +
+  #geom_gls() +
+  scale_x_continuous(expand = c(0.01, 0.01),limits = c(1992,2018)) +
+  ggtitle("Common tern diet diversity")+
+  ylab(expression("Shannon Diversity")) +
+  xlab("")+
+  geom_hline(aes(yintercept = hline),
+           size = hline.size,
+           alpha = hline.alpha,
+           linetype = hline.lty) +
+  theme_ts() 
+
+source("get_tern_map.R")
+tern_loc <- get_tern_map()
+tern_loc + shannon + plot_layout(ncol = 1, heights = c(1,0.75))
+```
+]
+
 
 ---
 ## SOE 2019: Fish and invertebrates
-*Objective: Keep harvested species within population ranges where productivity is maximized over long-term
+**Objective: Keep harvested species within population ranges where productivity is maximized over long-term**
+```{r NE-stock-status, fig.width = 8, fig.asp = 0.75, fig.align="center"}
 
+#Get data, spread for plotting, and filter
+stock_status <- ecodata::stock_status %>%
+  spread(.,Var,Value) %>% 
+  filter(Council %in% c("NEFMC","Both"))
+
+#Plot constants
+y.max <- 4
+x.max <- 7.5
+
+all_missing <- stock_status %>%
+  filter(is.na(B.Bmsy),is.na(F.Fmsy)) %>% 
+  dplyr::select(Code, Council)
+
+b_missing <- stock_status %>%
+  filter(is.na(B.Bmsy), !is.na(F.Fmsy)) %>% 
+  dplyr::select(Code, Council)
+
+f_missing <- stock_status %>%
+  filter(is.na(F.Fmsy), !is.na(B.Bmsy)) %>% 
+  dplyr::select(Code, Council)
+
+#A dataframe that defines custom legend for stocks with unknown status
+
+all.df <- data.frame(text = all_missing$Code,
+                    x = rep(x.max,length(all_missing$Code)),
+                    y = seq(4.35,2.85,-0.22)-0.5,
+                    color = all_missing$Council)
+
+b.df <- data.frame(text = b_missing$Code,
+                    x = rep(x.max*0.8,length(b_missing$Code)),
+                    y = c(4.35,4.14)-0.5,
+                    color = b_missing$Council)
+
+f.df <- data.frame(text = f_missing$Code,
+                    x = rep(x.max*0.6,length(f_missing$Code)),
+                    y = seq(4.35,2.85,-0.22)-0.5,
+                    color = f_missing$Council)
+
+
+#Plotting code
+ggplot(data = stock_status) +
+  geom_vline(xintercept = 1, linetype = "dotted", color = "grey60")+
+  geom_vline(xintercept = 0.5, linetype = "dashed", color = "grey60")+
+  geom_hline(yintercept = 1, linetype = "dashed", color = "grey60") +
+  geom_point(aes(x = B.Bmsy,
+                 y = F.Fmsy,
+                 color = Council,
+                 shape = Council)) +
+  geom_text_repel(aes(x = B.Bmsy, #geom_text_repel auto-jitters text around points
+                      y = F.Fmsy,
+                      label = Code,
+                      color = Council), show.legend = FALSE,nudge_y = 0.05, nudge_x = 0.05) +
+  ylim(0,y.max) +
+  xlim(0,x.max*1.1) +
+  geom_text(data = all.df, aes(x = x, y = y, label = text, color = color),show.legend = FALSE, size = 3)+
+  geom_text(data = b.df, aes(x = x, y = y, label = text, color = color),show.legend = FALSE, size = 3)+
+  geom_text(data = f.df, aes(x = x, y = y, label = text, color = color),show.legend = FALSE, size = 3)+
+  scale_color_manual(values = c("purple","blue"),#c("purple","blue"), #Change legend labels for clarity
+                   name = "Managed by",
+                   breaks = c("Both","NEFMC"),
+                   labels = c("MAFMC/NEFMC","NEFMC"))+
+  scale_shape_manual(values = c(1, 19), #Change legend labels for clarity
+                     name = "Managed by",
+                     breaks = c("Both","NEFMC"),
+                     labels = c("MAFMC/NEFMC","NEFMC"))+
+  annotate("text", x = 7.5, y = y.max, label = "F and B missing", fontface =2, size = 3)+
+  annotate("text", x = 6, y = y.max, label = "B missing", fontface =2, size = 3)+
+  annotate("text", x = 4.5, y = y.max, label = "F missing", fontface =2, size = 3)+
+  xlab(expression(~B/B[msy])) +
+  ylab(expression(~F/F[msy])) +
+  ggtitle("New England Stock Status") +
+  theme_ts()
+```
+
+* 4 stocks above F/F<sub>msy</sub> and below B/B<sub>msy</sub>
+  * Southern NE Yellowtail, GOM Cod, CC-GOM Yellowtail, Southern GB/MAB red hake
+  
+???
 Stocks depicted here represent a subset of the full ecosystem
 
-Plot shows the ratio of stock mortality (F) to stock mortality at maximum sustainable yield, where a number larger than one indicates the stock is experiencing unsustainable fishing pressure. On the x axis we have the ratio of estimated stock biomass to biomass at maximum sustainable yield. 
+---
+## SOE 2019: Fish and invertebrates
+**Objective: Keep harvested species within population ranges where productivity is maximized over long-term**
 
-NE:
-* 4 stocks above F/Fmsy and below B/Bmsy
-  * Southern NE Yellowtail
-  * GOM Cod
-  * CC-GOM Yellowtail
-  * Southern GB/MAB red hake
+```{r stock-status, fig.width = 8, fig.asp = 0.75, fig.align="center"}
 
-MAB:
+#Get data, spread for plotting, and filter
+stock_status <- ecodata::stock_status %>%
+  spread(.,Var,Value) %>% 
+  filter(Council %in% c("MAFMC","Both"))
+
+#Plot constants
+y.max <- 2.0 #1.75 mackerel cut off F/Fmsy is 1.8
+x.max <- 2.6
+
+#A dataframe that defines custom legend for stocks with unknown status
+
+unknown <- data.frame(text = c("Unknown Status", "Longfin",
+                              "Illex", "N. Goosefish", "S. Goosefish"),
+                    x = rep(0.9*x.max,5),
+                    y = seq(0.93*y.max,1.4,-.1))
+
+
+#Plotting code
+ggplot(data = stock_status) +
+  geom_vline(xintercept = 1, linetype = "dotted")+
+  geom_vline(xintercept = 0.5, linetype = "dashed")+
+  geom_hline(yintercept = 1, linetype = "dashed") +
+  geom_point(aes(x = B.Bmsy,
+                 y = F.Fmsy,
+                 color = Council)) +
+  geom_text_repel(aes(x = B.Bmsy, #geom_text_repel auto-jitters text around points
+                      y = F.Fmsy,
+                      label = Code,
+                      color = Council), show.legend = FALSE,nudge_y = 0.05, nudge_x = 0.05) +
+  scale_color_manual(values = c("purple","blue"), #Change legend labels for clarity
+                     name = "Managed by",
+                     breaks = c("Both","MAFMC"),
+                     labels = c("MAFMC/NEFMC","MAFMC"))+
+  ylim(0,y.max) +
+  xlim(0,x.max) +
+  geom_text(data = unknown, aes(x = x, y = y, label = text), #Custom legend for unknown stock status
+            size = c(4.75,rep(4,4)),
+            color = c("black",rep("blue",2), rep("purple",2))) +
+  xlab(expression(~B/B[msy])) +
+  ylab(expression(~F/F[msy])) +
+  ggtitle("Mid-Atlantic Stock Status") +
+  theme_ts()
+```
+
 * No stock above F/Fmsy and below B/Bmsy
 * Mackerel currently seeing unsustainable fishing mortality
+
+???
+Plot shows the ratio of stock mortality (F) to stock mortality at maximum sustainable yield, where a number larger than one indicates the stock is experiencing unsustainable fishing pressure. On the x axis we have the ratio of estimated stock biomass to biomass at maximum sustainable yield. 
 
 ---
 ## SOE 2019: Fish and invertebrates

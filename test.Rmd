@@ -34,7 +34,7 @@ library(ggrepel)
 library(stringr)
 library(patchwork)
 library(grid)
-library(ggiraph)
+library(plotly)
 library(vegan)
 library(rpart)
 library(colorRamps)
@@ -102,49 +102,142 @@ epu_sf <- ecodata::epu_sf %>%
 ```
 
 ---
-## SOE 2019: Protected species
-**Harbor porpoise**
+## SOE 2019: Fish and invertebrates
+**Objective: Keep harvested species within population ranges where productivity is maximized over long-term**
+```{r NE-stock-status, fig.width = 8, fig.asp = 0.75, fig.align="center"}
 
-```{r harbor-porpoise-bars, fig.width = 8, fig.align="center", fig.height = 6}
-source("hp_density_plot.R")
-hp_bycatch  <- ecodata::harborporpoise %>% 
+#Get data, spread for plotting, and filter
+stock_status <- ecodata::stock_status %>%
   spread(.,Var,Value) %>% 
-ggplot() +
-    annotate("rect", fill = shade.fill, alpha = shade.alpha,
-      xmin = x.shade.min , xmax = x.shade.max,
-      ymin = -Inf, ymax = Inf) +
-  geom_line(aes(x = Time, y = `harbor porpoise bycatch estimate`, color = "Harbor Porpoise Bycatch"), size = lwd) +
-  geom_point(aes(x = Time, y = `harbor porpoise bycatch estimate`, color = "Harbor Porpoise Bycatch"), size = pcex) +
-  geom_errorbar(aes(x = Time,
-                    ymin = `harbor porpoise bycatch lo95ci`,
-                  ymax = `harbor porpoise bycatch up95ci`,
-                  color = "Harbor Porpoise Bycatch"), 
-                width = 0.25)+
-  geom_line(aes(x = Time, y = `harbor porpoise bycatch pbr`, color = "PBR"), size = lwd-0.1) +
-  scale_color_manual("", values = c("Harbor Porpoise Bycatch" = "black", "PBR" = "red")) +
-  guides(color = guide_legend(override.aes = list(shape = c(19,NA)))) +
-  scale_x_continuous(expand = c(0.01, 0.01)) +
-  ggtitle("Harbor porpoise bycatch") +
-  ylab("Bycatch Estimate (n)") +
-  theme_ts() +
-  theme(legend.position = c(0.4, 0.85), legend.background = element_rect(
-    fill = "transparent"), legend.text = element_text(size = 10))
+  filter(Council %in% c("NEFMC","Both"))
 
-xlims <- c(-78, -66)
-ylims <- c(35, 46)
-fall_hp <- hp_density("Fall", lat = F)
-spring_hp <- hp_density("Spring", leg = F)
+#Plot constants
+y.max <- 4
+x.max <- 7.5
 
-(spring_hp | fall_hp ) /
-  hp_bycatch + plot_layout(ncol = 1, heights = c(1.5, 1.25)) & theme(plot.margin = margin(0,0,0.3,0,"cm"))
+all_missing <- stock_status %>%
+  filter(is.na(B.Bmsy),is.na(F.Fmsy)) %>% 
+  dplyr::select(Code, Council)
 
+b_missing <- stock_status %>%
+  filter(is.na(B.Bmsy), !is.na(F.Fmsy)) %>% 
+  dplyr::select(Code, Council)
+
+f_missing <- stock_status %>%
+  filter(is.na(F.Fmsy), !is.na(B.Bmsy)) %>% 
+  dplyr::select(Code, Council)
+
+#A dataframe that defines custom legend for stocks with unknown status
+
+all.df <- data.frame(text = all_missing$Code,
+                    x = rep(x.max,length(all_missing$Code)),
+                    y = seq(4.35,2.85,-0.22)-0.5,
+                    color = all_missing$Council)
+
+b.df <- data.frame(text = b_missing$Code,
+                    x = rep(x.max*0.8,length(b_missing$Code)),
+                    y = c(4.35,4.14)-0.5,
+                    color = b_missing$Council)
+
+f.df <- data.frame(text = f_missing$Code,
+                    x = rep(x.max*0.6,length(f_missing$Code)),
+                    y = seq(4.35,2.85,-0.22)-0.5,
+                    color = f_missing$Council)
+
+
+#Plotting code
+ggplot(data = stock_status) +
+  geom_vline(xintercept = 1, linetype = "dotted", color = "grey60")+
+  geom_vline(xintercept = 0.5, linetype = "dashed", color = "grey60")+
+  geom_hline(yintercept = 1, linetype = "dashed", color = "grey60") +
+  geom_point(aes(x = B.Bmsy,
+                 y = F.Fmsy,
+                 color = Council,
+                 shape = Council)) +
+  geom_text_repel(aes(x = B.Bmsy, #geom_text_repel auto-jitters text around points
+                      y = F.Fmsy,
+                      label = Code,
+                      color = Council), show.legend = FALSE,nudge_y = 0.05, nudge_x = 0.05) +
+  ylim(0,y.max) +
+  xlim(0,x.max*1.1) +
+  geom_text(data = all.df, aes(x = x, y = y, label = text, color = color),show.legend = FALSE, size = 3)+
+  geom_text(data = b.df, aes(x = x, y = y, label = text, color = color),show.legend = FALSE, size = 3)+
+  geom_text(data = f.df, aes(x = x, y = y, label = text, color = color),show.legend = FALSE, size = 3)+
+  scale_color_manual(values = c("purple","blue"),#c("purple","blue"), #Change legend labels for clarity
+                   name = "Managed by",
+                   breaks = c("Both","NEFMC"),
+                   labels = c("MAFMC/NEFMC","NEFMC"))+
+  scale_shape_manual(values = c(1, 19), #Change legend labels for clarity
+                     name = "Managed by",
+                     breaks = c("Both","NEFMC"),
+                     labels = c("MAFMC/NEFMC","NEFMC"))+
+  annotate("text", x = 7.5, y = y.max, label = "F and B missing", fontface =2, size = 3)+
+  annotate("text", x = 6, y = y.max, label = "B missing", fontface =2, size = 3)+
+  annotate("text", x = 4.5, y = y.max, label = "F missing", fontface =2, size = 3)+
+  xlab(expression(~B/B[msy])) +
+  ylab(expression(~F/F[msy])) +
+  ggtitle("New England Stock Status") +
+  theme_ts()
 ```
 
-* Current bycatch levels suggest that management actions have been effective in reducing harbor porpoise bycatch
+* 4 stocks above F/F<sub>msy</sub> and below B/B<sub>msy</sub>
+  * Southern NE Yellowtail, GOM Cod, CC-GOM Yellowtail, Southern GB/MAB red hake
+  
+???
+Stocks depicted here represent a subset of the full ecosystem
 
-  * 2016 and 2017 estimates are among the lowest in series. 
+---
+## SOE 2019: Fish and invertebrates
+**Objective: Keep harvested species within population ranges where productivity is maximized over long-term**
 
+```{r stock-status, fig.width = 8, fig.asp = 0.75, fig.align="center"}
+
+#Get data, spread for plotting, and filter
+stock_status <- ecodata::stock_status %>%
+  spread(.,Var,Value) %>% 
+  filter(Council %in% c("MAFMC","Both"))
+
+#Plot constants
+y.max <- 2.0 #1.75 mackerel cut off F/Fmsy is 1.8
+x.max <- 2.6
+
+#A dataframe that defines custom legend for stocks with unknown status
+
+unknown <- data.frame(text = c("Unknown Status", "Longfin",
+                              "Illex", "N. Goosefish", "S. Goosefish"),
+                    x = rep(0.9*x.max,5),
+                    y = seq(0.93*y.max,1.4,-.1))
+
+
+#Plotting code
+ggplot(data = stock_status) +
+  geom_vline(xintercept = 1, linetype = "dotted")+
+  geom_vline(xintercept = 0.5, linetype = "dashed")+
+  geom_hline(yintercept = 1, linetype = "dashed") +
+  geom_point(aes(x = B.Bmsy,
+                 y = F.Fmsy,
+                 color = Council)) +
+  geom_text_repel(aes(x = B.Bmsy, #geom_text_repel auto-jitters text around points
+                      y = F.Fmsy,
+                      label = Code,
+                      color = Council), show.legend = FALSE,nudge_y = 0.05, nudge_x = 0.05) +
+  scale_color_manual(values = c("purple","blue"), #Change legend labels for clarity
+                     name = "Managed by",
+                     breaks = c("Both","MAFMC"),
+                     labels = c("MAFMC/NEFMC","MAFMC"))+
+  ylim(0,y.max) +
+  xlim(0,x.max) +
+  geom_text(data = unknown, aes(x = x, y = y, label = text), #Custom legend for unknown stock status
+            size = c(4.75,rep(4,4)),
+            color = c("black",rep("blue",2), rep("purple",2))) +
+  xlab(expression(~B/B[msy])) +
+  ylab(expression(~F/F[msy])) +
+  ggtitle("Mid-Atlantic Stock Status") +
+  theme_ts()
+```
+
+* No stock above F/Fmsy and below B/Bmsy
+* Mackerel currently seeing unsustainable fishing mortality
 
 ???
-
-* Potential biological removal - The maximum number of animals that may be removed from a marine mammal stock while allowing that stock to reach a stable population size
+Plot shows the ratio of stock mortality (F) to stock mortality at maximum sustainable yield, where a number larger than one indicates the stock is experiencing unsustainable fishing pressure. On the x axis we have the ratio of estimated stock biomass to biomass at maximum sustainable yield. 
