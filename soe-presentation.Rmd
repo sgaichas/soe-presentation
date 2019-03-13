@@ -656,6 +656,14 @@ gom_feeding_guild + gb_feeding_guild + plot_layout(ncol = 2)
 ```
 
 ---
+## SOE 2019: Human dimensions
+**Commercial fisheries: Landings by feeding guild**
+```{r planktivores-gom, fig.width = 7.25, fig.height = 3.5, fig.align = "center"}
+feeding_guild_landings(epu = "GOM", "NEFMC", filt = T)
+```
+
+
+---
 ## SOE 2019: Human dimensions 
 **Commercial fisheries: Total landings**
 
@@ -1922,10 +1930,10 @@ knitr::include_graphics("images/noaa-iea.png")
   
 * <a href="https://comet.nefsc.noaa.gov/erddap/index.html">ERDDAP server</a>
 
-* <a href="seanhardison1.github.io/soe-presentation">View slides</a>
+* Slides available at https://seanhardison1.github.io/soe-presentation
 
 ---
-# Species compositions by feeding guild
+## Species compositions by feeding guild
 .table[
 ```{r feeding-guilds}
 # new table with all species listed by management entity

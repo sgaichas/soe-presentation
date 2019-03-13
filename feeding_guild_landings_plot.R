@@ -1,4 +1,4 @@
-feeding_guild_landings <- function(epu, council){
+feeding_guild_landings <- function(epu, council,filt = F){
   managed_landings <- ecodata::comdat  %>%
     filter(str_detect(Var, paste0(council," managed species - Landings weight|JOINT managed species - Landings weight")),
            !str_detect(Var, "Other"),
@@ -31,7 +31,10 @@ feeding_guild_landings <- function(epu, council){
   x.shade.max <- 2018
   x.shade.min <- 2009
   series.col <- c("indianred","black")
-
+  
+  if (filt){
+    landings <- landings %>% filter(feeding.guild == "Planktivore")
+  }
   
   out_landings <- ggplot(data = landings,aes(x = Time, y = Value, color = grouping)) +
     
