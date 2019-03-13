@@ -236,14 +236,18 @@ All IEA regions in the US develop similar documents in varying guises
 
 .pull-left[
 *IEA Regions*
-![iea-region](images/iea-regions.png)
+```{r iea-regions, out.width = "100%"}
+knitr::include_graphics("images/iea-regions.png")
+```
+
 ]
 
 .pull-right[
 *Ecosystem Status Reports*
-![regional-esrs](images/esr-breakdown.png)
+```{r esr-breakdown, out.width = "100%"}
+knitr::include_graphics("images/esr-breakdown.png")
+```
 ]
-
 
 ???
 
@@ -417,7 +421,10 @@ Biedron, Ingrid S., and Barbara A. Knuth. "Toward shared understandings of ecosy
 
 The disconnect inspired a new model, which we call **State of the Ecosystem (SOE)** reports
 
-![soe-snippet](images/soe-snippet.png)
+```{r soe-snippet,out.width = "100%"}
+knitr::include_graphics("images/soe-snippet.png")
+```
+
 
 ???
 Question - We can't answer that question directly, but we can do a better job describing these ecosystem pathways 
@@ -1301,9 +1308,9 @@ ne_surv[[1]] + ne_surv[[2]] + plot_layout(ncol = 2)
 
 
 .footnote[
-[1] <a href="noaa-edab.github.io/ecodata/macrofauna">View all survey data</a>
+[1] [View all survey data](https://noaa-edab.github.io/ecodata/macrofauna)
 
-[2] <a href="https://seanhardison.shinyapps.io/surv_app/">Explore survey proportions</a>
+[2] [Explore survey proportions](https://seanhardison.shinyapps.io/surv_app/)
 ]
 
 ???
@@ -1864,7 +1871,7 @@ This workflows also ensures that there's no information lost between SOE cycles.
 ---
 ## Contributors - THANK YOU!
 
-The New England and Mid-Atlantic SOEs made possible by (at least) 37 contributors from 8 intstitutions 
+The New England and Mid-Atlantic SOEs made possible by (at least) 38 contributors from 8 intstitutions 
 
 .pull-left[
 .contrib[
@@ -1887,12 +1894,13 @@ Kimberly Hyde<br>
 Terry Joyce (Woods Hole Oceanographic Institute)<br>
 John Kosik<br>
 Steve Kress (National Audubon Society)<br>
-Don Lyons (National Audubon Society)<br>
+Scott Large
 ]
 ]
 
 .pull-right[
 .contrib[
+Don Lyons (National Audubon Society)<br>
 Loren Kellogg<br>
 David Kulis (Woods Hole Oceanographic Institute)<br>
 Sean Lucey<br>
@@ -1920,15 +1928,15 @@ knitr::include_graphics("images/noaa-iea.png")
 ---
 ## External Resources
 
-* <a href="noaa-edab.github.io/tech-memo">SOE Technical documentation</a>
+* [SOE Technical Documentation](https://noaa-edab.github.io/tech-memo)
 
-* <a href="github.com/noaa-edab/ecodata">ecodata R package</a>
+* [ecodata R package](https://github.com/noaa-edab/ecodata)
 
-  * <a href="github.com/noaa-edab/ecodata/macrofauna">Macrofauna indicators</a>
-  * <a href="github.com/noaa-edab/ecodata/human_dimensions">Human dimensions indicators</a>
-  * <a href="github.com/noaa-edab/ecodata/LTL">Oceanographic and Lower Trophic indicators</a>
+  * [Macrofauna indicators](http://noaa-edab.github.io/ecodata/macrofauna)
+  * [Human Dimensions indicators](http://noaa-edab.github.io/ecodata/human_dimensions)
+  * [Lower trophic level indicators](http://noaa-edab.github.io/ecodata/LTL)
   
-* <a href="https://comet.nefsc.noaa.gov/erddap/index.html">ERDDAP server</a>
+* [ERDDAP server](https://comet.nefsc.noaa.gov/erddap/index.html)
 
 * Slides available at https://seanhardison1.github.io/soe-presentation
 
