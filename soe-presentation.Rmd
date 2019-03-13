@@ -1,7 +1,7 @@
 ---
 title: "State of the Ecosystem:"
 subtitle: "Reporting on Northeast Continental Shelf<br> ecosystem status and trends."
-author: "Sean Hardison<br /> Ecosystem Dynamics and Assessment <br /> Northeast Fisheries Science Center"
+author: "Sean Hardison<br /> Ecosystem Dynamics and Assessment <br /> Integrated Statistics and Northeast Fisheries Science Center"
 output:
   xaringan::moon_reader:
     css: ["default", "libs/my-theme.css"]
@@ -108,7 +108,7 @@ epu_sf <- ecodata::epu_sf %>%
 
 - Report structure
 
-- Highlights from the 2019 Mid-Atlantic and New England reports
+- Results from the 2019 Mid-Atlantic and New England reports
 
 - Strategies for open-source reporting
 ]
@@ -125,7 +125,7 @@ epu_sf <- ecodata::epu_sf %>%
 ]
 
 ???
-Today I'm going to be talking to you first about ecosystem reporting, specifically what is it and why does it matter
+
 
 ---
 
@@ -170,7 +170,9 @@ knitr::include_graphics("images/ebfm-single-sector.png")
 ???
 Under EBM, the idea is that these "sectors" must be managed in an integrated fashion, where impacts of each sector on the ecosystem can be assessed and managed with respect to objectives
 
-Ecosystem-based fishery management, or EBFM, is an integrated management of a single sector by considering how fishery management strategies would affect ecosystem components, or the building blocks of the ecosystem, as a way to maximize ecosystem yield sustainably.
+Ecosystem-based fishery management, or EBFM, is integrated management of a single sector, that is, fisheries.
+
+EBFM considers trade-offs of management strategies on ecosystem components, within the fisheries sector
 
 ---
 ## Ecosystem Components
@@ -179,7 +181,9 @@ Ecosystem-based fishery management, or EBFM, is an integrated management of a si
 knitr::include_graphics("images/nes-components.png")
 ```
 
----
+???
+Here we describe the relationships between major ecosystem components on the northeast shelft
+
 
 ---
 # Integrated Ecosystem Assessment (IEA)
@@ -258,7 +262,7 @@ All IEA regions in the US develop similar documents in varying guises
 ???
 This network diagram provides an example of how primary production and environmental drivers are linked to a pelagic fishery and protected species.  
 
-With SOEs, we want to describe these linkages and explain why they're important to managers. 
+With ESRs, we want to describe these linkages and explain why they're important to managers. 
 
 Nested within the pelagic fishery node in this diagram are the societal benefits derived from that fishery, linking social and economic ecosystem components to the base of the food web and environment.
 
@@ -300,7 +304,8 @@ lt_sst %>%
            linetype = hline.lty)+
   theme_facet() +
   theme(strip.text=element_text(hjust=0,
-                                face = "italic"))
+                                face = "italic"),
+        axis.title = element_text(size = 14))
 
 ```
 *NE Shelf Long-term SST*
@@ -330,10 +335,21 @@ gsi %>%
            linetype = hline.lty)+
   theme_ts() +
   theme(strip.text=element_text(hjust=0,
-                                face = "italic"))
+                                face = "italic"),
+        axis.title = element_text(size = 14))
 ```
 *Gulf Stream Index*
 ]
+
+???
+SST
+Figure on left shows estimated time series of SST extending back to to 1850s. 
+*7 out of 10 of the hottest years have been in the past decade
+
+GSI
+The figure on the right shows that deviation from the mean latitude of the north wall of the gulf stream, showing anomalously high value for the past 5 years
+
+These things are important for managers to know about because they directly influence stock distribution dynamics
 
 ---
 
@@ -363,7 +379,9 @@ knitr::include_graphics("images/chl-yield.png")
 ]
 
 ???
-The figure here shows the relationship between chlorophyll a production in 52 large marine ecosystems around the world with fisheries yield in those systems. So we know that these relationships exist, but drawing actionable place-based management advice from this information is difficult, but in the works here at the Center.
+The figure here shows the relationship between chlorophyll a production in 52 large marine ecosystems around the world with fisheries yield in those systems.
+
+So we know that these relationships exist, but drawing actionable place-based management advice from this information is difficult, but in the works here at the Center.
 
 
 ---
@@ -373,7 +391,7 @@ The figure here shows the relationship between chlorophyll a production in 52 la
 ESRs developed by NEFSC since 2009
 
 Considerable support for EAFM exists in Northeast
-* Most FMC council members in the Northeast support transitioning from a single-species to a multi-species ecosystem approach (i.e. EBFM) to management<sup>1</sup>
+* Most FMC members in the Northeast support transitioning from a single-species to a multi-species ecosystem approach (i.e. EBFM) to management<sup>1</sup>
 
 --
 
@@ -400,6 +418,9 @@ Biedron, Ingrid S., and Barbara A. Knuth. "Toward shared understandings of ecosy
 The disconnect inspired a new model, which we call **State of the Ecosystem (SOE)** reports
 
 ![soe-snippet](images/soe-snippet.png)
+
+???
+Question - We can't answer that question directly, but we can do a better job describing these ecosystem pathways 
 
 ---
 
@@ -507,7 +528,7 @@ Indicators
 .pull-left[
 
 ### Report Structure
-1. Human objectives
+1. Human dimensions
 
 2. Protected species
 
@@ -567,6 +588,35 @@ Indicators
 </table>
 ]
 ]
+---
+## SOE 2019: Feeding guilds
+
+```{r guilds}
+df <- data.frame("Feeding guild" = c("Apex Predator","Piscivore","Planktivore","Benthivore","Benthos"),
+                 Description = c("Top of food chain","Fish eaters","Zooplankton eaters",
+                                 "Feed on bottom","Things that live on bottom"),
+                 Examples = c("Shark spp, swordfish","Atlantic cod, spiny dogfish","Atlantic herring","Lobster, black sea bass","Sea scallop, urchins"))
+
+knitr::kable(df) %>% 
+kable_styling(bootstrap_options = c("striped", "hover")) 
+```
+
+* Feeding guilds assigned based on NEFSC food habits data base
+  * Food habits change with age and size, so guilds assigned based on most common size class
+
+* Simplified from existing guild structures<sup>1,2</sup>
+
+.footnote[
+[1] Garrison, Lance P, and Jason S Link. 2000. “Dietary guild structure of the fish community in the Northeast United States continental shelf ecosystem.” Marine Ecology Progress Series 202:231–40.
+
+[2] Link, Jason S, Carolyn A Griswold, Elizabeth T Methratta, and Jessie Gunnard. 2006. Documentation for the energy modeling and analysis exercise (EMAX). US Department of Commerce, National Oceanic; Atmospheric Administration.
+]
+
+???
+Because we focus on ecosystem context, we've aggregated species in most of our indicators up to the level of feeding guild, shown here.
+
+These feeding guilds were derived from NEFSC food habits data and existing guilds identified in the literature
+
 ---
 ## SOE 2019: Human dimensions 
 **Commercial fisheries: Total landings**
@@ -913,50 +963,6 @@ The maps here show density estimates of the widely distributed harbor porpoise i
 The red line in the time series plot shows the potential biological removal. Above this line removals from the population will prevent the stock from reaching a stable population size. 
 
 2016 and 2017 estimates for bycacth are among the lowest values in the series, suggest that management actions have been effective in reducing harbor porpoise bycatch. 
-
----
-## SOE 2019: Protected species
-**Common tern diet diversity**
-* Warmer waters result in *butterfish* appearing in common tern diet
-  * May cause starvation or require parents to increase foraging effort
-* High diet diversity in past decade may be the result of decreases in preferred prey type (herring, sandlance)
-
-```{r stacked-bar-prey-freq,out.width='100%', fig.height=5}
-
-cbbPalette <- c("#000000", "#E69F00", "#56B4E9", "#009E73", "#F0E442", "#0072B2", "#D55E00", "#CC79A7")
-
-prey_freq <- ecodata::common_tern %>% 
-  filter(str_detect(Var, "Diet"),
-         !str_detect(Var, "Sum")) %>% 
-    mutate(Island = word(Var, 1),
-         Var = word(Var, 4)) %>%
-    group_by(Var, Time) %>% 
-    dplyr::summarise(Value = sum(Value, na.rm = T)) %>% 
-    group_by(Time) %>% 
-    mutate(Freq = Value/sum(Value, na.rm = T)) %>% 
-    group_by(Var) %>% 
-  mutate(hline = mean(Freq, na.rm = T))
-
-diet_freq_bar <- prey_freq %>% 
-  filter(Freq > 0.05) %>% 
-  dplyr::mutate(Prey = gsub("\\.", " ", Var)) %>% 
-  # dplyr::rename(Prey = Var) %>%
-  ggplot(aes(x = Time, y = Freq, fill = Prey)) +
-  geom_bar(stat = "identity") +
-  scale_x_continuous(expand = c(0.01, 0.01))+
-  scale_fill_manual(values = RColorBrewer::brewer.pal(10,"Paired")) +
-  ggtitle("Prey composition") +
-  ylab("Proportion of prey items") +
-  theme_ts()
-
-diet_plotly <- ggplotly(diet_freq_bar)
-diet_plotly
-```
-
-???
-* Common tern breeding colonies are monitored in the southern GOM
-* Common tern sensitive to vertical distribution of prey
-
 ---
 ## SOE 2019: Protected species
 **Common tern diet diversity**
@@ -1012,6 +1018,50 @@ tern_loc <- get_tern_map()
 tern_loc + shannon + plot_layout(ncol = 1, heights = c(1,0.75))
 ```
 ]
+
+---
+## SOE 2019: Protected species
+**Common tern diet diversity**
+* Warmer waters result in *butterfish* appearing in common tern diet
+  * May cause starvation or require parents to increase foraging effort
+* High diet diversity in past decade may be the result of decreases in preferred prey type (herring, sandlance)
+
+```{r stacked-bar-prey-freq,out.width='100%', fig.height=5}
+
+cbbPalette <- c("#000000", "#E69F00", "#56B4E9", "#009E73", "#F0E442", "#0072B2", "#D55E00", "#CC79A7")
+
+prey_freq <- ecodata::common_tern %>% 
+  filter(str_detect(Var, "Diet"),
+         !str_detect(Var, "Sum")) %>% 
+    mutate(Island = word(Var, 1),
+         Var = word(Var, 4)) %>%
+    group_by(Var, Time) %>% 
+    dplyr::summarise(Value = sum(Value, na.rm = T)) %>% 
+    group_by(Time) %>% 
+    mutate(Freq = Value/sum(Value, na.rm = T)) %>% 
+    group_by(Var) %>% 
+  mutate(hline = mean(Freq, na.rm = T))
+
+diet_freq_bar <- prey_freq %>% 
+  filter(Freq > 0.05) %>% 
+  dplyr::mutate(Prey = gsub("\\.", " ", Var)) %>% 
+  # dplyr::rename(Prey = Var) %>%
+  ggplot(aes(x = Time, y = Freq, fill = Prey)) +
+  geom_bar(stat = "identity") +
+  scale_x_continuous(expand = c(0.01, 0.01))+
+  scale_fill_manual(values = RColorBrewer::brewer.pal(10,"Paired")) +
+  ggtitle("Prey composition") +
+  ylab("Proportion of prey items") +
+  theme_ts()
+
+diet_plotly <- ggplotly(diet_freq_bar)
+diet_plotly
+```
+
+???
+* Common tern breeding colonies are monitored in the southern GOM
+* Common tern sensitive to vertical distribution of prey
+
 
 
 ---
@@ -1671,18 +1721,235 @@ To assess the size structure of copepods in the region, we use the small-large i
 * A lower value means higher abundance of large copepods (<i>Calanus</i>)
 * Primary production may play a role in copepod size dynamics***
 ---
-
 ## SOE 2019: Habitat quality and ecosystem productivity
-Zooplankton abundance
-<i>Calanus finmarchicus</i> is an important prey species for NARW and larval fish on the NE Shelf
-* In GOM and GB, relatively high abundance of the small-bodied copepod <i>Centropages typicus</i> correspond with periods of high fish conditions in the region
-* There is a negative trend in the small-bodied <i>Pseudocalanus</i> species on Georges Bank and in the Mid-Atlantic 
-
-* In MAB, we also provide information on seasonal abundances of key zooplankton species
-  * Of note are the opposing trends in <i>Centropages</i> in spring and fall, which corresponds to a shift in timing of their peak concentration from late fall to early spring<sup>1</sup>
+**Zooplankton abundance**
+* Seasonal abundances of key zooplankton species
+  * Opposing trends in <i>Centropages</i> in spring and fall, which corresponds to a shift in timing of their peak concentration from late fall to early spring<sup>1</sup>
   
-.footenote[
-Bi H, Ji R, Liu H, Jo Y-H, Hare JA. Decadal Changes in Zooplankton of the Northeast U.S. Continental Shelf. PLOS ONE. 2014;9: e87720. doi:10.1371/journal.pone.0087720
+```{r seasonal-zoo, fig.width = 8, fig.asp = .6, fig.align = "center"}
+facet_names <- list(
+  'centropages spring'=expression(paste(italic("Centropages "), "spring")),
+  'centropages fall'=expression(paste(italic("Centropages "), "fall")),
+  'temora spring'=expression(paste(italic("Temora "), "spring")),
+  'temora fall' = expression(paste(italic("Temora "), "fall")),
+  'pseudocalanus spring'=expression(paste(italic("Pseudocalanus "), "spring")),
+  'pseudocalanus fall' = expression(paste(italic("Pseudocalanus "), "fall")))
+
+zoo_oi_mab <- ecodata::zoo_oi %>% 
+  filter(!str_detect(Var,"SD"),
+         EPU == "MAB") %>% 
+  
+  mutate(Var = str_remove(Var, " zoo"),
+         Val2 = exp(Value)) %>% 
+      group_by(Var) %>% 
+  mutate(hline = mean(Val2, na.rm = T)) %>% 
+  separate(.,col = Var, into = c("Species","Season"), remove = F)
+
+
+
+top <- zoo_oi_mab %>%  
+  filter(Species == "centropages") %>% 
+
+ggplot(aes(x = Time, y = Val2, group = Var)) +
+  annotate("rect", fill = shade.fill, alpha = shade.alpha,
+      xmin = x.shade.min , xmax = x.shade.max,
+      ymin = 0, ymax = Inf) +
+  geom_hline(aes(yintercept = hline),
+     size = hline.size,
+     alpha = hline.alpha,
+     linetype = hline.lty)+
+  geom_gls() +
+  geom_line()+
+  geom_point()+
+  ylab("") +
+  facet_wrap(Var ~ ., ncol = 2, scales='free_x',labeller = label) +
+  ggtitle("Zooplankton abundance (OI)") +
+  scale_x_continuous(expand = c(0.01, 0.01))+
+  scale_y_continuous(trans = "log10")+
+  theme_facet() +
+    theme(strip.text=element_text(hjust=0,
+                                face = "italic"),
+          axis.title.x=element_blank(),
+        axis.text.x=element_blank(),
+        axis.ticks.x=element_blank())
+
+middle <- zoo_oi_mab %>%  
+  filter(Species == "pseudocalanus") %>% 
+ggplot(aes(x = Time, y = Val2, group = Var)) +
+  annotate("rect", fill = shade.fill, alpha = shade.alpha,
+      xmin = x.shade.min , xmax = x.shade.max,
+      ymin = 0, ymax = Inf) +
+  geom_hline(aes(yintercept = hline),
+     size = hline.size,
+     alpha = hline.alpha,
+     linetype = hline.lty)+
+  geom_gls() +
+  geom_line()+
+  geom_point()+
+  ylab(expression("Abundance num m"^-3*"")) +
+  facet_wrap(Var ~ ., ncol = 2, scales='free_x',labeller = label) +
+  scale_x_continuous(expand = c(0.01, 0.01))+
+  scale_y_continuous(trans = "log10")+
+  theme_facet() +
+    theme(strip.text=element_text(hjust=0,
+                                face = "italic"),
+          axis.title.x=element_blank(),
+        axis.text.x=element_blank(),
+        axis.ticks.x=element_blank())
+
+bottom <- zoo_oi_mab %>%  
+  filter(Species == "temora") %>% 
+ggplot(aes(x = Time, y = Val2, group = Var)) +
+  annotate("rect", fill = shade.fill, alpha = shade.alpha,
+      xmin = x.shade.min , xmax = x.shade.max,
+      ymin = 0, ymax = Inf) +
+  geom_hline(aes(yintercept = hline),
+     size = hline.size,
+     alpha = hline.alpha,
+     linetype = hline.lty)+
+    geom_gls() +
+  geom_line()+
+  geom_point()+
+    ylab("") +
+  facet_wrap(Var ~ ., ncol = 2,labeller = label) +
+  scale_x_continuous(breaks = seq(1980,2010,10),
+                     expand = c(0.01, 0.01))+
+
+  theme_facet() +
+    theme(strip.text=element_text(hjust=0,
+                                face = "italic")) +
+   scale_y_log10()
+
+top + middle + bottom + plot_layout(ncol = 1) & theme(plot.margin = margin(0,0,0,0,"cm"))
+```
+
+  
+.footnote[
+[1] Bi H, Ji R, Liu H, Jo Y-H, Hare JA. Decadal Changes in Zooplankton of the Northeast U.S. Continental Shelf. PLOS ONE. 2014;9: e87720. doi:10.1371/journal.pone.0087720
 ]
 
+---
+## SOE 2019: Takeaways
+
+* Even though the NE is "data rich", there are large gaps in our understanding of the system
+
+--
+
+* Changes in climate dynamics affect all nodes of NES network in different ways, but all have implications for human-ecosystem interactions and community well-being
+
+--
+
+* Making managers aware of the trends in ecosystem components is important for integrated and sustainable management strategies of the the fisheries sector (EBFM)
+
+---
+## SOE 2019: Reproducibility and provenance
+
+* Reporting the information is not enough
+
+* Managers appreciate the concise format, but back-end critical for describing collection, analyses, and processing
+  
+![soe-data-flow](images/soe-data-flow.png)  
+
+???
+This workflows also ensures that there's no information lost between SOE cycles. We know exactly how a data set was analyzed and handled so that the data can be updated for next year's reports.
+
+---
+## Contributors - THANK YOU!
+
+The New England and Mid-Atlantic SOEs made possible by (at least) 37 contributors from 8 intstitutions 
+
+.pull-left[
+.contrib[
+Donald Anderson (Woods Hole Oceanographic Institute) <br>
+Amani Bassyouni (Virginia Department of Health)<br>
+Lisa Calvo (Rutgers)<br>
+Matthew Camisa (MA Division of Marine Fisheries) <br>
+Patricia Clay<br>
+Lisa Colburn<br>
+Geret DePiper<br>
+Deb Duarte<br>
+Michael Fogarty<br>
+Paula Fratantoni <br>
+Kevin Friedland<br>
+Sarah Gaichas<br>
+James Gartland (Virginia Institute of Marine Science)<br>
+Heather Haas<br>
+Sean Hardison <br>
+Kimberly Hyde<br>
+Terry Joyce (Woods Hole Oceanographic Institute)<br>
+John Kosik<br>
+Steve Kress (National Audubon Society)<br>
+Don Lyons (National Audubon Society)<br>
+]
+]
+
+.pull-right[
+.contrib[
+Loren Kellogg<br>
+David Kulis (Woods Hole Oceanographic Institute)<br>
+Sean Lucey<br>
+Chris Melrose<br>
+Ryan Morse<br>
+Kimberly Murray<br>
+Chris Orphanides<br>
+Richard Pace<br>
+Charles Perretti<br>
+Karl Roscher (Maryland Department of Natural Resources)<br>
+Vincent Saba<br>
+Laurel Smith<br>
+Mark Terceiro<br>
+John Walden<br>
+Harvey Walsh<br>
+Mark Wuenschel<br>
+Qian Zhang (Unversity of Maryland and US EPA Chesapeake Bay Program)
+]
+]
+
+```{r iea-logo, fig.align="center", out.width = "50%"}
+knitr::include_graphics("images/noaa-iea.png")
+```
+
+---
+## External Resources
+
+* <a href="noaa-edab.github.io/tech-memo">SOE Technical documentation</a>
+
+* <a href="github.com/noaa-edab/ecodata">ecodata R package</a>
+
+  * <a href="github.com/noaa-edab/ecodata/macrofauna">Macrofauna indicators</a>
+  * <a href="github.com/noaa-edab/ecodata/human_dimensions">Human dimensions indicators</a>
+  * <a href="github.com/noaa-edab/ecodata/LTL">Oceanographic and Lower Trophic indicators</a>
+  
+* <a href="https://comet.nefsc.noaa.gov/erddap/index.html">ERDDAP server</a>
+
+* <a href="seanhardison1.github.io/soe-presentation">View slides</a>
+
+---
+# Species compositions by feeding guild
+.table[
+```{r feeding-guilds}
+# new table with all species listed by management entity
+df <- ecodata::species_groupings %>%
+  dplyr::select(SOE_18, COMNAME, Fed_Managed) %>%
+  filter(SOE_18 != "Other") %>%
+  distinct() %>%
+  group_by(SOE_18, Fed_Managed) %>%
+  summarize_all(funs(paste(na.omit(.), collapse = ", "))) %>%
+  spread(Fed_Managed, COMNAME) %>%
+  arrange(factor(SOE_18, levels = c("Apex Predator", "Piscivore", "Planktivore", "Benthivore", "Benthos")))
+df<-df[-6,c(1,4,3,5,6)] %>%
+  mutate_all(tolower)
+
+
+knitr::kable(df, caption = 'Feeding guilds and management bodies.', 
+             col.names = c("Guild", "MAFMC", "Joint", "NEFMC", "State or Other")) %>%
+  kable_styling(bootstrap_options = c("striped", "hover")) %>%
+  column_spec(1, width="2cm") %>%
+  column_spec(2, width="4cm") %>%
+  column_spec(3, width="2cm") %>%
+  column_spec(4, width="5cm") %>%
+  column_spec(5, width="6cm")
+
+```
+]
 

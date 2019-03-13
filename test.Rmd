@@ -101,24 +101,32 @@ epu_sf <- ecodata::epu_sf %>%
 
 ```
 
+
 ---
-## SOE 2019: Habitat quality and ecosystem productivity
-**Primary production and copepod size structure**
+## SOE 2019: Feeding guilds
+.table[
+```{r feeding-guilds}
+# new table with all species listed by management entity
+df <- ecodata::species_groupings %>%
+  dplyr::select(SOE_18, COMNAME, Fed_Managed) %>%
+  filter(SOE_18 != "Other") %>%
+  distinct() %>%
+  group_by(SOE_18, Fed_Managed) %>%
+  summarize_all(funs(paste(na.omit(.), collapse = ", "))) %>%
+  spread(Fed_Managed, COMNAME) %>%
+  arrange(factor(SOE_18, levels = c("Apex Predator", "Piscivore", "Planktivore", "Benthivore", "Benthos")))
+df<-df[-6,c(1,4,3,5,6)] %>%
+  mutate_all(tolower)
 
-* Primary production may play a role in zooplankton size dynamics on the shelf
 
-```{r MAB-sli, fig.height = 6, fig.align = "center", fig.width = 9}
-source("sli_plots.R")
-gb_out <- sli_plots("GB")
-gom_out <- sli_plots("GOM")
+knitr::kable(df, caption = 'Feeding guilds and management bodies.', 
+             col.names = c("Guild", "MAFMC", "Joint", "NEFMC", "State or Other")) %>%
+  kable_styling(bootstrap_options = c("striped", "hover")) %>%
+  column_spec(1, width="2cm") %>%
+  column_spec(2, width="4cm") %>%
+  column_spec(3, width="2cm") %>%
+  column_spec(4, width="5cm") %>%
+  column_spec(5, width="6cm")
 
-gb_out[[1]] + gom_out[[1]] + 
-  gb_out[[2]] + gom_out[[2]] +
-  plot_layout(ncol = 2) & theme(plot.margin = margin(t = 0, r= 1))
 ```
-
-???
-To assess the size structure of copepods in the region, we use the small-large index.
-* A measure of relative size composition of the dominant copepod taxa
-* A lower value means higher abundance of large copepods (<i>Calanus</i>)
-* Primary production may play a role in copepod size dynamics***
+]
