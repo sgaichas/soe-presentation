@@ -134,74 +134,9 @@ knitr::include_graphics("images/nes-components.png")
 ```
 
 ???
-Here we describe the relationships between major ecosystem components on the northeast shelft
+Here we describe the relationships between major ecosystem components on the northeast shelf
 
 
----
-# Integrated Ecosystem Assessment (IEA)
-
-**A framework for synthesis and analysis of natural, social, and economic factors that are relevant to established ecosystem management objectives<sup>1</sup>**
-
-.pull-right[
-.footnote[
-[1] Levin, Phillip S., et al. "Integrated ecosystem assessments: developing the scientific basis for ecosystem-based management of the ocean." PLoS biology 7.1 (2009): e1000014.
-
-]
-]
---
-
-![iea-loop-explanations](images/iea-loop-explanation.png)
-*The IEA Loop*
-
-???
-Before jumping in I'm going to start with some definitions of terms that you'll be hearing a lot of. The first is Integrated Ecosystem Assessmentor (IEA).
-
-IEA is defined as a framework for the synthesis and analysis of relevant natural, social, and economic factors that are relevant to established management objectives.
-
-IEA has been embraced on a nationwide scale by NOAA fisheries, and is a method for moving towards Ecosystem-Based Management for natural resources. 
-
-It's an iterative process, hence, "the loop", and starts with the establishment of management goals by fishery management councils. 
-
-Once objectives are defined, we develop indicators that allow us to quantify and report on the status and trends of ecosystem processes. 
-
-Next we work with management bodies to identify sources of risk in ecosystems that threaten the achievement of management goals, and then we use modeling techniques to evaluate how certain management strategies could propagate through the system. 
-
-Today I'm going to be talking to you about the ecosystem reporting phase of this process. 
-
----
-
-## Ecosystem Status Reporting (ESR)
-
-Ecosystem reporting provides a route for ecosystem information to enter the stock assessment process
-
-* Well-developed example is AFSC; whose ESRs have long served as context for North Pacific FMC quota 
-deliberations<sup>1</sup>
-
-All IEA regions in the US develop similar documents in varying guises
-
-
-.footnote[
-[1] Zador, Stephani G., et al. "Ecosystem considerations in Alaska: the value of qualitative assessments." ICES Journal of Marine Science 74.1 (2017): 421-430.
-]
-
---
-
-.pull-left[
-*IEA Regions*
-```{r iea-regions, out.width = "100%"}
-knitr::include_graphics("images/iea-regions.png")
-```
-
-]
-
-.pull-right[
-*Ecosystem Status Reports*
-```{r esr-breakdown, out.width = "100%"}
-knitr::include_graphics("images/esr-breakdown.png")
-```
-]
-
-???
 
 ---
 
@@ -306,80 +241,6 @@ GSI
 The figure on the right shows that deviation from the mean latitude of the north wall of the gulf stream, showing anomalously high value for the past 5 years
 
 These things are important for managers to know about because they directly influence stock distribution dynamics
-
----
-
-## ESRs in the Northeast US: Relevance to management
-
-Fisheries yields are affected by ecosystem conditions<sup>1-3</sup>
-
-Important ecosystem predictors of fisheries yield on global scale<sup>1</sup>:
-* Sea surface temperature (-)
-* Chlorophyll <i>a</i> (+)
-* Particle export ratio (particles leaving euphotic zone:primary production) (+)
-* Mesozooplankton productivity (+)
-
-```{r chl-yield, echo = F, out.width = "50%"}
-knitr::include_graphics("images/chl-yield.png")
-```
-
-
-.pull-right[
-.footnote[
-[1] Friedland, Kevin D., et al. "Pathways between primary production and fisheries yields of large marine ecosystems." PLoS One 7.1 (2012): e28945.
-
-[2] Frank, Kenneth T., et al. "Reconciling differences in trophic control in mid‐latitude marine ecosystems." Ecology Letters 9.10 (2006): 1096-1105.
-
-[3] Ware, Daniel M., and Richard E. Thomson. "Bottom-up ecosystem trophic dynamics determine fish production in the Northeast Pacific." science 308.5726 (2005): 1280-1284.
-]
-]
-
-???
-The figure here shows the relationship between chlorophyll a production in 52 large marine ecosystems around the world with fisheries yield in those systems.
-
-So we know that these relationships exist, but drawing actionable place-based management advice from this information is difficult, but in the works here at the Center.
-
-
----
-
-## ESR in the Northeast US
-
-ESRs developed by NEFSC since 2009
-
-Considerable support for EAFM exists in Northeast
-* Most FMC members in the Northeast support transitioning from a single-species to a multi-species ecosystem approach (i.e. EBFM) to management<sup>1</sup>
-
---
-
-Common refrain upon recieving ESR:
-# "So what"?
-
-
-.footnote[
-Biedron, Ingrid S., and Barbara A. Knuth. "Toward shared understandings of ecosystem-based fisheries management among fishery management councils and stakeholders in the US Mid-Atlantic and New England regions." Marine Policy 70 (2016): 40-48.
-]
-
----
-
-## Problems with ESR model:
-
-* Council members are busy people!
-
-  * Long-documents with unfamiliar information unlikely to connect
-  
-* Not all Council members have science background
-
-* "What does chlorophyll concentration tell us about fisheries yields?"
-
-The disconnect inspired a new model, which we call **State of the Ecosystem (SOE)** reports
-
-```{r soe-snippet,out.width = "100%"}
-knitr::include_graphics("images/soe-snippet.png")
-```
-
-
-???
-Question - We can't answer that question directly, but we can do a better job describing these ecosystem pathways 
 
 ---
 
@@ -549,16 +410,32 @@ Indicators
 ]
 ---
 ## SOE 2019: Feeding guilds
+.table[
+```{r feeding-guilds}
+# new table with all species listed by management entity
+df <- ecodata::species_groupings %>%
+  dplyr::select(SOE_18, COMNAME, Fed_Managed) %>%
+  filter(SOE_18 != "Other") %>%
+  distinct() %>%
+  group_by(SOE_18, Fed_Managed) %>%
+  summarize_all(funs(paste(na.omit(.), collapse = ", "))) %>%
+  spread(Fed_Managed, COMNAME) %>%
+  arrange(factor(SOE_18, levels = c("Apex Predator", "Piscivore", "Planktivore", "Benthivore", "Benthos")))
+df<-df[-6,c(1,4,3,5,6)] %>%
+  mutate_all(tolower)
 
-```{r guilds}
-df <- data.frame("Feeding guild" = c("Apex Predator","Piscivore","Planktivore","Benthivore","Benthos"),
-                 Description = c("Top of food chain","Fish eaters","Zooplankton eaters",
-                                 "Feed on bottom","Things that live on bottom"),
-                 Examples = c("Shark spp, swordfish","Atlantic cod, spiny dogfish","Atlantic herring","Lobster, black sea bass","Sea scallop, urchins"))
 
-knitr::kable(df) %>% 
-kable_styling(bootstrap_options = c("striped", "hover")) 
+knitr::kable(df, caption = 'Feeding guilds and management bodies.', 
+             col.names = c("Guild", "MAFMC", "Joint", "NEFMC", "State or Other")) %>%
+  kable_styling(bootstrap_options = c("striped", "hover")) %>%
+  column_spec(1, width="2cm") %>%
+  column_spec(2, width="4cm") %>%
+  column_spec(3, width="2cm") %>%
+  column_spec(4, width="5cm") %>%
+  column_spec(5, width="6cm")
+
 ```
+]
 
 * Feeding guilds assigned based on NEFSC food habits data base
   * Food habits change with age and size, so guilds assigned based on most common size class
@@ -579,52 +456,6 @@ These feeding guilds were derived from NEFSC food habits data and existing guild
 ---
 ## SOE 2019: Human dimensions 
 **Commercial fisheries: Total landings**
-.pull-left[
-NE:
-* Significant decreases in NEFMC managed species in Gulf of Maine
-
-* Periodic signal in GB/MAB Benthos landings reflects rotational management of scallops
-]
-
-.pull-right[
-```{r ne-total-landings, out.width = "100%"}
-source("total_landings_plot.R")
-
-gom_total <- plot_total_landings(epu = "GOM", council = "NEFMC")
-gb_total <- plot_total_landings(epu = "GB", council = "NEFMC")
-
-
-gom_total + gb_total + plot_layout(ncol = 1)
-```
-]
-
----
-## SOE 2019: Human dimensions 
-**Commercial fisheries: Landings by feeding guild**
-* Decrease in Atlantic herring driving divergence between managed/non-managed species
-
-```{r feeding-guild-landings, out.width = "60%", fig.align="center"}
-
-source("feeding_guild_landings_plot.R")
-
-gom_feeding_guild <- feeding_guild_landings(epu = "GOM", "NEFMC")
-gb_feeding_guild <- feeding_guild_landings(epu = "GB", "NEFMC")
-
-gom_feeding_guild + gb_feeding_guild + plot_layout(ncol = 2)
-
-```
-
----
-## SOE 2019: Human dimensions
-**Commercial fisheries: Landings by feeding guild**
-```{r planktivores-gom, fig.width = 7.25, fig.height = 3.5, fig.align = "center"}
-feeding_guild_landings(epu = "GOM", "NEFMC", filt = T)
-```
-
-
----
-## SOE 2019: Human dimensions 
-**Commercial fisheries: Total landings**
 
 .pull-left[
 MAB:
@@ -635,6 +466,7 @@ MAB:
 * Total revenue of managed species also shows negative trend
 
 ```{r total-landings2, fig.height = 3}
+source("total_landings_plot.R")
 mab_total <- plot_total_landings(epu = "MAB", council = "MAFMC")
 
 mab_total
@@ -644,28 +476,13 @@ mab_total
 
 .pull-right[
 ```{r total-landings3, fig.height = 9}
+source("feeding_guild_landings_plot.R")
 mab_feeding_guild <- feeding_guild_landings(epu = "MAB", "MAFMC")
 
 mab_feeding_guild 
 ```
 
 ]
----
-## SOE 2019: Human dimensions
-**Community engagement and reliance on commercial fisheries**
-
-NE:
-* High social-ecological reliance on scallop and lobster
-* Species considered moderately to highly at risk due to climate change (OA, temp)
-
-
-```{r com-eng1, fig.width = 8, fig.height = 5, fig.align="center"}
-source("engagement_plots.R")
-engagement_plots(type = "comm",epu = "GOM")
-```
-
-???
-Many social-ecological systems in New England are reliant on lobster, as in Gulf of Maine, or scallop, for Georges Bank. As these species are considered moderately to highly at risk due to climate change, the communities dependent on them are at risk as well. 
 
 ---
 ## SOE 2019: Human dimensions
@@ -673,8 +490,8 @@ Many social-ecological systems in New England are reliant on lobster, as in Gulf
 .pull-left[
 MAB: 
 
-* Similar story in MAB, where there is heavy reliance on scallops
-
+* High social-ecological reliance on scallop commercial fisheries
+* Species considered moderately to highly at risk due to climate change (OA, temp)
 * Aquaculture in the MAB is also dominated by shellfish (oysters)
 
 ]
@@ -727,6 +544,8 @@ aqua_plot <- ggplot() +
     theme(axis.title = element_text(size = 14),
     plot.title = element_text(size = 16, face = "bold"))
 
+source("engagement_plots.R")
+
 comm_plot <- engagement_plots(type = "comm",epu = "MAB")
 
 aqua_plot + comm_plot + plot_layout(ncol = 1, heights = c(1, 3))
@@ -736,52 +555,25 @@ aqua_plot + comm_plot + plot_layout(ncol = 1, heights = c(1, 3))
 ???
 Virginia continues to lead the country in oyster production, with aquaculture in the region growing quickly. The time series looks flat compared to Virginia, but oyster aquaculture in New Jersey is also growing.
 
-
----
-## SOE 2019: Human dimensions
-**Recreational fishing**
-.pull-left[
-NE: 
-* Positive long-term trend for diversity of catch in New England recreational fisheries
-
-* Overall decline in rec seafood harvest since 1980s
-  * Trending upwards since mid-90s
-
-* Increase in recreational effort (n anglers) since the mid 90s
-]
-.pull-right[
-```{r rec-div1, fig.height=9}
-source("rec_div_plots.R")
-source("rec_harvest_plots.R")
-source("rec_effort_plots.R")
-ne_rec_div <- rec_div_plots("NE")
-ne_rec_harvest <- rec_harvest_plots("NE")
-ne_rec_effort <- rec_effort_plots("NE")
-
-ne_rec_div[[2]] + ne_rec_harvest + ne_rec_effort[[2]] + plot_layout(ncol = 1)
-```
-]
-
-???
-While commercial fisheries have high specialization of catch, there's a positive long-term trend for recreational catch diversity in the recreational sector. 
-
-Updated Marine Recreational Information Program data shows that there's been an upswing in harvest since the mid-90s, although the trend overall is negative
-
-This corresponds with an increase in recreational effort since the mid-90s
-
 ---
 ## SOE 2019: Human dimensions
 **Recreational fishing**
 .pull-left[
 MAB: 
-* Similar to NE, there's been a slight increase in rec seafood harvest and recreational effort
+* Overall decline in rec seafood harvest since 1980s
+  * Trending upwards since mid-90s
 
-* An opposite trend in recreational fleet effort diversity and diversity of catch
+* Increase in recreational effort (n anglers) since the mid 90s
+
+* A decreasing trend in recreational fleet effort diversity and diversity of catch
   * Decline in fleet effort diversity due to fewer party boats (24% of all trips down to 6%)
 
 ]
 .pull-right[
 ```{r rec-div2, fig.height=9}
+source("rec_div_plots.R")
+source("rec_harvest_plots.R")
+source("rec_effort_plots.R")
 ma_rec_div <- rec_div_plots("MA")
 ma_rec_harvest <- rec_harvest_plots("MA")
 ma_rec_effort <- rec_effort_plots("MA")
@@ -1030,92 +822,6 @@ diet_plotly
 * Common tern sensitive to vertical distribution of prey
 
 
-
----
-## SOE 2019: Fish and invertebrates
-**Objective: Keep harvested species within population ranges where productivity is maximized over long-term**
-```{r NE-stock-status, fig.width = 8, fig.asp = 0.75, fig.align="center"}
-
-#Get data, spread for plotting, and filter
-stock_status <- ecodata::stock_status %>%
-  spread(.,Var,Value) %>% 
-  filter(Council %in% c("NEFMC","Both"))
-
-#Plot constants
-y.max <- 4
-x.max <- 7.5
-
-all_missing <- stock_status %>%
-  filter(is.na(B.Bmsy),is.na(F.Fmsy)) %>% 
-  dplyr::select(Code, Council)
-
-b_missing <- stock_status %>%
-  filter(is.na(B.Bmsy), !is.na(F.Fmsy)) %>% 
-  dplyr::select(Code, Council)
-
-f_missing <- stock_status %>%
-  filter(is.na(F.Fmsy), !is.na(B.Bmsy)) %>% 
-  dplyr::select(Code, Council)
-
-#A dataframe that defines custom legend for stocks with unknown status
-
-all.df <- data.frame(text = all_missing$Code,
-                    x = rep(x.max,length(all_missing$Code)),
-                    y = seq(4.35,2.85,-0.22)-0.5,
-                    color = all_missing$Council)
-
-b.df <- data.frame(text = b_missing$Code,
-                    x = rep(x.max*0.8,length(b_missing$Code)),
-                    y = c(4.35,4.14)-0.5,
-                    color = b_missing$Council)
-
-f.df <- data.frame(text = f_missing$Code,
-                    x = rep(x.max*0.6,length(f_missing$Code)),
-                    y = seq(4.35,2.85,-0.22)-0.5,
-                    color = f_missing$Council)
-
-
-#Plotting code
-ggplot(data = stock_status) +
-  geom_vline(xintercept = 1, linetype = "dotted", color = "grey60")+
-  geom_vline(xintercept = 0.5, linetype = "dashed", color = "grey60")+
-  geom_hline(yintercept = 1, linetype = "dashed", color = "grey60") +
-  geom_point(aes(x = B.Bmsy,
-                 y = F.Fmsy,
-                 color = Council,
-                 shape = Council)) +
-  geom_text_repel(aes(x = B.Bmsy, #geom_text_repel auto-jitters text around points
-                      y = F.Fmsy,
-                      label = Code,
-                      color = Council), show.legend = FALSE,nudge_y = 0.05, nudge_x = 0.05) +
-  ylim(0,y.max) +
-  xlim(0,x.max*1.1) +
-  geom_text(data = all.df, aes(x = x, y = y, label = text, color = color),show.legend = FALSE, size = 3)+
-  geom_text(data = b.df, aes(x = x, y = y, label = text, color = color),show.legend = FALSE, size = 3)+
-  geom_text(data = f.df, aes(x = x, y = y, label = text, color = color),show.legend = FALSE, size = 3)+
-  scale_color_manual(values = c("purple","blue"),#c("purple","blue"), #Change legend labels for clarity
-                   name = "Managed by",
-                   breaks = c("Both","NEFMC"),
-                   labels = c("MAFMC/NEFMC","NEFMC"))+
-  scale_shape_manual(values = c(1, 19), #Change legend labels for clarity
-                     name = "Managed by",
-                     breaks = c("Both","NEFMC"),
-                     labels = c("MAFMC/NEFMC","NEFMC"))+
-  annotate("text", x = 7.5, y = y.max, label = "F and B missing", fontface =2, size = 3)+
-  annotate("text", x = 6, y = y.max, label = "B missing", fontface =2, size = 3)+
-  annotate("text", x = 4.5, y = y.max, label = "F missing", fontface =2, size = 3)+
-  xlab(expression(~B/B[msy])) +
-  ylab(expression(~F/F[msy])) +
-  ggtitle("New England Stock Status") +
-  theme_ts()
-```
-
-* 4 stocks above F/F<sub>msy</sub> and below B/B<sub>msy</sub>
-  * Southern NE Yellowtail, GOM Cod, CC-GOM Yellowtail, Southern GB/MAB red hake
-  
-???
-Stocks depicted here represent a subset of the full ecosystem
-
 ---
 ## SOE 2019: Fish and invertebrates
 **Objective: Keep harvested species within population ranges where productivity is maximized over long-term**
@@ -1218,28 +924,6 @@ mafmc_plank_in_gom + mafmc_plank_in_gb + plot_layout(ncol = 1)
 
 ---
 ## SOE 2019: Fish and invertebrates
-**Bottom trawl surveys: New England**
-
-```{r ne-survey, fig.width = 15, fig.height = 8}
-  #facet names for titles
-  facet_names <- list("Piscivores" = expression("Piscivores"),
-                      "Planktivores" = expression("Planktivores"),
-                      "Benthivores" = expression("Benthivores"),
-                      "Benthos" = expression("Benthos"))
-source("get_survey_plots.R")
-
-ne_surv <- get_survey_plots(region = "NE")
-ne_surv[[1]] + ne_surv[[2]] + plot_layout(ncol = 2)
-```
-
-
-???
-* In Gulf of Maine, the survey data show long-term increases in the Fall survey for Piscivores, Planktivores, and Benthos species, and long-term increases in planktivore abundance in the spring. 
-* In Georges Bank, the survey shows long-term increases for benthos and planktivore species in both fall and spring, and piscivores in the fall.
-* A recent decline in Georges Bank benthivore biomass is driven by a decline in haddock in the survey
-
----
-## SOE 2019: Fish and invertebrates
 **Bottom trawl surveys: Mid-Atlantic**
 
 .pull-left[
@@ -1252,7 +936,13 @@ ne_surv[[1]] + ne_surv[[2]] + plot_layout(ncol = 2)
 
 .pull-right[
 ```{r ma-survey, out.width="100%", fig.height = 9}
- 
+#facet names for titles
+  facet_names <- list("Piscivores" = expression("Piscivores"),
+                      "Planktivores" = expression("Planktivores"),
+                      "Benthivores" = expression("Benthivores"),
+                      "Benthos" = expression("Benthos"))
+source("get_survey_plots.R")
+
 (ma_surv <- get_survey_plots(region = "MAB"))
 ```
 ]
@@ -1279,9 +969,9 @@ We didn't include the data in this presentation, but we also recieved inshore su
 * Fish condition is measured at the weight at a given length relative to the average
   * Condition, or "fatness", is a factor that influences fecundity
 
-*NEFMC Condition Factor*
+*MAFMC Condition Factor*
 ```{r fish-con2, fig.align="center",out.width="75%"}
-knitr::include_graphics("images/NEFMC_Fish_Condition_2019.jpg")
+knitr::include_graphics("images/MAFMC_Fish_Condition_2019.jpg")
 ```
 
 
@@ -1361,157 +1051,6 @@ These data, which were provided by collaborators at the Chesapeake Bay Program, 
 
 
 
----
-## SOE 2019: Habitat quality and ecosystem productivity
-**Ocean temperature: New England**
-
-Warming oceans have implications for suitable fish habitat, which is predicted to decline for many NE species<sup>1</sup>
-
-.footnote[
-Kleisner, Kristin M., et al. "Marine species distribution shifts on the US Northeast Continental Shelf under continued ocean warming." Progress in Oceanography 153 (2017): 24-36.
-]
-
-```{r ne-sst, fig.align = "center", fig.height = 6, fig.width = 12}
-epu_sf <- ecodata::epu_sf %>% 
-  filter(EPU %in% c("GOM","GB"))
-
-#Map line parameters
-map.lwd <- 0.4
-
-# Set lat/lon window for maps
-xmin = -73
-xmax = -65
-ymin = 39
-ymax = 45
-xlims <- c(xmin, xmax)
-ylims <- c(ymin, ymax)
-sst <- seasonal_oisst_anom_gridded 
-
-sst$Season <- factor(sst$Season, levels = c("Winter",
-                                            "Spring",
-                                            "Summer",
-                                            "Fall"))
-sst_map <- 
-  ggplot() +
-  geom_tile(data = sst, aes(x = Longitude, y = Latitude,fill = Value)) +
-  geom_sf(data = coast, size = map.lwd) +
-  geom_sf(data = epu_sf, fill = "transparent", size = map.lwd) +
-  scale_fill_gradient2(name = "Temp.\nAnomaly (°C)",
-                       low = scales::muted("blue"),
-                       mid = "white",
-                       high = scales::muted("red"),
-                       limits = c(-5,5)) +
-  coord_sf(crs = crs, xlim = xlims, ylim = ylims) +
-  facet_wrap(Season~.) +
-  theme_map() +
-  ggtitle("SST anomaly (2018)") +
-  xlab("Longitude") +
-  ylab("Latitude") +
-  theme(panel.border = element_rect(colour = "black", fill=NA, size=0.75),
-        legend.key = element_blank(),
-        axis.title = element_text(size = 11),
-        strip.background = element_blank(),
-        strip.text=element_text(hjust=0),
-        axis.text = element_text(size = 8))
-
-
-ne_anom <- seasonal_oisst_anom %>% 
-  filter(EPU %in% c("GOM","GB")) %>% 
-    mutate(hline = 0,
-           Var = str_to_title(str_extract(Var,"winter|spring|summer|fall")))
-ne_anom$Var <- factor(ne_anom$Var, levels= c("Winter","Spring","Summer","Fall"))
-
-ne_anom_plt <- ggplot(data = ne_anom, 
-       aes(x = Time, y = Value, color = EPU, group = EPU))+ #plot
-     annotate("rect", fill = shade.fill, alpha = shade.alpha,
-      xmin = x.shade.min , xmax = x.shade.max,
-      ymin = -Inf, ymax = Inf) +
-  geom_line()+
-  geom_point()+
-  ylim(-2,3)+
-  geom_gls() +
-  ylab(expression("SST Anomaly (°C)")) +
-  ggtitle("Gulf of Maine & Georges Bank SST Anomaly") +
-    scale_color_manual(values = c("black","indianred"))+
-    scale_x_continuous(expand = c(0.01, 0.01)) +
-    geom_hline(aes(yintercept = hline),
-           size = hline.size,
-           alpha = hline.alpha,
-           linetype = hline.lty) +
-  facet_wrap(Var ~., ncol = 2, scales = "free_y")+
-  theme_facet() +
-  theme(strip.text=element_text(hjust=0),
-        plot.title = element_text(size = 16))
-
-sst_map + ne_anom_plt 
-```
-
-* Gulf of Maine summer SSTs were the highest on record in 2018 (~3°C > long-term mean)
-
-???
-These changes have implications for fish populations in the region that are already at the southern extent of their ranges, like Atlantic cod. Suitable habitat for these species is predicted to contract as waters continue to warm. 
-
----
-## SOE 2019: Habitat quality and ecosystem productivity
-**Ocean temperature: New England**
-
-Much the same for bottom temperatures in the region
-
-```{r ne-bot-temp, fig.height = 5, fig.align = "center", fig.width = 7}
-bot_temp_insitu_gom <- oceantemp_insitu %>%
-  filter(EPU == "GOM",
-         Var == "bottom temp anomaly in situ") %>% 
-  mutate(hline = 0) %>% 
-    ggplot()+ #plot
-     annotate("rect", fill = shade.fill, alpha = shade.alpha,
-      xmin = x.shade.min , xmax = x.shade.max,
-      ymin = -Inf, ymax = Inf) +
-  geom_line(aes(x = Time, y = Value)) +
-  geom_gls(aes(x = Time, y = Value)) +
-  geom_point(aes(x = Time, y = Value), size = 1) +
-  ylab("Temp. Anomaly (°C)") +
-  ggtitle("GOM Bottom Temperature Anomaly") +
-  scale_x_continuous(expand = c(0.01, 0.01)) +
-    geom_hline(aes(yintercept = hline),
-           size = hline.size,
-           alpha = hline.alpha,
-           linetype = hline.lty) +
-  theme_ts() +
-  theme(strip.text=element_text(hjust=0),
-        plot.title = element_text(size = 16),
-        axis.title = element_text(size = 14))
-
-
-bot_temp_insitu_gb <- oceantemp_insitu %>%
-  filter(EPU == "GB",
-         Var == "bottom temp anomaly in situ") %>%
-   mutate(hline = 0) %>% 
-    ggplot()+ #plot
-     annotate("rect", fill = shade.fill, alpha = shade.alpha,
-      xmin = x.shade.min , xmax = x.shade.max,
-      ymin = -Inf, ymax = Inf) +
-  geom_line(aes(x = Time, y = Value)) +
-  geom_gls(aes(x = Time, y = Value)) +
-  geom_point(aes(x = Time, y = Value), size = 1) +
-  ylab("Temp. Anomaly (°C)") +
-  ggtitle("GB Bottom Temperature Anomaly") +
-  scale_x_continuous(expand = c(0.01, 0.01)) +
-    geom_hline(aes(yintercept = hline),
-           size = hline.size,
-           alpha = hline.alpha,
-           linetype = hline.lty) +
-  theme_ts() +
-  theme(strip.text=element_text(hjust=0),
-        plot.title = element_text(size = 16),
-        axis.title = element_text(size = 14))
-
-
-
-bot_temp_insitu_gom +
- bot_temp_insitu_gb + 
-  plot_layout(ncol =  1) &
-  theme(plot.margin = unit(c(0, 0, 0, 0), "cm"))
-```
 
 
 ---
@@ -1621,11 +1160,11 @@ With that comes a larger percentage of warm slope water entering into gulf of ma
 
 ## SOE 2019: Habitat quality and ecosystem productivity
 **Primary production**
-* Summer PP is increasing in both New England and Mid-Atlantic
+* Summer PP is increasing in the Mid-Atlantic (and in New England)
 
 ```{r pp-trends, fig.width=10, fig.height = 5}
 out_pp <- ecodata::chl_pp %>% 
-  filter(EPU %in% c("GOM","GB"),
+  filter(EPU %in% c("MAB", "GOM","GB"),
          str_detect(Var, "MONTHLY_PPD_MEDIAN")) %>% 
   separate(.,Time, into = c("Year","Month"), sep = 4) %>% 
     mutate(Month = plyr::mapvalues(Month, from = c("01","02","03","04","05","06",
@@ -1637,7 +1176,7 @@ out_pp$Month <- factor(out_pp$Month, levels = month.abb)
 
  
  pp_cci_gb <-out_pp %>% 
-  filter(EPU == "GB") %>% 
+  filter(EPU == "MAB") %>% 
  ggplot() +
    # geom_gls(aes(x = Year, y = Value, group = Month))+
     geom_point(aes(x = Year, y = Value, group = Month)) +
@@ -1893,31 +1432,15 @@ knitr::include_graphics("images/noaa-iea.png")
 * Slides available at https://seanhardison1.github.io/soe-presentation
 
 ---
-## Species compositions by feeding guild
-.table[
-```{r feeding-guilds}
-# new table with all species listed by management entity
-df <- ecodata::species_groupings %>%
-  dplyr::select(SOE_18, COMNAME, Fed_Managed) %>%
-  filter(SOE_18 != "Other") %>%
-  distinct() %>%
-  group_by(SOE_18, Fed_Managed) %>%
-  summarize_all(funs(paste(na.omit(.), collapse = ", "))) %>%
-  spread(Fed_Managed, COMNAME) %>%
-  arrange(factor(SOE_18, levels = c("Apex Predator", "Piscivore", "Planktivore", "Benthivore", "Benthos")))
-df<-df[-6,c(1,4,3,5,6)] %>%
-  mutate_all(tolower)
+## General feeding guilds
 
+```{r guilds}
+df <- data.frame("Feeding guild" = c("Apex Predator","Piscivore","Planktivore","Benthivore","Benthos"),
+                 Description = c("Top of food chain","Fish eaters","Zooplankton eaters",
+                                 "Feed on bottom","Things that live on bottom"),
+                 Examples = c("Shark spp, swordfish","Atlantic cod, spiny dogfish","Atlantic herring","Lobster, black sea bass","Sea scallop, urchins"))
 
-knitr::kable(df, caption = 'Feeding guilds and management bodies.', 
-             col.names = c("Guild", "MAFMC", "Joint", "NEFMC", "State or Other")) %>%
-  kable_styling(bootstrap_options = c("striped", "hover")) %>%
-  column_spec(1, width="2cm") %>%
-  column_spec(2, width="4cm") %>%
-  column_spec(3, width="2cm") %>%
-  column_spec(4, width="5cm") %>%
-  column_spec(5, width="6cm")
-
+knitr::kable(df) %>% 
+kable_styling(bootstrap_options = c("striped", "hover")) 
 ```
-]
 
