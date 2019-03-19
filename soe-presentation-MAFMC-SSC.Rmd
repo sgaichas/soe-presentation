@@ -1,7 +1,7 @@
 ---
 title: "State of the Ecosystem:"
 subtitle: "Mid-Atlantic 2019<br /> with updates to EAFM Risk Assessment"
-author: "Sarah Gaichas<br /> Ecosystem Dynamics and Assessment <br /> Northeast Fisheries Science Center"
+author: "Sarah Gaichas and Sean Hardison <br /> Ecosystem Dynamics and Assessment <br /> Northeast Fisheries Science Center"
 output:
   xaringan::moon_reader:
     css: ["default", "libs/my-theme.css"]
@@ -149,28 +149,24 @@ knitr::include_graphics("images/nes-components-abstracted.png")
 In 2016, we began taking steps to address these common critiques of the ESR model
 
 ---
-
 ## Mid-Atlantic Council Ecosystem Approach
 
-.pull-left[
+* 2016 EAFM Policy Guidance document; revised 2019<sup>1</sup> 
 
-Recently revised policy guidance document<sup>2</sup> 
+* MAFMC EAFM framework<sup>2</sup>
+```{r framework, echo = F, out.width = "60%", fig.align = "center"}
+knitr::include_graphics("images/Framework.png")
+```
 
-Completed inital risk assessment 2017<sup>3</sup>
+* 2017 Inital EAFM risk assessment completed; revised and published 2018<sup>3</sup>
 
-SOE indicators to be used for annual risk assessment updates
-]
+* SOE indicators to be used for annual risk assessment updates
 
-.pull-right[
-*MAFMC EAFM framework<sup>1</sup>*
-![framework](images/Framework.png)
-
-]
 
 .footnote[
-[1] https://www.frontiersin.org/articles/10.3389/fmars.2016.00105/full
+[1] http://www.mafmc.org/s/EAFM-Doc-Revised-2019-02-08.pdf
 
-[2] http://www.mafmc.org/s/EAFM-Doc-Revised-2019-02-08.pdf
+[2] https://www.frontiersin.org/articles/10.3389/fmars.2016.00105/full
 
 [3] https://www.frontiersin.org/articles/10.3389/fmars.2018.00442/full
 ]
@@ -373,7 +369,7 @@ knitr::include_graphics("images/nes-components.png")
 ```
 
 ???
-Here we describe the relationships between major ecosystem components on the northeast shelf
+The purpose of this report is to synthesize available information relevant to fishery management in the Mid-Atlantic portion of the US Northeast Shelf. This 2019 report highlights where management interventions have proven successful to achieve ecological objectives, but also characterizes the considerable challenges for management posed by climate change and increasing trade-offs across conservation, fishing, and other human activities in this region. Finally, we describe combinations of ecological signals that present opportunities for further integrated research and possibly creative management solutions.
 
 
 ---
@@ -415,7 +411,7 @@ These data, which were provided by collaborators at the Chesapeake Bay Program, 
 
 ---
 ## Good news: Management works (II)
-**Harbor porpoise**
+Current bycatch levels suggest that management actions have been effective in reducing harbor porpoise bycatch
 
 ```{r harbor-porpoise-bars, fig.width = 8, fig.align="center", fig.height = 6}
 source("hp_density_plot.R")
@@ -454,7 +450,6 @@ spring_hp <- hp_density("Spring", leg = F)
 
 ```
 
-* Current bycatch levels suggest that management actions have been effective in reducing harbor porpoise bycatch
 
 ???
 The maps here show density estimates of the widely distributed harbor porpoise in the spring and fall months, as estimated by the Atlantic Marine Assessment Program for Protected Species.
@@ -513,8 +508,8 @@ ggplot(data = stock_status) +
   theme_ts()
 ```
 
-* Atlantic mackerel stock above F/Fmsy and below B/Bmsy
-* Summer flounder status improved in recent benchmark
+  * Atlantic mackerel stock above F/Fmsy and below 0.5 B/Bmsy
+  * Summer flounder status improved in recent benchmark
 
 ???
 Plot shows the ratio of stock mortality (F) to stock mortality at maximum sustainable yield, where a number larger than one indicates the stock is experiencing unsustainable fishing pressure. On the x axis we have the ratio of estimated stock biomass to biomass at maximum sustainable yield. 
@@ -738,18 +733,17 @@ shelf_rel
 ---
 ## Challenges: Protected species interactions
 
-* in 2018, there were 4 unusual mortality events for three large whale species and two seal species
+* 2018: 4 unusual mortality events for three large whale species and two seal species
 
 **North Atlantic right whales (NARW)**
-* Strong consensus of population decline
-
+  * Strong consensus of population decline
   * Diverging abundance trends between sexes, with higher female mortality rates
 
 * Evidence suggests that the level of interaction between NARWs, fixed gear (US and CAN) is contributing to the decline of the species
 
   * 20 NARW deaths in 2017 and 2018, >50% due to human interactions (5 vessel strike, 6 entanglement)
 
-```{r NARW-abundance, fig.width = 7.25, fig.height = 3.5, fig.align = "center"}
+```{r NARW-abundance, fig.width = 7.25, fig.height = 3, fig.align = "center"}
 hline <- mean(narw[narw$Var == "right whale abundance median",]$Value)
 series.col <- "black"
 ecodata::narw %>% 
@@ -786,10 +780,12 @@ The North Atlantic right whale is among the most endangered whales in the world,
 
 ---
 
-## Challenge: Unprecedented ecosystem change
+## Challenge: Unprecedented ecosystem observations
 
-*Northeast US shelf is still among the fastest warming waters globally
-*A more northerly Gulf Stream position is generally associated with warmer ocean temperature in the Northeast US shelf
+* Northeast US shelf is still among the fastest warming waters globally
+  * 7/10 warmest years observed in the past decade
+* Most northerly Gulf Stream north wall positions ever recorded 2014-2017 
+  * associated with warmer ocean temperature in the Northeast US shelf
 
 Advice for managing in the face of rapid, unprecedented ecosystem changes?
 
@@ -866,6 +862,8 @@ These things are important for managers to know about because they directly infl
 
 ---
 ## Challenge: Mid-Atlantic is warming
+* Mid-Atlantic summer 2018 SSTs were 3rd highest on record 
+* Bottom temperature increasing as well, past 6 years all above average
 
 ```{r mab-sst, fig.align = "center", fig.width=9, fig.height=7}
 knitr::include_graphics("images/sst-anom.png")
@@ -873,14 +871,14 @@ knitr::include_graphics("images/sst-anom.png")
 
 ???
 The same is true for the Mid-Atlantic Bight
-* Mid-Atlantic summer SSTs were 3rd highest on record 
+
 
 As I noted earlier, some species in the Mid-Atlantic could actually see range expansions due to warming ocean temperatures, including croaker and striped bass. 
 
 ---
 ## Management implications: species shifts
 
-```{r spec_prop, fig.width = 8, fig.height = 4, fig.align="center"}
+```{r spec_prop, fig.width = 8, fig.height = 8, fig.align="center"}
 source("get_spec_prop.R")
 nefmc_benth_in_mid <- get_species_prop_plots(guild = "Benthivore", epu = "MAB",managed_by = "NEFMC",region = "the Mid-Atlantic")
 
@@ -888,17 +886,11 @@ mafmc_plank_in_gom <- get_species_prop_plots(guild = "Planktivore", epu = "GOM",
 
 mafmc_plank_in_gb <- get_species_prop_plots(guild = "Planktivore", epu = "GB",managed_by = "MAFMC",region = "Georges Bank")
 
-nefmc_benth_in_mid
+nefmc_benth_in_mid +
+mafmc_plank_in_gom +
+mafmc_plank_in_gb + plot_layout(ncol = 1)
 ```
 
-
-* Decline in proportion of NEFMC in MAB driven mostly by ocean pout
-* Increase in MAFMC species proportiongs in GOM/GB driven by mackerel
-
-
-.footnote[
-https://seanhardison.shinyapps.io/surv_app/ 
-]
 
 ???
 Traditional fisheries management is based around stable species distributions, but those distributions aren't static, and especially not in the context of changing ecosystem conditions
@@ -907,16 +899,21 @@ The NEFSC has run a bottom trawl survey since the early 1960s, and these figures
 
 The decline in NEFMC species in the mid survey is driven mostly by ocean pout, which has seen proportional declines in the gulf of maine and georges bank survey
 
+.footnote[
+https://seanhardison.shinyapps.io/surv_app/ 
+
 
 ---
-## Comparing inshore and offshore surveys (I)
+## Comparing inshore and offshore surveys
 **Bottom trawl surveys: Mid-Atlantic**
 
 .pull-left[
 
 * NEFSC bottom trawl survey data paired with NEAMAP inshore bottom trawl data from the region
 
-* Opposing trends in piscivore biomass during the spring and fall seasons for the offshore survey. 
+* Opposing trends in piscivore biomass during the spring and fall seasons for the offshore survey 
+
+* As temperature and ocean circulation indicators trend toward extremes, fishery management based on static stock areas will likely face continued changes in species distribution
 
 ]
 
@@ -949,130 +946,11 @@ There appear to be opposing trends in spring piscivore biomass between the two s
 We didn't include the data in this presentation, but we also recieved inshore survey data from the Maine/New Hampshire survey and Mass state survey, and we hope to take a deeper look over the next SOE cycle
 
 ---
-## SOE 2019: Fish and invertebrates
-**Fish condition**
 
-* Fish condition is measured at the weight at a given length relative to the average
-  * Condition, or "fatness", is a factor that influences fecundity
-
-*MAFMC Condition Factor*
-```{r fish-con2, fig.align="center",out.width="75%"}
-knitr::include_graphics("images/MAFMC_Fish_Condition_2019.jpg")
-```
-
-
-???
-Looking at condition in aggregate across all managed stocks, we can see a clear decline in condition between 2000-2010
-
-Recent improvement within past decade
-
-Interestingly, the drop-off in condition around 2000 resembles a shift in zooplankton size-structure on the shelf, and this is a topic for future research
-
-
----
-## SOE 2019: Fish and invertebrates
-**Fish productivity**
-
-The fish productivity indicator shown here is the small fish per large fish biomass anomaly
-
-
-```{r fish-prod, fig.align = "center", fig.height = 4, fig.width=8}
-source("productivity_plots.R")
-prod <- productivity_plots()
-prod
-```
-
-???
-In the Mid, there seems to be a decline in productivity in recent years, due to changes in recruitment and survival. 
-
-In the past 5 years, strong productivity years for witch flounder, silver hake, and winter flounder have driven increases
-
----
-## SOE 2019: Fish and invertebrates
-**Larval diversity**
-The last thing I'll talk about from the fish and intertebrates section is our metric of larval diversity, which was derived from the NEFSC Ecosystem Monitoring cruises. 
-
-The diversity index tells us about the changing dominance of forage fish, hake, and haddock in the plankton
-
-The most recent data we have for the Mid-Atlantic has shown the lowest larval estimates of larval diversity in the time series. As temperatures increase, there is a potential for a temporal mismatch of larvae with their zooplankton food sources, which could affect larval survival.
-
-
-
-
----
-## SOE 2019: Habitat quality and ecosystem productivity
-**Ocean circulation**
-
-Which brings us back to...
-
-```{r gsi_sw, fig.width = 12, fig.height = 4, fig.align="center"}
-gsi_plt <- gsi %>% 
-  mutate(Year = floor(Time)) %>% 
-  group_by(Year) %>% 
-  dplyr::summarise(Value = mean(Value)) %>% 
-  mutate(hline = mean(Value)) %>% 
-  dplyr::rename(Time = Year) %>% 
-  ggplot(aes(x = Time, y = Value)) +
-         annotate("rect", fill = shade.fill, alpha = shade.alpha,
-      xmin = x.shade.min , xmax = x.shade.max,
-      ymin = -Inf, ymax = Inf) +
-  geom_gls() +
-  geom_line() +
-  geom_point() +
-  ylab("Position anomaly") +
-  ggtitle("Gulf Stream Index") +
-    scale_x_continuous(expand = c(0.01, 0.01))+
-      geom_hline(aes(yintercept = hline),
-           size = hline.size,
-           alpha = hline.alpha,
-           linetype = hline.lty)+
-  theme_ts() +
-  theme(strip.text=element_text(hjust=0,
-                                face = "italic"),
-        axis.title = element_text(size = 14),
-        plot.title = element_text(size = 16, face = "bold"))
-
-sw.df <- slopewater %>% 
-  mutate(Var, Var = plyr::mapvalues(Var, from = c("WSW proportion ne channel",
-                                                  "LSLW proportion ne channel"),
-                                    to = c("WSW","LSLW"))) %>% 
-  dplyr::rename(Flavor  = Var) %>% 
-  group_by(Flavor) %>% 
-  mutate(hline = mean(Value)) 
-
-sw.df$Flavor <- factor(sw.df$Flavor, levels = c("WSW","LSLW"))
-
-sw_plt <- ggplot(data = sw.df) +
-  geom_line(aes(x = Time, y = Value, color = Flavor))+
-  geom_point(aes(x = Time, y = Value, color = Flavor)) +
-  ylab("Percent of Total Slopewater") +
-  ggtitle("Slopewater Proportions in NE Channel")+
-    scale_x_continuous(expand = c(0.01, 0.01))+
-      geom_hline(aes(yintercept = hline,
-                     color = Flavor),
-           size = hline.size,
-           alpha = hline.alpha,
-           linetype = hline.lty)+
-  theme_ts() +
-  theme(strip.text=element_text(hjust=0,
-                                face = "italic"),
-        axis.title = element_text(size = 14),
-        plot.title = element_text(size = 16, face = "bold"))
-
-gsi_plt + sw_plt 
-```
-
-
-???
-Over the past few years, we've seen a strong departure of the gulf stream north wall from it's mean latitude
-
-With that comes a larger percentage of warm slope water entering into gulf of maine through the NE channel
-
----
-
-## SOE 2019: Habitat quality and ecosystem productivity
-**Primary production**
+## Changing base of the food web: primary production
 * Summer PP is increasing in the Mid-Atlantic (and in New England)
+  * Driven by warmer temperatures and increased bacterial remineralization and nutrient recycling
+  * Increasing primary production likely due to higher productivity of smaller phytoplankton
 
 ```{r pp-trends, fig.width=10, fig.height = 5}
 out_pp <- ecodata::chl_pp %>% 
@@ -1087,7 +965,7 @@ out_pp <- ecodata::chl_pp %>%
 out_pp$Month <- factor(out_pp$Month, levels = month.abb)
 
  
- pp_cci_gb <-out_pp %>% 
+ pp_cci_mab <-out_pp %>% 
   filter(EPU == "MAB") %>% 
  ggplot() +
    # geom_gls(aes(x = Year, y = Value, group = Month))+
@@ -1095,7 +973,7 @@ out_pp$Month <- factor(out_pp$Month, levels = month.abb)
     geom_line(aes(x = Year, y = Value, group = Month)) +
     scale_x_discrete(name = "Time", breaks = seq(min(out_pp$Year),max(out_pp$Year),10)) +  
     facet_wrap(Month~., ncol = 6) +
-    ggtitle("GB Monthly median PPD") +
+    ggtitle("MAB Monthly median PPD") +
     ylab(expression("PP (gC m"^-2*" d"^-1*")")) +
         geom_hline(aes(yintercept = hline,
                      group = Month),
@@ -1107,7 +985,7 @@ out_pp$Month <- factor(out_pp$Month, levels = month.abb)
           panel.spacing = unit(1, "lines"),
           plot.margin = unit(c(0.1, 0, 0, 0), "cm"))
  
- pp_cci_gb 
+ pp_cci_mab 
  
 ```
 
@@ -1118,29 +996,8 @@ out_pp$Month <- factor(out_pp$Month, levels = month.abb)
 
 
 ---
-## SOE 2019: Habitat quality and ecosystem productivity
-**Primary production and copepod size structure**
+## Changing base of the food web: zooplankton
 
-* Primary production may play a role in zooplankton size dynamics on the shelf
-
-```{r MAB-sli, fig.height = 6, fig.align = "center", fig.width = 9}
-source("sli_plots.R")
-gb_out <- sli_plots("GB")
-gom_out <- sli_plots("GOM")
-
-gb_out[[1]] + gom_out[[1]] + 
-  gb_out[[2]] + gom_out[[2]] +
-  plot_layout(ncol = 2) & theme(plot.margin = margin(t = 0, r= 1))
-```
-
-???
-To assess the size structure of copepods in the region, we use the small-large index.
-* A measure of relative size composition of the dominant copepod taxa
-* A lower value means higher abundance of large copepods (<i>Calanus</i>)
-* Primary production may play a role in copepod size dynamics***
----
-## SOE 2019: Habitat quality and ecosystem productivity
-**Zooplankton abundance**
 * Seasonal abundances of key zooplankton species
   * Opposing trends in <i>Centropages</i> in spring and fall, which corresponds to a shift in timing of their peak concentration from late fall to early spring<sup>1</sup>
   
@@ -1247,20 +1104,111 @@ top + middle + bottom + plot_layout(ncol = 1) & theme(plot.margin = margin(0,0,0
 ]
 
 ---
-## SOE 2019: Takeaways
+## Changing base of the food web
+**Primary production and copepod size structure**
 
-* Even though the NE is "data rich", there are large gaps in our understanding of the system
+* A lower copepod size index means higher abundance of large copepods (<i>Calanus</i>)
+* Primary production may play a role in zooplankton size dynamics on the shelf
 
---
 
-* Changes in climate dynamics affect all nodes of NES network in different ways, but all have implications for human-ecosystem interactions and community well-being
+```{r MAB-sli, fig.height = 6, fig.align = "center", fig.width = 9}
+source("sli_plots.R")
+mab_out <- sli_plots("MAB")
 
---
+mab_out[[1]] + mab_out[[2]] + plot_layout(ncol=1)
+```
 
-* Making managers aware of the trends in ecosystem components is important for integrated and sustainable management strategies of the the fisheries sector (EBFM)
+???
+To assess the size structure of copepods in the region, we use the small-large index.
+* A measure of relative size composition of the dominant copepod taxa
+* A lower value means higher abundance of large copepods (<i>Calanus</i>)
+* Primary production may play a role in copepod size dynamics***
+
 
 ---
-## SOE 2019: Reproducibility and provenance
+## Changing base of the food web and fish conditions
+
+* Fish condition is measured at the weight at a given length relative to the average
+  * drop-off in condition around 2000 aligns with the shift in zooplankton size-structure on the shelf
+
+*MAFMC Condition Factor*
+```{r fish-con2, fig.align="center",out.width="75%"}
+knitr::include_graphics("images/MAFMC_Fish_Condition_2019.jpg")
+```
+
+
+???
+Looking at condition in aggregate across all managed stocks, we can see a clear decline in condition between 2000-2010
+
+Recent improvement within past decade
+
+Interestingly, the drop-off in condition around 2000 resembles a shift in zooplankton size-structure on the shelf, and this is a topic for future research
+
+
+---
+## Changing base of the food web and fish productivity
+
+* During the 1990s and early 2000s, high relative abundance of smaller bodied copepods and a lower relative abundance of *Calanus finmarchicus* coincided with regime shifts to lower fish recruitment<sup>1</sup>
+
+
+```{r fish-prod, fig.align = "center", fig.height = 4, fig.width=8}
+source("productivity_plots.R")
+prod <- productivity_plots()
+prod
+```
+
+.footnote[
+[1] Perretti, C., Fogarty, M., Friedland, K., Hare, J., Lucey, S., McBride, R., Miller, T., et al. 2017. Regime shifts in fish recruitment on the Northeast US Continental Shelf. Marine Ecology Progress Series, 574: 1–11.
+]
+
+???
+In the Mid, there seems to be a decline in productivity in recent years, due to changes in recruitment and survival. 
+
+In the past 5 years, strong productivity years for witch flounder, silver hake, and winter flounder have driven increases
+
+---
+## EAFM Risk Assessment update (I)
+
+### Decreased Risk
+* Summer flounder fishing mortality (F) status has improved from high risk (F>Fmsy) to low risk (F<Fmsy) based on the new benchmark assessment
+
+* Updated commercial fleet diversity (fleet count and fleet diversity) have no long term trends, thus improving from moderate-high risk to low risk according to risk criteria for this element
+
+### Increased Risk
+* No indicators for individual elements have changed enough to warrant increased risk rankings according to the Council risk critiera
+
+* But see caveats regarding analyses that were not updated
+
+---
+## EAFM Risk Assessment update (II)
+
+### Re-evaluate Risk
+* Indicators for recreational opportunities based on updated Marine Recreational Information Program (MRIP) data show generally similar patterns of decreased angler days and trips over the past 10 years, but the declines are less pronounced than measured previously. A reduction from the highest risk ranking to a lower risk category may be warranted. 
+
+### New Risk Indicators
+* Recreational diversity indicators (fleet and species) to be considered
+* Chesapeake Bay water quality could be added to estuarine habitat element
+
+---
+## EAFM Risk Assessment: Updated Risk Rankings
+*Species level risk elements*
+```{r sptable, fig.align="center",out.width="95%"}
+knitr::include_graphics("images/sptable2019.png")
+```
+*Ecosystem level risk elements*
+```{r ecotable, fig.align="center",out.width="95%"}
+knitr::include_graphics("images/ecotable2019.png")
+```
+
+---
+## EAFM Risk Assessment: Risk Rankings without updates
+*Species and Sector level risk elements*
+```{r mgttable, fig.align="center",out.width="75%"}
+knitr::include_graphics("images/mgttable2019.png")
+```
+
+---
+## SOE 2019: Improvements to reproducibility and provenance
 
 * Reporting the information is not enough
 
@@ -1270,6 +1218,21 @@ top + middle + bottom + plot_layout(ncol = 1) & theme(plot.margin = margin(0,0,0
 
 ???
 This workflows also ensures that there's no information lost between SOE cycles. We know exactly how a data set was analyzed and handled so that the data can be updated for next year's reports.
+
+---
+## External Resources
+
+* [SOE Technical Documentation](https://noaa-edab.github.io/tech-dat)
+
+* [ecodata R package](https://github.com/noaa-edab/ecodata)
+
+  * [Macrofauna indicators](http://noaa-edab.github.io/ecodata/macrofauna)
+  * [Human Dimensions indicators](http://noaa-edab.github.io/ecodata/human_dimensions)
+  * [Lower trophic level indicators](http://noaa-edab.github.io/ecodata/LTL)
+  
+* [ERDDAP server](https://comet.nefsc.noaa.gov/erddap/index.html)
+
+* Slides available at https://sgaichas.github.io/soe-presentation
 
 ---
 ## Contributors - THANK YOU!
@@ -1329,21 +1292,6 @@ knitr::include_graphics("images/noaa-iea.png")
 ```
 
 ---
-## External Resources
-
-* [SOE Technical Documentation](https://noaa-edab.github.io/tech-memo)
-
-* [ecodata R package](https://github.com/noaa-edab/ecodata)
-
-  * [Macrofauna indicators](http://noaa-edab.github.io/ecodata/macrofauna)
-  * [Human Dimensions indicators](http://noaa-edab.github.io/ecodata/human_dimensions)
-  * [Lower trophic level indicators](http://noaa-edab.github.io/ecodata/LTL)
-  
-* [ERDDAP server](https://comet.nefsc.noaa.gov/erddap/index.html)
-
-* Slides available at https://seanhardison1.github.io/soe-presentation
-
----
 ## Appendix: General feeding guilds
 
 ```{r guilds}
@@ -1374,6 +1322,75 @@ Regional currents are major influencers of ocean temperatures in the NW Atlantic
 The Gulf Stream is a reliable indicator of bottom water temps
 
 An offshoot of the gulf stream is the warm slope water, which makes its way into gulf of maine through the northeast channel
+---
+## Appendix: Ocean circulation changes
+
+Which brings us back to...
+
+```{r gsi_sw, fig.width = 12, fig.height = 4, fig.align="center"}
+gsi_plt <- gsi %>% 
+  mutate(Year = floor(Time)) %>% 
+  group_by(Year) %>% 
+  dplyr::summarise(Value = mean(Value)) %>% 
+  mutate(hline = mean(Value)) %>% 
+  dplyr::rename(Time = Year) %>% 
+  ggplot(aes(x = Time, y = Value)) +
+         annotate("rect", fill = shade.fill, alpha = shade.alpha,
+      xmin = x.shade.min , xmax = x.shade.max,
+      ymin = -Inf, ymax = Inf) +
+  geom_gls() +
+  geom_line() +
+  geom_point() +
+  ylab("Position anomaly") +
+  ggtitle("Gulf Stream Index") +
+    scale_x_continuous(expand = c(0.01, 0.01))+
+      geom_hline(aes(yintercept = hline),
+           size = hline.size,
+           alpha = hline.alpha,
+           linetype = hline.lty)+
+  theme_ts() +
+  theme(strip.text=element_text(hjust=0,
+                                face = "italic"),
+        axis.title = element_text(size = 14),
+        plot.title = element_text(size = 16, face = "bold"))
+
+sw.df <- slopewater %>% 
+  mutate(Var, Var = plyr::mapvalues(Var, from = c("WSW proportion ne channel",
+                                                  "LSLW proportion ne channel"),
+                                    to = c("WSW","LSLW"))) %>% 
+  dplyr::rename(Flavor  = Var) %>% 
+  group_by(Flavor) %>% 
+  mutate(hline = mean(Value)) 
+
+sw.df$Flavor <- factor(sw.df$Flavor, levels = c("WSW","LSLW"))
+
+sw_plt <- ggplot(data = sw.df) +
+  geom_line(aes(x = Time, y = Value, color = Flavor))+
+  geom_point(aes(x = Time, y = Value, color = Flavor)) +
+  ylab("Percent of Total Slopewater") +
+  ggtitle("Slopewater Proportions in NE Channel")+
+    scale_x_continuous(expand = c(0.01, 0.01))+
+      geom_hline(aes(yintercept = hline,
+                     color = Flavor),
+           size = hline.size,
+           alpha = hline.alpha,
+           linetype = hline.lty)+
+  theme_ts() +
+  theme(strip.text=element_text(hjust=0,
+                                face = "italic"),
+        axis.title = element_text(size = 14),
+        plot.title = element_text(size = 16, face = "bold"))
+
+gsi_plt + sw_plt 
+```
+
+
+???
+Over the past few years, we've seen a strong departure of the gulf stream north wall from it's mean latitude
+
+With that comes a larger percentage of warm slope water entering into gulf of maine through the NE channel
+
+
 ---
 ## Appendix: Common tern diet diversity
 .pull-left[
@@ -1470,5 +1487,4 @@ diet_plotly
 ???
 * Common tern breeding colonies are monitored in the southern GOM
 * Common tern sensitive to vertical distribution of prey
-
 

@@ -6,14 +6,15 @@ get_species_prop_plots <- function(guild, epu, managed_by, region){
            Management == managed_by,
            !str_detect(`Feeding guild`,"Other")) %>% 
     group_by(EPU, `Feeding guild`, Season, Time) %>% 
-    dplyr::summarise(Value = sum(Proportion)) %>% 
+    dplyr::summarise(Value = sum(Proportion, na.rm=T)) %>% 
     unite(.,Var,c("Feeding guild","Season"), sep = " ") %>% 
     group_by(EPU,Var) %>% 
     mutate(hline = mean(Value)) %>% 
     filter(str_detect(Var,guild)) %>% 
     ungroup() %>% 
     mutate(Var = paste(str_to_title(str_extract(Var, "fall|spring")),
-                       "survey"))
+                       "survey")) %>%
+    dplyr::na_if(0)
   
  out <- 
    df %>% 
