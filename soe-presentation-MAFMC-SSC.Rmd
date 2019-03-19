@@ -1222,7 +1222,7 @@ This workflows also ensures that there's no information lost between SOE cycles.
 ---
 ## External Resources
 
-* [SOE Technical Documentation](https://noaa-edab.github.io/tech-dat)
+* [SOE Technical Documentation](https://noaa-edab.github.io/tech-doc)
 
 * [ecodata R package](https://github.com/noaa-edab/ecodata)
 
