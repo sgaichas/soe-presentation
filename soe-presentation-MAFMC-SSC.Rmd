@@ -460,7 +460,9 @@ The red line in the time series plot shows the potential biological removal. Abo
 
 ---
 ## Harvested species (mostly) meeting B and F objectives
-**Objective: Keep harvested species within population ranges where productivity is maximized over long-term**
+
+  * Atlantic mackerel stock above F/Fmsy and below 0.5 B/Bmsy
+  * Summer flounder status improved in recent benchmark
 
 ```{r stock-status, fig.width = 8, fig.asp = 0.75, fig.align="center"}
 
@@ -508,16 +510,13 @@ ggplot(data = stock_status) +
   theme_ts()
 ```
 
-  * Atlantic mackerel stock above F/Fmsy and below 0.5 B/Bmsy
-  * Summer flounder status improved in recent benchmark
-
 ???
 Plot shows the ratio of stock mortality (F) to stock mortality at maximum sustainable yield, where a number larger than one indicates the stock is experiencing unsustainable fishing pressure. On the x axis we have the ratio of estimated stock biomass to biomass at maximum sustainable yield. 
 
 
 ---
 ## Challenges: Long term decline in seafood production
-**Commercial fisheries: Total landings**
+**Commercial fisheries landings: total and by guild**
 
 .pull-left[
 MAB:
@@ -552,7 +551,6 @@ mab_feeding_guild
 MAB:
 
 * Total revenue of managed species shows negative trend
-* Driven by decreased landings volume outweighing increased prices for benthos, planktivores, and other species groups
 
 ```{r total-revenue, fig.height = 3}
 source("total_revenue_plot.R")
@@ -564,6 +562,9 @@ mab_totalrev
 ]
 
 .pull-right[
+
+* Driven by decreased landings volume outweighing increased prices for benthos, planktivores, and other species groups
+
 ```{r bennet, fig.height = 3}
 #Filter data into two dataframes for plotting
 indicators <- ecodata::bennet %>% 
@@ -616,8 +617,9 @@ MAB:
 
 * Increase in recreational effort (n anglers) since the mid 90s
 
-* A decreasing trend in recreational fleet effort diversity and diversity of catch
-  * Decline in fleet effort diversity due to fewer party boats (24% of all trips down to 6%)
+* Decreasing diversity indicators
+  * Fleet effort diversity driven by fewer party boats (24% of all trips down to 6%)
+  * Species diversity does not break out the SAFMC-managed species--should it?
 
 ]
 .pull-right[
@@ -646,7 +648,9 @@ However, different from NE, there are significant downward trends in fleet effor
 MAB: 
 
 * High social-ecological reliance on scallop commercial fisheries
+
 * Species considered moderately to highly at risk due to climate change (OA, temp)
+
 * Aquaculture in the MAB is also dominated by shellfish (oysters)
 
 ]
@@ -716,9 +720,9 @@ Virginia continues to lead the country in oyster production, with aquaculture in
 **Recreational engagement and reliance**
 
 .pull-left[
-* Downward trend in recreational catch diversity may threaten fishing community stability in Mid-Atlantic
+* Downward trend in recreational catch diversity may threaten fishing community stability in Mid-Atlantic (caveat: should SAFMC species be separated?)
 
-* Engaged and reliant communities in New England could benefit from higher diversity of catch
+* Engaged and reliant communities in New England could benefit from higher diversity of catch observed (see New England report)
 ]
 
 .pull-right[
@@ -784,6 +788,7 @@ The North Atlantic right whale is among the most endangered whales in the world,
 
 * Northeast US shelf is still among the fastest warming waters globally
   * 7/10 warmest years observed in the past decade
+  
 * Most northerly Gulf Stream north wall positions ever recorded 2014-2017 
   * associated with warmer ocean temperature in the Northeast US shelf
 
@@ -864,7 +869,6 @@ These things are important for managers to know about because they directly infl
 ## Challenge: Mid-Atlantic is warming
 * Mid-Atlantic summer 2018 SSTs were 3rd highest on record 
 * Bottom temperature increasing as well, past 6 years all above average
-
 ```{r mab-sst, fig.align = "center", fig.width=9, fig.height=7}
 knitr::include_graphics("images/sst-anom.png")
 ```
@@ -1107,11 +1111,11 @@ top + middle + bottom + plot_layout(ncol = 1) & theme(plot.margin = margin(0,0,0
 ## Changing base of the food web
 **Primary production and copepod size structure**
 
-* A lower copepod size index means higher abundance of large copepods (<i>Calanus</i>)
+* Lower copepod size index means higher abundance of large copepods (<i>Calanus</i>)
 * Primary production may play a role in zooplankton size dynamics on the shelf
 
 
-```{r MAB-sli, fig.height = 6, fig.align = "center", fig.width = 9}
+```{r MAB-sli, fig.height = 5, fig.align = "center", fig.width = 8}
 source("sli_plots.R")
 mab_out <- sli_plots("MAB")
 
@@ -1132,7 +1136,7 @@ To assess the size structure of copepods in the region, we use the small-large i
   * drop-off in condition around 2000 aligns with the shift in zooplankton size-structure on the shelf
 
 *MAFMC Condition Factor*
-```{r fish-con2, fig.align="center",out.width="75%"}
+```{r fish-con2, fig.align="center",out.width="95%"}
 knitr::include_graphics("images/MAFMC_Fish_Condition_2019.jpg")
 ```
 
@@ -1151,7 +1155,7 @@ Interestingly, the drop-off in condition around 2000 resembles a shift in zoopla
 * During the 1990s and early 2000s, high relative abundance of smaller bodied copepods and a lower relative abundance of *Calanus finmarchicus* coincided with regime shifts to lower fish recruitment<sup>1</sup>
 
 
-```{r fish-prod, fig.align = "center", fig.height = 4, fig.width=8}
+```{r fish-prod, fig.align = "center", fig.height = 5, fig.width=9}
 source("productivity_plots.R")
 prod <- productivity_plots()
 prod
@@ -1187,6 +1191,7 @@ In the past 5 years, strong productivity years for witch flounder, silver hake, 
 
 ### New Risk Indicators
 * Recreational diversity indicators (fleet and species) to be considered
+
 * Chesapeake Bay water quality could be added to estuarine habitat element
 
 ---
