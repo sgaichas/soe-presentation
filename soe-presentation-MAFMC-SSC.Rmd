@@ -306,8 +306,9 @@ ggplot2::ggplot(data = data,aes(x = x, y = y)) +
 ---
 ## SOE Orientation: Indicator spatial scales
 
-
-![epus](images/epu-layout-soe-regions.png)
+```{r epus, echo = F, out.width = "70%", fig.align = "center"}
+knitr::include_graphics("images/SOE_Map.jpg")
+```
 
 .footnote[
 https://noaa-edab.github.io/tech-memo/epu.html
